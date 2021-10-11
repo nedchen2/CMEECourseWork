@@ -28,6 +28,7 @@ elif [[ $# = 1 ]] ; then
 	pdflatex $newname.tex
 	pdflatex $newname.tex
 	#mv the result to the result file
+	echo
 	echo "[WARNING] You have not defined the output directory. File will be output in results"
 	mv $newname.pdf ../results/
 	evince ../results/$newname.pdf &
@@ -47,6 +48,7 @@ else
 	pdflatex $newname.tex
 	pdflatex $newname.tex
 	#mv the result to the result file
+	echo 
 	echo "File will be output in $2"
 	mv $newname.pdf $2
 	evince $2/$newname.pdf &

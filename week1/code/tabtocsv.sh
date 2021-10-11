@@ -11,6 +11,10 @@
 # Date: Oct 2021
 # -h        Show this message.
 
+help() {
+	awk -F'# ' '/^# / { print $2 }' "$0"
+}
+
 if [[ $# = 0 ]] || [[ "$1" == "-h" ]] || [[ $# > 2 ]] ; then
 	help
 	exit 1

@@ -16,7 +16,6 @@ help() {
 }
 
 if [[ $# != 1 ]] || [[ "$1" == "-h" ]]; then
-    echo "[ERROR]: Please Input one file"
 	help
 	exit 1
 elif [[ ! -s $1 ]] ; then
