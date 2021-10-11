@@ -1,0 +1,29 @@
+#!/bin/bash
+# Author: Congjia.Chen21@imperial.ac.uk
+# Script: 
+#   UnixPrac1.txt
+# Description: 
+#   fasta practice using Unix
+# Arguments:  
+#   None
+# Date: Oct 2021
+
+#1
+#Count how many lines there are in each file
+wc -l ../data/fasta/*.fasta
+
+#2
+#Print everything starting from the second line for the E. coli genome
+tail -n +2 ../data/fasta/E.coli.fasta
+
+#3
+#Count the sequence length of this genome
+grep -v ">" ../data/fasta/E.coli.fasta | wc -m
+
+#4
+#Count the matches of a particular sequence, “ATGC” in the genome of E. coli (hint: Start by removing the first line and removing newline characters)
+grep -v ">" ../data/fasta/E.coli.fasta | sed "s/\n//g" | grep -o "ATGC"| uniq -c
+
+#5
+#Compute the AT/GC ratio. That is, the (A+T)/(G+C) ratio. 
+awk 'BEGIN{printf "%.2f%%", '$(grep -E -o "A|T" ../data/fasta/E.coli.fasta |wc -l)' / '$(grep -E -o "G|C" ../data/fasta/E.coli.fasta|wc -l)'*100}'
