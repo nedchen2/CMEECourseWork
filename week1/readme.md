@@ -5,42 +5,43 @@
 - [**CMEECourseWork** - Week1](#cmeecoursework---week1)
   - [Table of Contents](#table-of-contents)
   - [**Brief Description**-***Week1 review of the CMEECourseWork***](#brief-description-week1-review-of-the-cmeecoursework)
-  - [**Author and Contact**](#author-and-contact)
-  - [**A.Languages**](#alanguages)
-  - [**B.Dependencies and Installation**](#bdependencies-and-installation)
-  - [**C.Project structure and Usage**](#cproject-structure-and-usage)
+  - [**Languages**](#languages)
+  - [**Installation**](#installation)
+  - [**Dependencies**](#dependencies)
+  - [**Project structure and Usage**](#project-structure-and-usage)
     - [**(1) Repo Structure introduction**](#1-repo-structure-introduction)
     - [**(2) Scripts List**](#2-scripts-list)
       - [1. Unix chapter](#1-unix-chapter)
       - [2. Shell scripts chapter](#2-shell-scripts-chapter)
       - [3. Latex chapter](#3-latex-chapter)
+  - [**Author and Contact**](#author-and-contact)
 
 ## **Brief Description**-***Week1 review of the CMEECourseWork***
 
-1.Learn Unix and shell scripting,and solve some of the real questions
+1. Unix and shell scripting,and solve some of the real questions from Unix and shell scripting project
+2. LaTex to do some of the scientific writing.
+3. These works are based on the Notebook and Data from https://github.com/mhasoba/TheMulQuaBio.git.
 
-2.use Git for version control.
-
-3.use Latex to do scientific writing.
-
-
-## **Author and Contact**
-
-**Congjia Chen**
-
-Congjia.Chen21@imperial.ac.uk
-
-## **A.Languages**
-
+## **Languages**
+```
 Shell
+```
+## **Installation**
+```
+git clone https://github.com/nedchen2/CMEECourseWork.git
+```
 
-## **B.Dependencies and Installation** 
+
+## **Dependencies** 
 
 Most of the scripts in the current repository can be ran in bash shell directly. One of the scripts `tiff2png.sh` needs the imagemagick. 
 
 Installation: `sudo apt install imagemagick` (Run in the terminal)
 
-## **C.Project structure and Usage**
+
+
+
+## **Project structure and Usage**
 
 ### **(1) Repo Structure introduction**
 
@@ -77,7 +78,12 @@ Each week’s directory contain directories called `code`, `data`, `results`, an
 
 | Script Name |Description | Arguments |
 | ------ | ------ | ------ |
-| CompileLaTeX.sh   |render the .tex file to .pdf| 1 -> LaTex file (.tex) |
+| CompileLaTeX.sh   |render the .tex file to .pdf| 1 -> LaTex file (.tex), 2 -> Output directory (optional) |
 | FirstBiblio.bib    | Referencing and bibliography file for FirstExample.tex| None |
 | FirstExample.tex   | FirstExample of LaTex| None |
 
+## **Author and Contact**
+
+**Congjia Chen**
+
+Congjia.Chen21@imperial.ac.uk
