@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import csv
 # Read a file containing:
 # 'Species','Infraorder','Family','Distribution','Body mass male (Kg)'

@@ -1,4 +1,4 @@
-
+#!/usr/bin/env python3
 for j in range(12):
     if j % 3 == 0:
         print('hello')

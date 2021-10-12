@@ -38,3 +38,5 @@ def foo_6(x): # Calculate the factorial of x in a different way
         facto = facto * x
         x = x - 1
     return facto
+
+
