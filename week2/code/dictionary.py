@@ -20,46 +20,36 @@ taxa = [ ('Myotis lucifugus','Chiroptera'),
 # 'Chiroptera': {'Myotis lucifugus'} ... etc
 
 # Answer
-# Method1: For loop
-dict1={}
-for a in taxa:
-    if a[1] in dict1: 
-        dict1[a[1]]=taxaset.add(a[0])
+# Method1: For loop with enumerate and not empty sets
+list1=taxa
+dict2={y:{str(x)} for (x,y) in taxa}
+for i,v in  enumerate(list1):
+        for j,k in enumerate(list1[i+1:],i+1):
+                #"meiju"
+                #print (v,k)
+                if v[1] == k[1]:
+                        #print (dict2)
+                        #dict2[v[1]]=set()
+                        dict2[v[1]].add(str(v[0]))
+                        dict2[v[1]].add(str(k[0]))
+                        #print (dict2)
 
-print (dict1)
-# Method2: Dict Comprehensions
-dict2={}
-{y:x for (x,y) in taxa if y in }
+print (dict2)
 
-s = [set(i) for i in taxa if i]
-s[0]
-def intersection_set(taxa):
-        for i,v in  enumerate(taxa):
-                #print ("First Loop")
-                #print (i,v)
-                #print (type(v))
-                for j,k in enumerate(taxa[i+1:],i+1):
-                        #print ("Second Loop")
-                        #print (j,k)
-                        if v[1] == k[1]:
-                              print (v,k)
-                              #v=set(v)
-                              #print (v.union(taxa.pop(j)))
-                              return intersection_set(taxa) 
-        return taxa
+# Answer
+# Method2: For loop with empty sets
+dict2={y:set() for (x,y) in taxa}
+for i,v in  enumerate(list1):
+        for j,k in enumerate(list1[i+1:],i+1):
+                #"meiju"
+                #print (v,k)
+                if v[1] == k[1]:
+                        #print (dict2)
+                        #dict2[v[1]]=set()
+                        dict2[v[1]].add(str(v[0]))
+                        dict2[v[1]].add(str(k[0]))
+                        #print (dict2)
+                else:
+                        dict2[v[1]].add(str(v[0]))
 
-print (intersection_set(taxa))
-
-for i,v in  enumerate(s):
-                #print ("First Loop")
-                #print (i,v)
-                #print (type(v))
-        for j,k in enumerate(s[i+1:],i+1):
-                        #print ("Second Loop")
-                        #print (j,k)
-                if v & k:
-                        s(i) = v.union(s.pop(j-1))
-                        print (v,k)
-                        print (s)
-                              #v=set(v)
-                              #print (v.union(taxa.pop(j)))
+print (dict2)
