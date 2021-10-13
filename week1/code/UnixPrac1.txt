@@ -18,11 +18,11 @@ tail -n +2 ../data/fasta/E.coli.fasta
 
 #3
 #Count the sequence length of this genome
-grep -v ">" ../data/fasta/E.coli.fasta | wc -m
+grep -v ">" ../data/fasta/E.coli.fasta | tr -d "\n" | wc -m
 
 #4
 #Count the matches of a particular sequence, “ATGC” in the genome of E. coli (hint: Start by removing the first line and removing newline characters)
-grep -v ">" ../data/fasta/E.coli.fasta | sed "s/\n//g" | grep -o "ATGC"| uniq -c
+grep -v ">" ../data/fasta/E.coli.fasta | tr -d "\n" | grep -o "ATGC"| uniq -c
 
 #5
 #Compute the AT/GC ratio. That is, the (A+T)/(G+C) ratio. 
