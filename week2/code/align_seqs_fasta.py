@@ -8,6 +8,7 @@ __version__ = '0.0.1'
 
 import sys
 import csv
+import pickle
                 
 def convert_fasta2dict(fasta_path):
 
@@ -76,7 +77,7 @@ def higher_score_finder(s1, s2, l1, l2):
     """find the best match (highest score) for the two sequences"""
     my_best_align = None
     my_best_score = -1
-
+    dict_for_seq = {}
     for i in range(l1): # Note that you just take the last alignment with the highest score
         z = calculate_score(s1, s2, l1, l2, i)
         if z > my_best_score:
@@ -85,6 +86,28 @@ def higher_score_finder(s1, s2, l1, l2):
     print(my_best_align)
     print(s1)
     print("Best score:", my_best_score)
+    result = (my_best_align, s1, my_best_score)
+    dict_for_seq["Best_score"] = my_best_score
+    dict_for_seq["my_best_align"] = my_best_align
+    dict_for_seq["Target_for_align"] = s1
+
+    return dict_for_seq
+
+def pickle_read(my_dictionary):
+
+    """
+    
+    pickle to save the dictionary and print it
+    
+    """
+    with open('../results/Best_score_fasta.pickle', 'wb') as f:
+        pickle.dump(my_dictionary, f)
+        print ("The file has been stored in the ../results/Best_score_fasta.pickle")
+    with open('../results/Best_score_fasta.pickle', 'rb') as f:
+        another = pickle.load(f)
+        print ("The file will be printed")
+        print (another)
+
 
 def main(argv):
 
@@ -112,7 +135,7 @@ def main(argv):
     #print (len(dict_seq1[0]))
     #print (dict_seq2)
     s1, s2, l1, l2 = identify_the_seq(dict_seq1[0],dict_seq2[0])
-    higher_score_finder(s1, s2, l1, l2)
+    pickle_read(higher_score_finder(s1, s2, l1, l2))
     return 0
 
 if (__name__ == "__main__"):
