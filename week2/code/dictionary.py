@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+# Filename: dictionary.py
+
 taxa = [ ('Myotis lucifugus','Chiroptera'),
          ('Gerbillus henleyi','Rodentia',),
          ('Peromyscus crinitus', 'Rodentia'),

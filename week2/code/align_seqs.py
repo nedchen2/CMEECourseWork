@@ -12,7 +12,11 @@ import pickle
 
 def read_seq_csv():
 
-    """read the seq csv which is located in ../data/align_seq_data.csv"""
+    """
+    
+    read the seq csv which is located in ../data/align_seq_data.csv
+    
+    """
     with open('../data/align_seq_data.csv', 'r') as f:
         csvread = csv.reader(f)
         seqlist=[]
@@ -26,7 +30,11 @@ def read_seq_csv():
 # l1 is length of the longest, l2 that of the shortest
 def identify_the_seq(seq1,seq2):
 
-    """swap the two seq lengths for later calculation"""
+    """
+    
+    swap the two seq lengths for later calculation
+    
+    """
     l1 = len(seq1)
     l2 = len(seq2)
     if l1 >= l2:
@@ -42,7 +50,11 @@ def identify_the_seq(seq1,seq2):
 # from arbitrary startpoint (chosen by user)
 def calculate_score(s1, s2, l1, l2, startpoint):
     
-    """calculate the score for the match of the two sequence """
+    """
+    
+    calculate the score for the match of the two sequence 
+    
+    """
     matched = "" # to hold string displaying alignements
     score = 0
     for i in range(l2):
@@ -71,7 +83,11 @@ def calculate_score(s1, s2, l1, l2, startpoint):
 
 def higher_score_finder(s1, s2, l1, l2):
 
-    """find the best match (highest score) for the two sequences"""
+    """
+    
+    find the best match (highest score) for the two sequences
+    
+    """
     my_best_align = None
     my_best_score = -1
     dict_for_seq = {}

@@ -7,7 +7,7 @@
 # Usage:
 #   bash tiff2png.sh <Directory> <Output directory>
 # Argument
-#    1 -> directory of *.tif, 2 -> Output directory
+#    1 -> directory of *.tif, 2 -> Output directory (Necessary)
 # Date: Oct 2021
 # -h show this message
 
@@ -16,11 +16,13 @@ help() {
 }
 
 if [[ $# = 0 ]] || [[ "$1" == "-h" ]]; then
-    echo "[ERROR]: Directory not provided"
 	help
 	exit 1
 elif [[ ! -s $1 ]] ; then
-    echo "[ERROR]: Please check if your directory exist"
+    echo "[ERROR]: Please check if your file directory exist"
+    exit 1
+elif [[ ! -s $2 ]] ; then
+    echo "[ERROR]: Please check if your output directory exist"
     exit 1
 fi
 

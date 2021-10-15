@@ -25,6 +25,7 @@ elif [[ $# = 1 ]] ; then
     echo "Creating a space delimited version of $1 ... in original directory"
     #extract the path
     Pathnew=$(dirname "$1")/$(basename "$1" .txt).csv
+    echo "$Pathnew"
     cat $1 | tr -s "\t" "," > $Pathnew
     echo "Done!"
     exit

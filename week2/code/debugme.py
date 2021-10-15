@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+# Filename: debugme.py
+
 def buggyfunc(x):
     y = x
     for i in range(x):
