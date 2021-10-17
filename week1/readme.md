@@ -24,13 +24,12 @@
 
 ## **Languages**
 ```
-Shell
+Shell,Latex
 ```
 ## **Installation**
 ```
 git clone https://github.com/nedchen2/CMEECourseWork.git
 ```
-
 
 ## **Dependencies** 
 
