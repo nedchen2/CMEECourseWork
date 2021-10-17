@@ -11,11 +11,13 @@
 # Date: Oct 2021
 # -h        Show this message.
 
+
+#function to print out the help document
 help() {
 	awk -F'# ' '/^# / { print $2 }' "$0"
 }
 
-if [[ $# != 1 ]] || [[ "$1" == "-h" ]]; then
+if [[ $# != 1 ]] || [[ "$1" == "-h" ]]; then #if-h or no input arguments, print out the help document
 	help
 	exit 1
 elif [[ ! -s $1 ]] ; then

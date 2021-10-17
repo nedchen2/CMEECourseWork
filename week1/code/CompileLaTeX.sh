@@ -11,17 +11,18 @@
 # Date: Oct 2021
 # -h        Show this message.
 
+#function to print out the help document
 help() {
 	awk -F'# ' '/^# / { print $2 }' "$0"
 }
 
-if [[ $# = 0 ]] || [[ "$1" == "-h" ]] || [[ $# > 2 ]] ; then
+if [[ $# = 0 ]] || [[ "$1" == "-h" ]] || [[ $# > 2 ]] ; then  #if -h or no arguments input, print out the help document
 	help
 	exit 1
-elif [[ ! -s $1 ]] ; then
+elif [[ ! -s $1 ]] ; then 
     echo "[ERROR]: Please check if your file exist"
     exit 1
-elif [[ $# = 1 ]] ; then
+elif [[ $# = 1 ]] ; then #if no output directory provided, it will use the directory which are the same as the input
 	newname=$(basename "$1" .tex)
 	pdflatex $newname.tex
 	bibtex $newname
@@ -41,7 +42,7 @@ elif [[ $# = 1 ]] ; then
 elif [[ ! -s $2 ]] ; then
     echo "[ERROR]: Please check if your directory exist"
     exit 1
-else
+else    #if output directory is provided, it will be used as output directory,
 	newname=$(basename "$1" .tex)
 	pdflatex $newname.tex
 	bibtex $newname

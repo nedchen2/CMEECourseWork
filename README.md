@@ -9,7 +9,7 @@
   - [**Dependencies**](#dependencies)
     - [**WEEK1**](#week1)
   - [**Installation**](#installation)
-  - [## **Project structure and Usage**](#-project-structure-and-usage)
+  - [**Project structure and Usage**](#project-structure-and-usage)
   - [The Repository would be updated weekly](#the-repository-would-be-updated-weekly)
     - [**WEEK1**](#week1-1)
       - [**(1) Repo Structure introduction**](#1-repo-structure-introduction)
@@ -52,6 +52,7 @@ git clone https://github.com/nedchen2/CMEECourseWork.git
 ```
 
 ## **Project structure and Usage**
+
 ---
 The Repository would be updated weekly
 ---

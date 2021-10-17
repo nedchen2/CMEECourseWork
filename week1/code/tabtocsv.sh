@@ -15,13 +15,13 @@ help() {
 	awk -F'# ' '/^# / { print $2 }' "$0"
 }
 
-if [[ $# = 0 ]] || [[ "$1" == "-h" ]] || [[ $# > 2 ]] ; then
+if [[ $# = 0 ]] || [[ "$1" == "-h" ]] || [[ $# > 2 ]] ; then #if-h or no input arguments, print out the help document
 	help
 	exit 1
 elif [[ ! -s $1 ]] ; then
     echo "[ERROR]: Please check if your file exist"
     exit 1
-elif [[ $# = 1 ]] ; then
+elif [[ $# = 1 ]] ; then #if no output directory provided, it will use the directory which are the same as the input
     echo "Creating a space delimited version of $1 ... in original directory"
     #extract the path
     Pathnew=$(dirname "$1")/$(basename "$1" .txt).csv
@@ -32,7 +32,7 @@ elif [[ $# = 1 ]] ; then
 elif [[ ! -s $2 ]] ; then
     echo "[ERROR]: Please check if your directory exist"
     exit 1
-else
+else  #if output directory is provided, it will be used as output directory,
     echo "Creating a space delimited version of $1 ... in $2 directory"
     Pathnew=$2/$(basename "$1" .txt).csv
     echo "$Pathnew"

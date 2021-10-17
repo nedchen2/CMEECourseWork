@@ -15,7 +15,7 @@ help() {
 	awk -F'# ' '/^# / { print $2 }' "$0"
 }
 
-if [[ $# = 0 ]] || [[ "$1" == "-h" ]]; then
+if [[ $# = 0 ]] || [[ "$1" == "-h" ]]; then #if-h or no input arguments, print out the help document
 	help
 	exit 1
 elif [[ ! -s $1 ]] ; then

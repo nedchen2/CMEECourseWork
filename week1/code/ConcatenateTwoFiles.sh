@@ -11,11 +11,12 @@
 # Date: Oct 2021
 # -h        Show this message.
 
+#function to print out the help document
 help() {
 	awk -F'# ' '/^# / { print $2 }' "$0"
 }
 
-if [[ $# != 3 ]] || [[ "$1" == "-h" ]]; then
+if [[ $# != 3 ]] || [[ "$1" == "-h" ]]; then # if-h or no input arguments, print out the help document
     echo "[ERROR]: Input Three files,1 2 would be the files to be merged,and the 3 would be the merged version"
 	help
 	exit 1
