@@ -63,8 +63,6 @@ Each week’s directory contain directories called `code`, `data`, `results`, an
 
 | Script Name |Description | Arguments |
 | ------ | ------ | ------ |
-| boilerplate.sh   |simple boilerplate for shell scripts| None |
-| MyExampleScript.sh     | Hello user (test the variable)| None |
 | variables.sh  |Practice for reading the variable| None |
 
 ```Functional script```

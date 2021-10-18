@@ -20,6 +20,11 @@ echo 'the current value of the variable is' $MyVar
 ## Reading multiple values
 echo 'Enter two numbers separated by space(s)'
 read a b
-echo 'you entered' $a 'and' $b '. Their sum is:'
-mysum=`expr $a + $b`
-echo $mysum
+if [[ -n $a ]] && [[ -n $b ]]; then
+    echo 'you entered' $a 'and' $b '. Their sum is:'
+    mysum=`expr $a + $b`
+    echo $mysum
+else
+    echo "pls enter two numbers"
+fi
+
