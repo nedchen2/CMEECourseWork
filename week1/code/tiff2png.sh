@@ -5,7 +5,7 @@
 # Description: 
 #   convert the tiff file to png in a given directory
 # Usage:
-#   bash tiff2png.sh <Directory> <Output directory>
+#   bash tiff2png.sh <Directory or single file> <Output directory>
 # Argument
 #    1 -> directory of *.tif, 2 -> Output directory (Necessary)
 # Date: Oct 2021
@@ -23,6 +23,12 @@ elif [[ ! -s $1 ]] ; then
     exit 1
 elif [[ ! -s $2 ]] ; then
     echo "[ERROR]: Please check if your output directory exist"
+    exit 1
+elif [[ -f $1 ]] ; then  #if the user input a single file, just convert the single file to a directory
+    echo "You are providing a single file. $1 will be converted into png"
+    echo "Converting $1"
+    convert "$1"  "$2/$(basename "$1" .tif).png"
+    echo "Done!"
     exit 1
 fi
 

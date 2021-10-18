@@ -5,7 +5,7 @@
 # Description: 
 #   shell script that takes a comma separated file and converts it to a space separated values file.
 # Usage:
-#   bash csvtospace.sh <csv File with a comma separated values  > <Output directory(optional)>
+#   bash csvtospace.sh <csv File with a comma separated values> <Output directory(optional)>
 # Arguments: 
 #   1 -> csv Files with a comma separated values, 2 -> Output directory (optional)
 # Date: Oct 2021

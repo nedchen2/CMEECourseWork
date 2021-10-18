@@ -5,12 +5,11 @@
 # Description: 
 #   count lines number
 # Usage:
-#   bash CountLines.sh <A File > 
+#   bash CountLines.sh <A File or directory> 
 # Arguments: 
-#   1 -> A File
+#   1 -> A File or directory
 # Date: Oct 2021
 # -h        Show this message.
-
 
 #function to print out the help document
 help() {
@@ -23,6 +22,10 @@ if [[ $# != 1 ]] || [[ "$1" == "-h" ]]; then #if-h or no input arguments, print 
 elif [[ ! -s $1 ]] ; then
     echo "[ERROR]: Please check if your file exist"
     exit 1
+elif [[ -d $1 ]]; then
+	echo "You have provided a directory here. We will count all files with extensions"
+	wc -l $1/*.*
+	exit 1
 fi
 
 NumLines=`wc -l < $1` 
