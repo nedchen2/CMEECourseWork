@@ -73,14 +73,14 @@ Each week’s directory contain directories called `code`, `data`, `results`, an
 | Script Name |Description | Arguments |
 | ------ | ------ | ------ |
 | tiff2png.sh   |convert the tiff file to png in a given directory| 1 -> directory of *.tif or single tif file , 2 -> Output directory (Necessary) |
-| CountLines.sh    |count lines number| 1 -> A File |
+| CountLines.sh    |count lines number| 1 -> A File or a directory|
 
 ```Compatible for single file input only```
 | Script Name |Description | Arguments |
 | ------ | ------ | ------ |
-| csvtospace.sh    |shell script that takes a comma separated file and converts it to a space separated values file| 1 -> Files with a comma separated values or Directory with csv files in it, 2 -> Output directory (optional)|
-| tabtocsv.sh    |substitute the tabs in the files with commas| 1 -> Files with a tab separated values or Directory with csv files in it , 2 -> Output directory (optional)|
-| ConcatenateTwoFiles.sh    | Merge two Files together by row | 1 -> files1 to be merged, 2 -> files2 to be merged, 3 -> Merged file |
+| csvtospace.sh    |shell script that takes a comma separated file and converts it to a space separated values file| 1 -> Files with a comma separated values, 2 -> Output directory (optional)|
+| tabtocsv.sh    |substitute the tabs in the files with commas| 1 -> Files with a tab separated values, 2 -> Output directory (optional)|
+| ConcatenateTwoFiles.sh    | Merge two Files together by row | 1 -> Files1 to be merged, 2 -> files2 to be merged, 3 -> Merged file |
 
 #### 3. Latex chapter
 
