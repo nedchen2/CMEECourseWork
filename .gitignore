@@ -1,4 +1,6 @@
 *~ 
 *.tmp
 !.gitkeep
+.RData
+.Rhistory
 
