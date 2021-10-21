@@ -1,0 +1,989 @@
+Starting code feedback for Congjia, Week1
+
+Current Points = 100
+
+Note that: 
+(1) Major sections begin with a double "====" line 
+(2) Subsections begin with a single "====" line 
+(3) Code output or text file content are printed within single "*****" lines 
+
+======================================================================
+======================================================================
+Your Git repo size this week is about 2.88 MiB on disk 
+
+PART 1: Checking project workflow...
+
+Found the following directories in parent directory: .git, week3, week2, Feedback, week1
+
+Found the following files in parent directory: README.md, .gitignore
+
+Checking for key files in parent directory...
+
+Found .gitignore in parent directory, great! 
+
+Printing contents of .gitignore:
+
+**********************************************************************
+*~ 
+*.tmp
+!.gitkeep
+
+
+**********************************************************************
+
+Found README in parent directory, named: README.md
+
+Printing contents of README.md:
+
+**********************************************************************
+# **CMEE Coursework Repository**
+
+## Table of Contents
+
+- [**CMEE Coursework Repository**](#cmee-coursework-repository)
+  - [Table of Contents](#table-of-contents)
+  - [**Brief Description**](#brief-description)
+  - [**Languages**](#languages)
+  - [**Dependencies**](#dependencies)
+    - [**WEEK1**](#week1)
+  - [**Installation**](#installation)
+  - [**Project structure and Usage**](#project-structure-and-usage)
+  - [The Repository would be updated weekly](#the-repository-would-be-updated-weekly)
+    - [**WEEK1**](#week1-1)
+      - [**(1) Repo Structure introduction**](#1-repo-structure-introduction)
+      - [**(2) Scripts List**](#2-scripts-list)
+        - [1. Unix chapter](#1-unix-chapter)
+        - [2. Shell scripts chapter](#2-shell-scripts-chapter)
+        - [3. Latex chapter](#3-latex-chapter)
+  - [**Author and Contact**](#author-and-contact)
+
+## **Brief Description**
+1. Ideally, a quantitative biologist should be multilingual, knowing:
+
+>A modern, easy-to-write, interpreted (or semi-compiled) language that is “reasonably” fast, like `Python`
+
+>Mathematical/statistical software with programming and graphing capabilities, like `R`
+
+>A compiled (or semi-compiled) ‘procedural’ language, like `C`
+
+2. These works are based on the Notebook and Data from https://github.com/mhasoba/TheMulQuaBio.git.
+
+3. As the course going on, i will add more to the repository
+
+## **Languages**
+```
+Shell,Python,R,C
+```
+
+## **Dependencies**
+
+### **WEEK1**
+
+Most of the scripts in the current repository can be ran in bash shell directly. One of the scripts `tiff2png.sh` needs the imagemagick. 
+
+Installation: `sudo apt install imagemagick` (Run in the terminal)
+
+
+## **Installation**
+```
+git clone https://github.com/nedchen2/CMEECourseWork.git
+```
+
+## **Project structure and Usage**
+
+---
+The Repository would be updated weekly
+---
+### **WEEK1**
+
+#### **(1) Repo Structure introduction**
+
+Each week’s directory contain directories called `code`, `data`, `results`, and `sandbox` 
+
+
+#### **(2) Scripts List**
+
+##### 1. Unix chapter
+
+| Script Name |Description | Arguments |
+| ------ | ------ | ------ |
+| UnixPrac1.txt |fasta practice using Unix| None |
+
+##### 2. Shell scripts chapter
+
+```use "-h" to see the help document```
+
+| Script Name |Description | Arguments |
+| ------ | ------ | ------ |
+| boilerplate.sh   |simple boilerplate for shell scripts| None |
+| MyExampleScript.sh     | Hello user (test the variable)| None |
+| variables.sh  |Practice for reading the variable| None |
+| tiff2png.sh   |convert the tiff file to png in a given directory| 1 -> directory of *.tif , 2 -> Output directory (Necessary) |
+| CountLines.sh    |count lines number| 1 -> A File |
+| csvtospace.sh    |shell script that takes a comma separated file and converts it to a space separated values file| 1 -> Files with a comma separated values, 2 -> Output directory (optional)|
+| tabtocsv.sh    |substitute the tabs in the files with commas| 1 -> Files with a tab separated values , 2 -> Output directory (optional)|
+| ConcatenateTwoFiles.sh    | Merge two Files together by row | 1 -> files1 to be merged, 2 -> files2 to be merged, 3 -> Merged file |
+
+##### 3. Latex chapter
+
+```use "-h" to see the help document```
+
+| Script Name |Description | Arguments |
+| ------ | ------ | ------ |
+| CompileLaTeX.sh   |render the .tex file to .pdf| 1 -> LaTex file (.tex), 2 -> Output directory (optional) |
+| FirstBiblio.bib    | Referencing and bibliography file for FirstExample.tex| None |
+| FirstExample.tex   | FirstExample of LaTex| None |
+
+## **Author and Contact**
+Congjia Chen
+
+Congjia.Chen21@imperial.ac.uk
+**********************************************************************
+
+======================================================================
+Looking for the weekly directories...
+
+Found 3 weekly directories: week1, week2, week3
+
+The Week1 directory will be assessed 
+
+======================================================================
+======================================================================
+PART 2: Checking weekly code and workflow...
+
+======================================================================
+Assessing WEEK1...
+
+Found the following directories: code, sandbox, results, data
+
+Found the following files: readme.md
+
+Checking for readme file in weekly directory...
+
+Found README in parent directory, named: readme.md
+
+Printing contents of readme.md:
+
+**********************************************************************
+# **CMEECourseWork** - Week1
+
+## Table of Contents
+
+- [**CMEECourseWork** - Week1](#cmeecoursework---week1)
+  - [Table of Contents](#table-of-contents)
+  - [**Brief Description**-***Week1 review of the CMEECourseWork***](#brief-description-week1-review-of-the-cmeecoursework)
+  - [**Languages**](#languages)
+  - [**Installation**](#installation)
+  - [**Dependencies**](#dependencies)
+  - [**Project structure and Usage**](#project-structure-and-usage)
+    - [**(1) Repo Structure introduction**](#1-repo-structure-introduction)
+    - [**(2) Scripts List**](#2-scripts-list)
+      - [1. Unix chapter](#1-unix-chapter)
+      - [2. Shell scripts chapter](#2-shell-scripts-chapter)
+      - [3. Latex chapter](#3-latex-chapter)
+  - [**Author and Contact**](#author-and-contact)
+
+## **Brief Description**-***Week1 review of the CMEECourseWork***
+
+1. Unix and shell scripting,and solve some of the real questions from Unix and shell scripting project
+2. LaTex to do some of the scientific writing.
+3. These works are based on the Notebook and Data from https://github.com/mhasoba/TheMulQuaBio.git.
+
+## **Languages**
+```
+Shell,Latex
+```
+## **Installation**
+```
+git clone https://github.com/nedchen2/CMEECourseWork.git
+```
+
+## **Dependencies** 
+
+Most of the scripts in the current repository can be ran in bash shell directly. One of the scripts `tiff2png.sh` needs the imagemagick. 
+
+Installation: `sudo apt install imagemagick` (Run in the terminal)
+
+## **Project structure and Usage**
+
+### **(1) Repo Structure introduction**
+
+Each week’s directory contain directories called `code`, `data`, `results`, and `sandbox` 
+
+`code`: directory to put the scripts (`e.g. *.sh`)
+
+`Data`: directory to put some of the input file (`e.g. *.fasta`)
+
+`results` : directory for output
+
+### **(2) Scripts List**
+
+#### 1. Unix chapter
+
+| Script Name |Description | Arguments |
+| ------ | ------ | ------ |
+| UnixPrac1.txt |fasta practice using Unix| None |
+
+#### 2. Shell scripts chapter
+
+```Test script```
+
+| Script Name |Description | Arguments |
+| ------ | ------ | ------ |
+| variables.sh  |Practice for reading the variable| None |
+
+```Functional script```
+```use "-h" to see the help document```
+```Compatible for no matter directory input or single file input```
+| Script Name |Description | Arguments |
+| ------ | ------ | ------ |
+| tiff2png.sh   |convert the tiff file to png in a given directory| 1 -> directory of *.tif or single tif file , 2 -> Output directory (Necessary) |
+| CountLines.sh    |count lines number| 1 -> A File or a directory|
+
+```Compatible for single file input only```
+| Script Name |Description | Arguments |
+| ------ | ------ | ------ |
+| csvtospace.sh    |shell script that takes a comma separated file and converts it to a space separated values file| 1 -> Files with a comma separated values, 2 -> Output directory (optional)|
+| tabtocsv.sh    |substitute the tabs in the files with commas| 1 -> Files with a tab separated values, 2 -> Output directory (optional)|
+| ConcatenateTwoFiles.sh    | Merge two Files together by row | 1 -> Files1 to be merged, 2 -> files2 to be merged, 3 -> Merged file |
+
+#### 3. Latex chapter
+
+```use "-h" to see the help document```
+
+| Script Name |Description | Arguments |
+| ------ | ------ | ------ |
+| CompileLaTeX.sh   |render the .tex file to .pdf| 1 -> LaTex file (.tex), 2 -> Output directory (optional) |
+| FirstBiblio.bib    | Referencing and bibliography file for FirstExample.tex| None |
+| FirstExample.tex   | FirstExample of LaTex| None |
+
+## **Author and Contact**
+
+**Congjia Chen**
+
+Congjia.Chen21@imperial.ac.uk
+
+
+**********************************************************************
+
+Results directory is empty - good! 
+
+Found 12 code files: tiff2png.sh, CountLines.sh, FirstBiblio.bib, tabtocsv.sh, variables.sh, FirstExample.tex, boilerplate.sh, csvtospace.sh, ConcatenateTwoFiles.sh, UnixPrac1.txt, CompileLaTeX.sh, MyExampleScript.sh
+
+======================================================================
+Testing script/code files...
+
+======================================================================
+Inspecting script file tiff2png.sh...
+
+File contents are:
+
+**********************************************************************
+#!/bin/bash
+# Author: Congjia.Chen21@imperial.ac.uk
+# Script: 
+#   tiff2png.sh
+# Description: 
+#   convert the tiff file to png in a given directory
+# Usage:
+#   bash tiff2png.sh <Directory or single file> <Output directory>
+# Argument
+#    1 -> directory of *.tif, 2 -> Output directory (Necessary)
+# Date: Oct 2021
+# -h show this message
+
+help() {
+	awk -F'# ' '/^# / { print $2 }' "$0"
+}
+
+if [[ $# = 0 ]] || [[ "$1" == "-h" ]]; then #if-h or no input arguments, print out the help document
+	help
+	exit 1
+elif [[ ! -s $1 ]] ; then
+    echo "[ERROR]: Please check if your file directory exist"
+    exit 1
+elif [[ ! -s $2 ]] ; then
+    echo "[ERROR]: Please check if your output directory exist"
+    exit 1
+elif [[ -f $1 ]] ; then  #if the user input a single file, just convert the single file to a directory
+    echo "You are providing a single file. $1 will be converted into png"
+    echo "Converting $1"
+    convert "$1"  "$2/$(basename "$1" .tif).png"
+    echo "Done!"
+    exit 1
+fi
+
+dir="$1"
+outputdir="$2"
+echo "We are now working at $dir"
+echo "We will output the png file to the $outputdir"
+#cd $dir
+for f in $dir/*.tif; 
+    do  
+        echo "Converting $f"; 
+        convert "$f"  "$outputdir/$(basename "$f" .tif).png"; 
+        echo "Done!"
+    done
+
+
+
+**********************************************************************
+
+Testing tiff2png.sh...
+
+Output (only first 500 characters): 
+
+
+**********************************************************************
+Author: Congjia.Chen21@imperial.ac.uk
+Script: 
+  tiff2png.sh
+Description: 
+  convert the tiff file to png in a given directory
+Usage:
+  bash tiff2png.sh <Directory or single file> <Output directory>
+Argument
+   1 -> directory of *.tif, 2 -> Output directory (Necessary)
+Date: Oct 2021
+-h show this message
+
+**********************************************************************
+
+Code ran without errors
+
+Time consumed = 0.00469s
+
+======================================================================
+Inspecting script file CountLines.sh...
+
+File contents are:
+
+**********************************************************************
+#!/bin/bash
+# Author: Congjia.Chen21@imperial.ac.uk
+# Script: 
+#   CountLines.sh
+# Description: 
+#   count lines number
+# Usage:
+#   bash CountLines.sh <A File or directory> 
+# Arguments: 
+#   1 -> A File or directory
+# Date: Oct 2021
+# -h        Show this message.
+
+#function to print out the help document
+help() {
+	awk -F'# ' '/^# / { print $2 }' "$0"
+}
+
+if [[ $# != 1 ]] || [[ "$1" == "-h" ]]; then #if-h or no input arguments, print out the help document
+	help
+	exit 1
+elif [[ ! -s $1 ]] ; then
+    echo "[ERROR]: Please check if your file exist"
+    exit 1
+elif [[ -d $1 ]]; then
+	echo "You have provided a directory here. We will count all files with extensions"
+	wc -l $1/*.*
+	exit 1
+fi
+
+NumLines=`wc -l < $1` 
+echo "The file $1 has $NumLines lines"
+echo
+**********************************************************************
+
+Testing CountLines.sh...
+
+Output (only first 500 characters): 
+
+
+**********************************************************************
+Author: Congjia.Chen21@imperial.ac.uk
+Script: 
+  CountLines.sh
+Description: 
+  count lines number
+Usage:
+  bash CountLines.sh <A File or directory> 
+Arguments: 
+  1 -> A File or directory
+Date: Oct 2021
+-h        Show this message.
+
+**********************************************************************
+
+Code ran without errors
+
+Time consumed = 0.00554s
+
+======================================================================
+Inspecting script file FirstBiblio.bib...
+
+File contents are:
+
+**********************************************************************
+@article{verhulst1838notice,
+  title={Notice sur la loi que la population suit dans son accroissement},
+  author={Verhulst, Pierre-Fran{\c{c}}ois},
+  journal={Corresp. Math. Phys.},
+  volume={10},
+  pages={113--126},
+  year={1838}
+}
+**********************************************************************
+
+Testing FirstBiblio.bib...
+
+======================================================================
+Inspecting script file tabtocsv.sh...
+
+File contents are:
+
+**********************************************************************
+#!/bin/bash
+# Author: Congjia.Chen21@imperial.ac.uk
+# Script: 
+#   tabtocsv.sh
+# Description: 
+#   substitute the tabs in the files with commas
+# Usage:
+#   bash tabtocsv.sh <File with a tab separated values (.txt extension) > <Output directory(optional)>
+# Arguments: 
+#   1 -> Files with a tab separated values , 2 -> Output directory (optional)
+# Date: Oct 2021
+# -h        Show this message.
+
+help() {
+	awk -F'# ' '/^# / { print $2 }' "$0"
+}
+
+if [[ $# = 0 ]] || [[ "$1" == "-h" ]] || [[ $# > 2 ]] ; then #if-h or no input arguments, print out the help document
+	help
+	exit 1
+elif [[ ! -s $1 ]] ; then
+    echo "[ERROR]: Please check if your file exist"
+    exit 1
+elif [[ $# = 1 ]] ; then #if no output directory provided, it will use the directory which are the same as the input
+    echo "Creating a space delimited version of $1 ... in original directory"
+    #extract the path
+    Pathnew=$(dirname "$1")/$(basename "$1" .txt).csv
+    echo "$Pathnew"
+    cat $1 | tr -s "\t" "," > $Pathnew
+    echo "Done!"
+    exit
+elif [[ ! -s $2 ]] ; then
+    echo "[ERROR]: Please check if your directory exist"
+    exit 1
+else  #if output directory is provided, it will be used as output directory,
+    echo "Creating a space delimited version of $1 ... in $2 directory"
+    Pathnew=$2/$(basename "$1" .txt).csv
+    echo "$Pathnew"
+    cat $1 | tr -s "\t" "," > $Pathnew
+    echo "Done!"
+    exit
+fi
+
+**********************************************************************
+
+Testing tabtocsv.sh...
+
+Output (only first 500 characters): 
+
+
+**********************************************************************
+Author: Congjia.Chen21@imperial.ac.uk
+Script: 
+  tabtocsv.sh
+Description: 
+  substitute the tabs in the files with commas
+Usage:
+  bash tabtocsv.sh <File with a tab separated values (.txt extension) > <Output directory(optional)>
+Arguments: 
+  1 -> Files with a tab separated values , 2 -> Output directory (optional)
+Date: Oct 2021
+-h        Show this message.
+
+**********************************************************************
+
+Code ran without errors
+
+Time consumed = 0.00642s
+
+======================================================================
+Inspecting script file variables.sh...
+
+File contents are:
+
+**********************************************************************
+#!/bin/bash
+# Author: Congjia.Chen21@imperial.ac.uk
+# Script: 
+#   variables.sh
+# Description: 
+#   Practice for reading the variable
+# Usage:
+#   bash variables.sh
+# Arguments: 
+#   None
+# Date: Oct 2021
+
+# Shows the use of variables
+MyVar='some string'
+echo 'the current value of the variable is' $MyVar
+echo 'Please enter a new string'
+read MyVar
+echo 'the current value of the variable is' $MyVar
+
+## Reading multiple values
+echo 'Enter two numbers separated by space(s)'
+read a b
+if [[ -n $a ]] && [[ -n $b ]]; then
+    echo 'you entered' $a 'and' $b '. Their sum is:'
+    mysum=`expr $a + $b`
+    echo $mysum
+else
+    echo "pls enter two numbers"
+fi
+
+
+**********************************************************************
+
+Testing variables.sh...
+
+Output (only first 500 characters): 
+
+
+**********************************************************************
+the current value of the variable is some string
+Please enter a new string
+the current value of the variable is
+Enter two numbers separated by space(s)
+pls enter two numbers
+
+**********************************************************************
+
+Code ran without errors
+
+Time consumed = 0.00306s
+
+======================================================================
+Inspecting script file FirstExample.tex...
+
+File contents are:
+
+**********************************************************************
+\documentclass[12pt]{article}
+
+\title{A Simple Document}
+
+\author{Your Name}
+
+\date{}
+
+\begin{document}
+  \maketitle
+  
+  \begin{abstract}
+    This paper analyzes a seminal equation in population biology.
+  \end{abstract}
+  
+  \section{Introduction}
+    Blah Blah
+  
+  \section{Materials \& Methods}
+  
+  A foundational equation of population biology is:
+  
+  \begin{equation}
+    \frac{dN}{dt} = r N (1 - \frac{N}{K})
+  \end{equation}
+  
+  It was first proposed by Verhulst in 1838 \cite{verhulst1838notice}.
+  
+  \bibliographystyle{plain}
+  
+  \bibliography{FirstBiblio}
+
+\end{document}
+
+**********************************************************************
+
+Testing FirstExample.tex...
+
+======================================================================
+Inspecting script file boilerplate.sh...
+
+File contents are:
+
+**********************************************************************
+#!/bin/bash
+# Author: Congjia.Chen21@imperial.ac.uk
+# Script: boilerplate.sh
+# Desc: simple boilerplate for shell scripts
+# Arguments: none
+# Date: Oct 2021
+
+echo -e "\nThis is a shell script! \n" #what does -e do?
+
+#exit
+**********************************************************************
+
+Testing boilerplate.sh...
+
+Output (only first 500 characters): 
+
+
+**********************************************************************
+
+This is a shell script! 
+
+
+**********************************************************************
+
+Code ran without errors
+
+Time consumed = 0.01673s
+
+======================================================================
+Inspecting script file csvtospace.sh...
+
+File contents are:
+
+**********************************************************************
+#!/bin/bash
+# Author: Congjia.Chen21@imperial.ac.uk
+# Script: 
+#   csvtospace.sh
+# Description: 
+#   shell script that takes a comma separated file and converts it to a space separated values file.
+# Usage:
+#   bash csvtospace.sh <csv File with a comma separated values> <Output directory(optional)>
+# Arguments: 
+#   1 -> csv Files with a comma separated values, 2 -> Output directory (optional)
+# Date: Oct 2021
+# -h        Show this message.
+
+
+#function to print out the help document
+help() {
+	awk -F'# ' '/^# / { print $2 }' "$0"
+}
+
+if [[ $# = 0 ]] || [[ "$1" == "-h" ]] || [[ $# > 2 ]] ; then #if-h or no input arguments, print out the help document
+	help
+	exit 1
+elif [[ ! -s $1 ]] ; then 
+    echo "[ERROR]: Please check if your file exist"
+    exit 1
+elif [[ $# = 1 ]] ; then  #if no output directory provided, it will use the directory which are the same as the input
+    echo "Creating a space delimited version of $1 ... in original directory"
+    #extract the path
+    CURRENT_DIR=$(dirname $(readlink -f "$1"))
+    echo  "$CURRENT_DIR"
+    Pathnew=$CURRENT_DIR/$(basename "$1" .csv).txt
+    cat $1 | tr -s "," " " > $Pathnew
+    echo "Done!"
+    exit
+elif [[ ! -s $2 ]] ; then
+    echo "[ERROR]: Please check if your directory exist"
+    exit 1
+else  #if output directory is provided, it will be used as output directory,
+    echo "Creating a space delimited version of $1 ... in $2 directory"
+    Pathnew=$2/$(basename "$1" .csv).txt
+    echo "$Pathnew"
+    cat $1 | tr -s "," " " > $Pathnew
+    echo "Done!"
+    exit
+fi
+
+
+**********************************************************************
+
+Testing csvtospace.sh...
+
+Output (only first 500 characters): 
+
+
+**********************************************************************
+Author: Congjia.Chen21@imperial.ac.uk
+Script: 
+  csvtospace.sh
+Description: 
+  shell script that takes a comma separated file and converts it to a space separated values file.
+Usage:
+  bash csvtospace.sh <csv File with a comma separated values> <Output directory(optional)>
+Arguments: 
+  1 -> csv Files with a comma separated values, 2 -> Output directory (optional)
+Date: Oct 2021
+-h        Show this message.
+
+**********************************************************************
+
+Code ran without errors
+
+Time consumed = 0.01608s
+
+======================================================================
+Inspecting script file ConcatenateTwoFiles.sh...
+
+File contents are:
+
+**********************************************************************
+#!/bin/bash
+# Author: Congjia.Chen21@imperial.ac.uk
+# Script: 
+#   ConcatenateTwoFiles.sh
+# Description: 
+#   Merge Two Files together by row.
+# Usage:
+#   bash ConcatenateTwoFiles.sh <File 1> <File 2> <File 3 (merged one)>    
+# Arguments: 
+#   1 -> files1 to be merged, 2 -> files2 to be merged, 3 -> Merged file 
+# Date: Oct 2021
+# -h        Show this message.
+
+#function to print out the help document
+help() {
+	awk -F'# ' '/^# / { print $2 }' "$0"
+}
+
+if [[ $# != 3 ]] || [[ "$1" == "-h" ]]; then # if-h or no input arguments, print out the help document
+    echo "[ERROR]: Input Three files,1 2 would be the files to be merged,and the 3 would be the merged version"
+	help
+	exit 1
+elif [[ ! -s $1 ]] || [[ ! -s $2 ]] ; then
+    echo "[ERROR]: Please check if your file1 or 2 exist"
+    exit 1
+fi
+
+#Method 1
+cat $1 > $3
+cat $2 >> $3
+echo "Merged File is"
+cat $3
+
+
+
+
+**********************************************************************
+
+Testing ConcatenateTwoFiles.sh...
+
+Output (only first 500 characters): 
+
+
+**********************************************************************
+[ERROR]: Input Three files,1 2 would be the files to be merged,and the 3 would be the merged version
+Author: Congjia.Chen21@imperial.ac.uk
+Script: 
+  ConcatenateTwoFiles.sh
+Description: 
+  Merge Two Files together by row.
+Usage:
+  bash ConcatenateTwoFiles.sh <File 1> <File 2> <File 3 (merged one)>    
+Arguments: 
+  1 -> files1 to be merged, 2 -> files2 to be merged, 3 -> Merged file 
+Date: Oct 2021
+-h        Show this message.
+
+**********************************************************************
+
+Code ran without errors
+
+Time consumed = 0.00578s
+
+======================================================================
+Inspecting script file UnixPrac1.txt...
+
+File contents are:
+
+**********************************************************************
+#!/bin/bash
+# Author: Congjia.Chen21@imperial.ac.uk
+# Script: 
+#   UnixPrac1.txt
+# Description: 
+#   fasta practice using Unix
+# Arguments:  
+#   None
+# Date: Oct 2021
+
+#1
+#Count how many lines there are in each file
+wc -l ../data/fasta/*.fasta
+
+#2
+#Print everything starting from the second line for the E. coli genome
+tail -n +2 ../data/fasta/E.coli.fasta
+
+#3
+#Count the sequence length of this genome
+grep -v ">" ../data/fasta/E.coli.fasta | tr -d "\n" | wc -m
+
+#4
+#Count the matches of a particular sequence, “ATGC” in the genome of E. coli (hint: Start by removing the first line and removing newline characters)
+grep -v ">" ../data/fasta/E.coli.fasta | tr -d "\n" | grep -o "ATGC"| uniq -c
+
+#5
+#Compute the AT/GC ratio. That is, the (A+T)/(G+C) ratio. 
+awk 'BEGIN{printf "%.2f%%", '$(grep -E -o "A|T" ../data/fasta/E.coli.fasta |wc -l)' / '$(grep -E -o "G|C" ../data/fasta/E.coli.fasta|wc -l)'*100}'
+**********************************************************************
+
+Testing UnixPrac1.txt...
+
+======================================================================
+Inspecting script file CompileLaTeX.sh...
+
+File contents are:
+
+**********************************************************************
+#!/bin/bash
+# Author: Congjia.Chen21@imperial.ac.uk
+# Script: 
+#   CompileLaTex.sh
+# Description: 
+#   render the .tex file to .pdf
+# Usage:
+#   bash CompileLaTex.sh < File.tex > <Output directory(optional)>
+# Arguments: 
+#   1 -> LaTex file, 2 -> Output directory(optional) default [../results]
+# Date: Oct 2021
+# -h        Show this message.
+
+#function to print out the help document
+help() {
+	awk -F'# ' '/^# / { print $2 }' "$0"
+}
+
+if [[ $# = 0 ]] || [[ "$1" == "-h" ]] || [[ $# > 2 ]] ; then  #if -h or no arguments input, print out the help document
+	help
+	exit 1
+elif [[ ! -s $1 ]] ; then 
+    echo "[ERROR]: Please check if your file exist"
+    exit 1
+elif [[ $# = 1 ]] ; then #if no output directory provided, it will use the directory which are the same as the input
+	newname=$(basename "$1" .tex)
+	pdflatex $newname.tex
+	bibtex $newname
+	pdflatex $newname.tex
+	pdflatex $newname.tex
+	#mv the result to the result file
+	echo
+	echo "[WARNING] You have not defined the output directory. File will be output in results"
+	mv $newname.pdf ../results/
+	evince ../results/$newname.pdf &
+    #Cleanup
+	rm *.aux
+	rm *.log
+	rm *.bbl
+	rm *.blg
+    exit
+elif [[ ! -s $2 ]] ; then
+    echo "[ERROR]: Please check if your directory exist"
+    exit 1
+else    #if output directory is provided, it will be used as output directory,
+	newname=$(basename "$1" .tex)
+	pdflatex $newname.tex
+	bibtex $newname
+	pdflatex $newname.tex
+	pdflatex $newname.tex
+	#mv the result to the result file
+	echo 
+	echo "File will be output in $2"
+	mv $newname.pdf $2
+	evince $2/$newname.pdf &
+    #Cleanup
+	rm *.aux
+	rm *.log
+	rm *.bbl
+	rm *.blg
+    exit
+fi
+
+
+
+**********************************************************************
+
+Testing CompileLaTeX.sh...
+
+Output (only first 500 characters): 
+
+
+**********************************************************************
+Author: Congjia.Chen21@imperial.ac.uk
+Script: 
+  CompileLaTex.sh
+Description: 
+  render the .tex file to .pdf
+Usage:
+  bash CompileLaTex.sh < File.tex > <Output directory(optional)>
+Arguments: 
+  1 -> LaTex file, 2 -> Output directory(optional) default [../results]
+Date: Oct 2021
+-h        Show this message.
+
+**********************************************************************
+
+Code ran without errors
+
+Time consumed = 0.00476s
+
+======================================================================
+Inspecting script file MyExampleScript.sh...
+
+File contents are:
+
+**********************************************************************
+#!/bin/bash
+# Author: Congjia.Chen21@imperial.ac.uk
+# Script: 
+#   MyExampleScript.sh
+# Description: 
+#   Hello user
+# Usage:
+#   bash MyExampleScript.sh 
+# Arguments: 
+#   None
+# Date: Oct 2021
+# -h        Show this message.
+
+msg1="Hello"
+msg2=$USER
+echo "$msg1 $msg2"
+echo "Hello $USER"
+echo
+
+**********************************************************************
+
+Testing MyExampleScript.sh...
+
+Output (only first 500 characters): 
+
+
+**********************************************************************
+Hello mhasoba
+Hello mhasoba
+
+
+**********************************************************************
+
+Code ran without errors
+
+Time consumed = 0.00339s
+
+======================================================================
+======================================================================
+Finished running scripts
+
+Ran into 0 errors
+
+======================================================================
+======================================================================
+
+FINISHED WEEKLY ASSESSMENT
+
+Current Points for the Week = 100
+
+NOTE THAT THESE ARE POINTS, NOT MARKS FOR THE WEEK!
