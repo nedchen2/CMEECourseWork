@@ -3,6 +3,17 @@
 # STORING OBJECTS
 #############################
 # To save an object (even complex) for later use
+
+"""
+Auther:Congjia Chen (congjia.chen21@imperial.ac.uk)
+Script: basic_io3.py
+Des: Examplify storing objects by pickle
+Usage: python3 basic_io3.py (in terminal)
+Dep: pickle
+Date: Oct, 2021
+Output: "../sandbox/testp.p"
+"""
+
 my_dictionary = {"a key": 10, "another key": 11}
 
 import pickle

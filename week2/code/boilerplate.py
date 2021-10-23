@@ -1,7 +1,14 @@
 #!/usr/bin/env python3
 # add docstring to the whole scripts
-"""Description of this program or application.
-You can use several lines"""
+
+"""
+Auther:Congjia Chen (congjia.chen21@imperial.ac.uk)
+Script: boilerplate.py
+Des: Examplify the docstring of python
+Usage: python3 boilerplate.py (in terminal)
+Dep: sys
+Date: Oct, 2021
+"""
 
 __appname__ = '[boilerplate.py]'
 __author__ = 'congjia.chen21@imperial.ac.uk'

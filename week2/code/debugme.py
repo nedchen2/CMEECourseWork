@@ -1,6 +1,14 @@
 #!/usr/bin/env python3
 # Filename: debugme.py
 
+"""
+Auther:Congjia Chen (congjia.chen21@imperial.ac.uk)
+Script: debugme.py
+Des: Practice for dictionary comprehension
+Usage: python3 debugme.py (in terminal)
+Date: Oct, 2021
+"""
+
 def buggyfunc(x):
     y = x
     for i in range(x):

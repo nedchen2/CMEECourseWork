@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 ## Finds just those taxa that are oak trees from a list of species
+"""
+Auther:Congjia Chen (congjia.chen21@imperial.ac.uk)
+Script: oaks.py
+Des: Test of list comprehensions
+Usage: python3 oaks.py (in terminal)
+Date: Oct, 2021
+"""
 
 taxa = [ 'Quercus robur',
          'Fraxinus excelsior',

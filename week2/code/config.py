@@ -1,1 +1,0 @@
-_a_global_variable = 2

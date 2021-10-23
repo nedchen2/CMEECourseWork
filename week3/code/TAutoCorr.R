@@ -36,4 +36,5 @@ main_function <- function(n,num){ # n is the size of the random sample, num is t
 
 main_function(66,10000)
 
+
             

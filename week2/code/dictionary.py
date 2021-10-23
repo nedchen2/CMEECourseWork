@@ -1,6 +1,14 @@
 #!/usr/bin/env python3
 # Filename: dictionary.py
 
+"""
+Auther:Congjia Chen (congjia.chen21@imperial.ac.uk)
+Script: dictionary.py
+Des: Practice for dictionary comprehension
+Usage: python3 dictionary.py (in terminal)
+Date: Oct, 2021
+"""
+
 taxa = [ ('Myotis lucifugus','Chiroptera'),
          ('Gerbillus henleyi','Rodentia',),
          ('Peromyscus crinitus', 'Rodentia'),
@@ -23,36 +31,36 @@ taxa = [ ('Myotis lucifugus','Chiroptera'),
 # 'Chiroptera': {'Myotis lucifugus'} ... etc
 
 # Answer
-# Method1: For loop with enumerate and not empty sets
-list1=taxa
-dict2={y:{str(x)} for (x,y) in taxa}
-for i,v in  enumerate(list1):
-        for j,k in enumerate(list1[i+1:],i+1):
-                #"meiju"
-                #print (v,k)
-                if v[1] == k[1]:
-                        #print (dict2)
-                        #dict2[v[1]]=set()
-                        dict2[v[1]].add(str(v[0]))
-                        dict2[v[1]].add(str(k[0]))
-                        #print (dict2)
+# Method1: For loop with empty sets
+# list1=taxa
+# taxa_dic={y:set() for (x,y) in taxa}
+# for i,v in  enumerate(list1):
+#        for j,k in enumerate(list1[i+1:],i+1):
+#                if v[1] == k[1]:
+#                        taxa_dic[v[1]].add(str(v[0]))
+#                        taxa_dic[v[1]].add(str(k[0]))
+#                else:
+#                        taxa_dic[v[1]].add(str(v[0]))
+# print (taxa_dic)
 
-print (dict2)
+# defaultdict
+# Method2: with other import function
+# from collections import defaultdict
+# new = defaultdict(set)
+# for (value,key) in taxa:
+#        new[key].add(value)
 
-# Answer
-# Method2: For loop with empty sets
-dict2={y:set() for (x,y) in taxa}
-for i,v in  enumerate(list1):
-        for j,k in enumerate(list1[i+1:],i+1):
-                #"meiju"
-                #print (v,k)
-                if v[1] == k[1]:
-                        #print (dict2)
-                        #dict2[v[1]]=set()
-                        dict2[v[1]].add(str(v[0]))
-                        dict2[v[1]].add(str(k[0]))
-                        #print (dict2)
-                else:
-                        dict2[v[1]].add(str(v[0]))
+# dictionary comprehension:
+# Method3: setdefault
+# taxa_dic={}
+# {taxa_dic.setdefault(key,set()).add(value) for value,key in taxa}
 
-print (dict2)
+# dictionary
+# Method4: setdefault
+# setdefault method could be used to 
+taxa_dic={}
+for value,key in taxa:
+        taxa_dic.setdefault(key,set()).add(value) # return special dictionary value which could be manipulated
+print (taxa_dic)
+
+

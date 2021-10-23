@@ -1,23 +1,31 @@
 #!/usr/bin/env python3
-
-"""Some functions exemplifying the use of control statements"""
+"""
+Auther:Congjia Chen (congjia.chen21@imperial.ac.uk)
+Script: test_control_flow.py
+Des: Some functions exemplifying the use of control statements
+Usage: python3 test_control_flow.py (in terminal)
+Dependencies: sys, doctest
+Date: Oct, 2021
+"""
 #docstrings are considered part of the running code (normal comments are
 #stripped). Hence, you can access your docstrings at run time.
+
 __author__ = 'Congjia Chen (congjia.chen21@imperial.ac.uk)'
-__version__ = '0.0.1'
-
-#!/usr/bin/env python3
-
-"""Some functions exemplifying the use of control statements"""
-
-__author__ = 'Your Name (Your.Name@your.email.address)'
 __version__ = '0.0.1'
 
 import sys
 import doctest # Import the doctest module
 
 def even_or_odd(x=0):
-    """Find whether a number x is even or odd.
+    """
+    Args:
+        x : A integer
+    
+    Returns: 
+        whether a number x is even or odd.
+    
+    Raises:
+        None
       
     >>> even_or_odd(10)
     '10 is Even!'
@@ -40,6 +48,10 @@ def even_or_odd(x=0):
     return "%d is Odd!" % x
 
 def main(argv): 
+    """
+    Returns: 
+        The test result of function above from the terminal
+    """
     print(even_or_odd(22))
     print(even_or_odd(33))
     return 0

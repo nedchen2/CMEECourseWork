@@ -107,7 +107,7 @@ def higher_score_finder(s1, s2, l1, l2):
             my_best_score = z
     # print(my_best_align)
     # print(s1)
-    # print("Best score:", my_best_score)
+    print("Best score:", my_best_score)
     return my_best_score
 
 
@@ -125,9 +125,12 @@ def seq_finder(s1, s2, l1, l2, my_best_score):
             my_best_align = "." * i + s2  # think about what this is doing!
             #print(my_best_align)
             #print(s1)
-            print("Best score:", my_best_score)
-            result = (my_best_align, s1, my_best_score)
-            dict_for_seq[count] = result
+            #print("Best score:", my_best_score)
+            score = "Score:"+str(my_best_score)
+            result = (my_best_align, s1, score)
+            Name = "Start_point:"+str(count)
+            dict_for_seq[Name] = result
+    print ("Number: ",len(dict_for_seq))
     return dict_for_seq
 
 def pickle_read(my_dictionary):

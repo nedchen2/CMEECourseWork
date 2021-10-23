@@ -3,6 +3,16 @@
 # FILE INPUT
 #############################
 # Open a file for reading
+
+"""
+Auther:Congjia Chen (congjia.chen21@imperial.ac.uk)
+Script: basic_io1.py
+Des: Examplify input file by with open method
+Usage: python3 basic_io1.py (in terminal)
+Date: Oct, 2021
+Input: "../sandbox/test.txt"
+"""
+
 with open('../sandbox/test.txt', 'r') as f:
     # use "implicit" for loop:
     # if the object is a file, python will cycle over lines

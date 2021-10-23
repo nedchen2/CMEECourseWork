@@ -1,6 +1,16 @@
 #!/usr/bin/env python3
 
-"""Calculate the match score between two seqs. Print the best score of it"""
+"""
+Auther: Congjia Chen (congjia.chen21@imperial.ac.uk)
+Script: align_seqs.py
+Des: Calculate the match score between two seqs. Print the best score of it
+Usage: python3 align_seqs.py (in terminal)
+Dep: csv,sys,pickle
+Date: Oct, 2021
+Input: "../data/align_seq_data.csv"
+Output: "../results/Best_score.pickle"
+"""
+
 
 __appname__ = '[align_seqs.py]'
 __author__ = 'Congjia Chen (congjia.chen21@imperial.ac.uk)'
@@ -13,8 +23,11 @@ import pickle
 def read_seq_csv():
 
     """
-    
-    read the seq csv which is located in ../data/align_seq_data.csv
+    Returns:
+        Two seq names seq1 and seq2
+
+    Des:
+        read the seq csv which is located in ../data/align_seq_data.csv
     
     """
     with open('../data/align_seq_data.csv', 'r') as f:
@@ -31,8 +44,11 @@ def read_seq_csv():
 def identify_the_seq(seq1,seq2):
 
     """
-    
-    swap the two seq lengths for later calculation
+    Returns:
+        Two seq named seq1 and seq2 and their length l1,l2
+
+    Des:
+        swap the two seq lengths for later calculation
     
     """
     l1 = len(seq1)
@@ -51,8 +67,18 @@ def identify_the_seq(seq1,seq2):
 def calculate_score(s1, s2, l1, l2, startpoint):
     
     """
-    
-    calculate the score for the match of the two sequence 
+    Args:
+        s1 : seq1
+        s2 : seq2
+        l1 : length of seq1
+        l2 : length of seq2
+        startpoint: startpoint of alignment
+
+    Returns:
+        The score of alignment starting with different start point 
+
+    Des:
+        calculate the score for the match of the two sequence 
     
     """
     matched = "" # to hold string displaying alignements
@@ -74,18 +100,21 @@ def calculate_score(s1, s2, l1, l2, startpoint):
 
     return score
 
-# Test the function with some example starting points:
-# calculate_score(s1, s2, l1, l2, 0)
-# calculate_score(s1, s2, l1, l2, 1)
-# calculate_score(s1, s2, l1, l2, 5)
-
-# now try to find the best match (highest score) for the two sequences
-
 def higher_score_finder(s1, s2, l1, l2):
 
     """
+    Args:
+        s1 : seq1
+        s2 : seq2
+        l1 : length of seq1
+        l2 : length of seq2
+
+    Returns:
+        The dictionary that stores the best align and best score
+
+    Des:
+        find the best match (highest score) for the two sequences
     
-    find the best match (highest score) for the two sequences
     
     """
     my_best_align = None
@@ -102,15 +131,18 @@ def higher_score_finder(s1, s2, l1, l2):
     result = (my_best_align, s1, my_best_score)
     dict_for_seq["Best_score"] = my_best_score
     dict_for_seq["my_best_align"] = my_best_align
-    dict_for_seq["Target_for_align"] = s1
+    #dict_for_seq["Target_for_align"] = s1
 
     return dict_for_seq
 
 def pickle_read(my_dictionary):
 
     """
-    
-    pickle to save the dictionary and print it
+    Args: 
+        my_dictionary : dictionary result that stores the alignment result.
+
+    Des:
+        pickle to save the dictionary and print it
     
     """
     with open('../results/Best_score.pickle', 'wb') as f:
@@ -123,11 +155,9 @@ def pickle_read(my_dictionary):
 
 def main(argv):
 
-    """ Main entry point of the program. Some test of the function. If we run it as a main, we will have this function running""" 
-    #add docstring to the function
-    #have the arguments from the terminal  
-    #seq2 = "ATCGCCGGATTACGGG"
-    #seq1 = "CAATTCGGAT"
+    """ 
+    Main process running the program.
+    """ 
     seq1,seq2 = read_seq_csv()
     s1, s2, l1, l2 = identify_the_seq(seq1,seq2)
     pickle_read(higher_score_finder(s1, s2, l1, l2))

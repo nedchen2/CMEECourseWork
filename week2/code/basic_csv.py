@@ -1,4 +1,20 @@
 #!/usr/bin/env python3
+#############################
+# CSV INPUT AND CSV PROCESS
+#############################
+# Open a file for reading and process it with csv module
+
+"""
+Auther:Congjia Chen (congjia.chen21@imperial.ac.uk)
+Script: basic_csv.py
+Des: Open a file for reading and process it with csv module
+Usage: python3 basic_csv.py (in terminal)
+Dep: csv
+Date: Oct, 2021
+Input: "./data/testcsv.csv"
+Output: '../data/bodymass.csv'
+"""
+
 import csv
 # Read a file containing:
 # 'Species','Infraorder','Family','Distribution','Body mass male (Kg)'

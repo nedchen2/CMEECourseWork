@@ -1,8 +1,14 @@
 #!/usr/bin/env python3
 
-"""Some functions exemplifying the use of control statements"""
-#docstrings are considered part of the running code (normal comments are
-#stripped). Hence, you can access your docstrings at run time.
+"""
+Auther:Congjia Chen (congjia.chen21@imperial.ac.uk)
+Script: control_flow.py
+Des: Some functions exemplifying the use of control statements
+Usage: python3 control_flow.py (in terminal)
+Dep: sys
+Date: Oct, 2021
+"""
+
 __author__ = 'Congjia Chen (congjia.chen21@imperial.ac.uk)'
 __version__ = '0.0.1'
 
@@ -10,13 +16,27 @@ import sys
 
 def even_or_odd(x=0): # if not specified, x should take value 0.
 
-    """Find whether a number x is even or odd."""
+    """
+    Args:
+        x : A integer
+
+    Return:
+        Find whether a number x is even or odd.
+
+    """
     if x % 2 == 0: #The conditional if
         return "%d is Even!" % x
     return "%d is Odd!" % x
 
 def largest_divisor_five(x=120):
-    """Find which is the largest divisor of x among 2,3,4,5."""
+    """
+    Args:
+        x : A integer
+
+    Returns:
+        Find which is the largest divisor of x among 2,3,4,5.
+    
+    """
     largest = 0
     if x % 5 == 0:
         largest = 5
@@ -31,7 +51,14 @@ def largest_divisor_five(x=120):
     return "The largest divisor of %d is %d" % (x, largest)
 
 def is_prime(x=70):
-    """Find whether an integer is prime."""
+    """
+    Args:
+        x : A integer
+    
+    Returns:
+        Find whether an integer is prime.
+    
+    """
     for i in range(2, x): #  "range" returns a sequence of integers
         if x % i == 0:
           print("%d is not a prime: %d is a divisor" % (x, i)) 
@@ -40,7 +67,14 @@ def is_prime(x=70):
     return True 
 
 def find_all_primes(x=22):
-    """Find all the primes up to x"""
+    """
+    Args:
+        x : A integer
+    
+    Return:
+        Find all the primes up to x
+    
+    """
     allprimes = []
     for i in range(2, x + 1):
       if is_prime(i):
@@ -49,7 +83,11 @@ def find_all_primes(x=22):
     return allprimes
       
 def main(argv):
-    """ Main entry point of the program """ #add docstring to the function
+    """ 
+    
+    Main entry point of the program 
+    
+    """ #add docstring to the function
     print(even_or_odd(22))
     print(even_or_odd(33))
     print(largest_divisor_five(120))
