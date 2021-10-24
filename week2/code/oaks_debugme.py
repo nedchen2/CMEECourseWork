@@ -1,7 +1,19 @@
+
+"""
+Auther: Congjia Chen (congjia.chen21@imperial.ac.uk)
+Script: oaks_debugme.py
+Des: Only when the first column of the input file strictly equals to "quercus", the rows would be saved into JustOaksData.csv
+Usage: python3 oaks_debugme.py (in terminal)
+Dep: sys,csv,doctest
+Date: Oct, 2021
+Input: "../data/TestOaksData.csv"
+Output: "../data/JustOaksData.csv"
+"""
+
 import csv
 import sys
 import doctest
-from itertools import islice
+#from itertools import islice
 
 #Define function
 def is_an_oak(name):
@@ -27,8 +39,11 @@ def is_an_oak(name):
     >>> is_an_oak("Quercuss")
     False
 
+    >>> is_an_oak("Quercussquercus")
+    False
+
     """
-    return name.lower().startswith('quercus') & name.lower().endswith('quercus')
+    return name.lower().startswith('quercus') & name.lower().endswith('quercus') & name.lower().count("quercus") == 1 
 
 
 def main(argv): 

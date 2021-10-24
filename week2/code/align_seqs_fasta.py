@@ -1,18 +1,35 @@
 #!/usr/bin/env python3
 
-"""Calculate the match score between two seqs. Print the best score of it"""
+"""
+Auther: Congjia Chen (congjia.chen21@imperial.ac.uk)
+Script: align_seqs_fasta.py
+Des: Calculate the match score between two seqs from to seqerate fasta files. Print and save the best score and best alignment of it
+Usage: python3 align_seqs_fasta.py seq1.fasta seq2.fasta (in terminal)
+Dep: sys,pickle
+Date: Oct, 2021
+Output: "../results/Best_score_fasta.pickle"
+"""
+
 
 __appname__ = '[align_seqs_fasta.py]'
 __author__ = 'Congjia Chen (congjia.chen21@imperial.ac.uk)'
 __version__ = '0.0.1'
 
 import sys
-import csv
+#import csv
 import pickle
                 
 def convert_fasta2dict(fasta_path):
 
-    """convert fasta file to dictionary"""
+    """
+    Args:
+        fasta_path : the path of the fasta file
+    Returns:
+        dictionary that stores the sequence information originated from input fasta file
+    Des:
+        convert fasta file to dictionary
+    
+    """
     dict_fas = {}
     with open(fasta_path, 'r') as f:
         for line in f:
@@ -29,7 +46,18 @@ def convert_fasta2dict(fasta_path):
 # l1 is length of the longest, l2 that of the shortest
 def identify_the_seq(seq1,seq2):
 
-    """swap the two seq lengths for later calculation"""
+    """
+    Args:
+        seq1: A sequence
+        seq2: A sequence
+    Returns:
+        s1 : longer sequnce in seq1 and seq2
+        s2 : shorter sequnce in seq1 and seq2
+        l1 : length of s1
+        l2 : length of s2
+    Des:
+        swap the two seq lengths for later calculation
+    """
     l1 = len(seq1)
     l2 = len(seq2)
     if l1 >= l2:
@@ -45,7 +73,19 @@ def identify_the_seq(seq1,seq2):
 # from arbitrary startpoint (chosen by user)
 def calculate_score(s1, s2, l1, l2, startpoint):
     
-    """calculate the score for the match of the two sequence """
+    """
+    Args:
+        s1 : longer sequnce in seq1 and seq2
+        s2 : shorter sequnce in seq1 and seq2
+        l1 : length of s1
+        l2 : length of s2
+        startpoint : the startpoint in s1 to do alignment
+    Returns:
+        The score of given start point
+    Des:
+        calculate the score for the match of the two sequence 
+    
+    """
     matched = "" # to hold string displaying alignements
     score = 0
     for i in range(l2):
@@ -65,16 +105,22 @@ def calculate_score(s1, s2, l1, l2, startpoint):
 
     return score
 
-# Test the function with some example starting points:
-# calculate_score(s1, s2, l1, l2, 0)
-# calculate_score(s1, s2, l1, l2, 1)
-# calculate_score(s1, s2, l1, l2, 5)
-
-# now try to find the best match (highest score) for the two sequences
-
 def higher_score_finder(s1, s2, l1, l2):
 
-    """find the best match (highest score) for the two sequences"""
+    """
+    Args:
+        s1 : longer sequnce in seq1 and seq2
+        s2 : shorter sequnce in seq1 and seq2
+        l1 : length of s1
+        l2 : length of s2
+    
+    Returns:
+        The dictionary which contains the best score along with the best alignment
+    
+    Des:
+        find the best score of the given fasta file
+    
+    """
     my_best_align = None
     my_best_score = -1
     dict_for_seq = {}
@@ -83,47 +129,55 @@ def higher_score_finder(s1, s2, l1, l2):
         if z > my_best_score:
             my_best_align = "." * i + s2 # think about what this is doing!
             my_best_score = z 
-    print(my_best_align)
-    print(s1)
+    #print(my_best_align)
+    #print(s1)
     print("Best score:", my_best_score)
     result = (my_best_align, s1, my_best_score)
     dict_for_seq["Best_score"] = my_best_score
     dict_for_seq["my_best_align"] = my_best_align
-    dict_for_seq["Target_for_align"] = s1
+    #dict_for_seq["Target_for_align"] = s1
 
     return dict_for_seq
 
 def pickle_read(my_dictionary):
 
     """
-    
-    pickle to save the dictionary and print it
+    Args:
+        my_dictionary : a dictionary which stores the best score along with the best alignment
+
+    Output:
+        ../results/Best_score_fasta.pickle
+
+    Des:
+        pickle to save the dictionary and print it
     
     """
     with open('../results/Best_score_fasta.pickle', 'wb') as f:
         pickle.dump(my_dictionary, f)
-        print ("The file has been stored in the ../results/Best_score_fasta.pickle")
+        print ("=====================storing the result====================")
+        print ("The result has been stored in the ../results/Best_score_fasta.pickle")
     with open('../results/Best_score_fasta.pickle', 'rb') as f:
         another = pickle.load(f)
-        print ("The file will be printed")
+        print ("=====================checking the result=====================")
+        print ("The output result will be printed")
         print (another)
 
 
 def main(argv):
 
-    """ Main entry point of the program. Some test of the function. If we run it as a main, we will have this function running""" 
+    """ Main entry point of the program """ 
     #add docstring to the function
     #have the arguments from the terminal  
     #seq2 = "ATCGCCGGATTACGGG"
     #seq1 = "CAATTCGGAT"
     if len(sys.argv) == 3:
         try:
-            dict_seq1 = [ value for key,value in convert_fasta2dict(sys.argv[1]).items()]
+            dict_seq1 = [ value for key,value in convert_fasta2dict(sys.argv[1]).items()] # get the sequence from the dictionary
             dict_seq2 = [ value for key,value in convert_fasta2dict(sys.argv[2]).items()]
         except (UnboundLocalError):
             print ("Unknown Error")    
         except (FileNotFoundError):
-            print ("Your files provided here is not accessible")
+            print ("Your files provided here are not accessible")
             sys.exit(0)
     else:
         print ("We will use the default path here\n 407228412.fasta \n 407228326.fasta")

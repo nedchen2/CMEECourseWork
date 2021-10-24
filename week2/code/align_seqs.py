@@ -3,7 +3,7 @@
 """
 Auther: Congjia Chen (congjia.chen21@imperial.ac.uk)
 Script: align_seqs.py
-Des: Calculate the match score between two seqs. Print the best score of it
+Des: Calculate the match score between two seqs. Print and save the best score along with best alignment to binary file
 Usage: python3 align_seqs.py (in terminal)
 Dep: csv,sys,pickle
 Date: Oct, 2021
@@ -147,10 +147,12 @@ def pickle_read(my_dictionary):
     """
     with open('../results/Best_score.pickle', 'wb') as f:
         pickle.dump(my_dictionary, f)
-        print ("The file has been stored in the ../results/Best_score.pickle")
+        print ("=====================storing the result=====================")
+        print ("The result has been stored in the ../results/Best_score.pickle")
     with open('../results/Best_score.pickle', 'rb') as f:
         another = pickle.load(f)
-        print ("The file will be printed")
+        print ("=====================checking the result=====================")
+        print ("The result will be printed")
         print (another)
 
 def main(argv):

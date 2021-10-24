@@ -10,6 +10,12 @@ Date: Oct, 2021
 """
 
 def buggyfunc(x):
+    """
+    Args:
+        x : A iteger
+    Returns:
+        the result of x divided by y
+    """
     y = x
     for i in range(x):
         try: 
