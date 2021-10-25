@@ -48,5 +48,15 @@ head(MyWrangledData)
 dim(MyWrangledData)
 
 ############# Exploring the data (extend the script below)  ###############
+require(tidyverse)
+#tidyverse_packages(include_self = TRUE) 
 
+as_tibble(MyWrangledData)
+glimpse(MyWrangledData) #short look at the data similar to str
+
+
+tibble::as_tibble(MyWrangledData) 
+dplyr::glimpse(MyWrangledData) #like str(), but nicer!
+
+dplyr::filter(MyWrangledData, Count>100) #like subset(), but nicer!
 

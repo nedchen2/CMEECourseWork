@@ -13,7 +13,7 @@ MyMetaData <- read.csv("../data/PoundHillMetaData.csv", header = TRUE, sep = ";"
 ############# Inspect the dataset ###############
 head(MyData)
 dim(MyData)
-str(MyData)
+dplyr::glimpse(MyData)    #str(MyData)
 fix(MyData) #you can also do this
 fix(MyMetaData) #fix could be used to see the file in the editor
 
@@ -32,27 +32,30 @@ TempData <- as.data.frame(MyData[-1,],stringsAsFactors = F) #stringsAsFactors = 
 colnames(TempData) <- MyData[1,] # assign column names from original data
 
 ############# Convert from wide to long format  ###############
-require(reshape2) # load the reshape2 package
+#(reshape2) # load the reshape2 package
+#?melt #check out the melt function
+#MyWrangledData <- melt(TempData, id=c("Cultivation", "Block", "Plot", "Quadrat"), variable.name = "Species", value.name = "Count")
 
-?melt #check out the melt function
+require(tidyverse)
 
-MyWrangledData <- melt(TempData, id=c("Cultivation", "Block", "Plot", "Quadrat"), variable.name = "Species", value.name = "Count")
+#as_tibble(MyWrangledData)
+
+MyWrangledData <- TempData %>% pivot_longer(cols = !c("Cultivation", "Block", "Plot", "Quadrat"),names_to = "Species", values_to = "Count") 
+#cols provide the col that you want to transform into one col
+#names_to give the col the name
+#value.name "gives the name of the value"
+
+MyWrangledData <- as.data.frame(MyWrangledData, stringsAsFactors = F)
 
 MyWrangledData[, "Cultivation"] <- as.factor(MyWrangledData[, "Cultivation"])
 MyWrangledData[, "Block"] <- as.factor(MyWrangledData[, "Block"])
 MyWrangledData[, "Plot"] <- as.factor(MyWrangledData[, "Plot"])
-MyWrangledData[, "Quadrat"] <- as.factor(MyWrangledData[, "Quadrat"]) #as.factor could be useful for further analysis
+MyWrangledData[, "Quadrat"] <- as.factor(MyWrangledData[, "Quadrat"])
+MyWrangledData[, "Species"] <- as.factor(MyWrangledData[, "Species"])#as.factor could be useful for further analysis
 MyWrangledData[, "Count"] <- as.integer(MyWrangledData[, "Count"]) 
 
-str(MyWrangledData)
+dplyr::glimpse(MyWrangledData)  
 head(MyWrangledData)
 dim(MyWrangledData)
 
 
-require(tidyverse)
-tidyverse_packages(include_self = TRUE) 
-
-tibble::as_tibble(MyWrangledData) 
-dplyr::glimpse(MyWrangledData) #like str(), but nicer!
-
-dplyr::filter(MyWrangledData, Count>100) #like subset(), but nicer!

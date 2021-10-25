@@ -3,9 +3,11 @@
 #For this, you need to calculate the correlation between n-1 pairs of years, where n is the total number of years.
 #initialize a new matrix
 
-load("../data/KeyWestAnnualMeanTemperature.Rdata")
+load("../data/KeyWestAnnualMeanTemperature.RData")
 
 reformat_matrix <- function(row = 99, col = 4) {
+  # reformating the matrix
+  
   N <- matrix(NA, row, col)
   for (i in 1:(length(ats$Year)-1)){
     #print (i)
@@ -17,24 +19,31 @@ reformat_matrix <- function(row = 99, col = 4) {
   return(N)
 }
 
-mysample <- function(df,n){
-  pop_sample <-df[sample(nrow(df),n),]
-  return(cor(pop_sample[,3],pop_sample[,4]))
+#you need to permute the original one
+mysample <- function(df){
+  #permuting the data
+  
+  pop_sample <-cbind(df[,3],df[sample(nrow(df),nrow(df)),4])
+  return(cor(pop_sample[,1],pop_sample[,2]))
 }
 
-calculate_p_value <- function(resultset){
-  fraction <- length(resultset[resultset > cor(N[,3],N[,4])])/length(resultset)
+calculate_p_value <- function(resultset,N){
+  #cal the pvalue
+  
+  fraction <- length(resultset[abs(resultset) > abs(cor(N[,3],N[,4]))])/length(resultset)
   return(fraction)
 }
 
-main_function <- function(n,num){ # n is the size of the random sample, num is the repeat times
+main_function <- function(num){ 
+  # num is the repeat times
+  
   N <- reformat_matrix() #initialize a matrix
-  result <- sapply(1:num, function(i) mysample(N, n))
-  score_result <- calculate_p_value(result)
+  result <- sapply(1:num, function(i) mysample(N))
+  score_result <- calculate_p_value(result,N)
   return(score_result)
 }
 
-main_function(66,10000)
+main_function(10000)
 
 
             
