@@ -1,5 +1,11 @@
+# Language: R
+# Script: SQLinR.R
+# Des: r for database
+# Usage: Rscript SQLinR.R
+# Date: Oct, 2021
+
 #install the sqlite package
-install.packages('sqldf')
+#install.packages('sqldf')
 
 # To load the packages
 library(sqldf)
@@ -59,5 +65,3 @@ Resource <- read.csv("../Data/Resource.csv")  # Read csv files into R
 # the three data frames are removed from R’s environment.
  dbDisconnect(db)            # Close connection
  rm(list = c("Resource"))   # Remove data frames
-
-

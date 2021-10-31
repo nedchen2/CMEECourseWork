@@ -1,4 +1,8 @@
-#So writing a for loop that resizes a vector repeatedly makes R re-allocate memory repeatedly, which makes it slow. 
+# Language: R
+# Script: preallocate.R
+# Des: So writing a for loop that resizes a vector repeatedly makes R re-allocate memory repeatedly, which makes it slow. 
+# Usage: Rscript preallocate.R
+# Date: Oct, 2021
 
 #for loop
 NoPreallocFun <- function(x){
@@ -23,4 +27,3 @@ PreallocFun <- function(x){
 }
 
 system.time(PreallocFun(10))
-

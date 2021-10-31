@@ -1,3 +1,9 @@
+# Language: R
+# Script: sample.R
+# Des: illusstrate the use of sample and lapply
+# Usage: Rscript sample.R
+# Date: Oct, 2021
+
 ######### Functions ##########
 
 ## A function to take a sample of size n from a population "popn" and return its mean
@@ -47,6 +53,7 @@ sapply_sample <- function(popn, n, num){
     return(result5)
 }
 
+set.seed(12345) # To get the same result every time, let’s set seed
 popn <- rnorm(1000) # Generate the population
 hist(popn)
 

@@ -1,3 +1,11 @@
+# Language: R
+# Script: control_flow.R
+# Des: Illustrate R control flow tools including (if , for , while)
+# Usage: Rscript control_flow.R
+# Date: Oct, 2021
+
+# Please indent your code for readability
+
 # if statements
 a <- TRUE
 if (a == TRUE){
@@ -13,6 +21,7 @@ if (z <= 0.5) {
     }
 
 #for loops
+# 1:10 = seq(1,10,1)) or seq(10)
 for (i in 1:10){
     j <- i * i
     print(paste(i, " squared is", j ))
@@ -26,6 +35,7 @@ for(species in c('Heliodoxa rubinoides',
 }
 
 # for loops for v1
+# for loop can iterate in different iterable object ( same as python)
 v1 <- c("a","bc","def")
 for (i in v1){
     print(i)
@@ -35,5 +45,5 @@ for (i in v1){
 i <- 0
 while (i < 10){
     i <- i+1
-    print(i^2)
+    print(i^2)  #i sqaure
 }

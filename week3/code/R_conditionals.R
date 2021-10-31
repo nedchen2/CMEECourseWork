@@ -1,3 +1,9 @@
+# Language: R
+# Script: R_conditionals.R
+# Des: Illustrate R functions with conditionals
+# Usage: Rscript R_conditionals.R
+# Date: Oct, 2021
+
 # Checks if an integer is even
 is.even <- function(n = 2){
   if (n %% 2 == 0)

@@ -1,3 +1,10 @@
+# Language: R
+# Script: browse.R
+# Des: R debugging with browser
+# Usage: Rscript browse.R
+# Date: Oct, 2021
+
+
 Exponential <- function(N0 = 1, r = 1, generations = 10){
   # Runs a simulation of exponential growth
   # Returns a vector of length generations
@@ -13,3 +20,5 @@ Exponential <- function(N0 = 1, r = 1, generations = 10){
 }
 
 plot(Exponential(), type="l", main="Exponential growth")
+
+#We will not cover advanced debugging here as we did in Python Chapter I, but look up traceback() (to find where the errors(s) are when a program crashes), and debug() (to debug a whole function).

@@ -1,3 +1,9 @@
+# Language: R
+# Script: DataWrangTidy.R
+# Des: Wrangling the Pound Hill Dataset by tidyverse
+# Usage: Rscript DataWrang.R
+# Date: Oct, 2021
+
 ################################################################
 ################## Wrangling the Pound Hill Dataset ############
 ################################################################
@@ -14,8 +20,8 @@ MyMetaData <- read.csv("../data/PoundHillMetaData.csv", header = TRUE, sep = ";"
 head(MyData)
 dim(MyData)
 dplyr::glimpse(MyData)    #str(MyData)
-fix(MyData) #you can also do this
-fix(MyMetaData) #fix could be used to see the file in the editor
+#fix(MyData) #you can also do this
+#fix(MyMetaData) #fix could be used to see the file in the editor
 
 ############# Transpose ###############
 # To get those species into columns and treatments into rows 
@@ -54,8 +60,10 @@ MyWrangledData[, "Quadrat"] <- as.factor(MyWrangledData[, "Quadrat"])
 MyWrangledData[, "Species"] <- as.factor(MyWrangledData[, "Species"])#as.factor could be useful for further analysis
 MyWrangledData[, "Count"] <- as.integer(MyWrangledData[, "Count"]) 
 
+tibble::as_tibble(MyWrangledData)
 dplyr::glimpse(MyWrangledData)  
 head(MyWrangledData)
 dim(MyWrangledData)
 
-
+dplyr::filter(MyWrangledData, Count>100) #like subset(), but nicer!
+dplyr::slice(MyWrangledData, 10:15) # Look at an arbitrary set of data rows

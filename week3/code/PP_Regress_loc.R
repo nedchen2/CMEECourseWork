@@ -1,0 +1,50 @@
+# Language: R
+# Script: PP_Dists.R
+# Des: Subgroup linear regression
+# Usage: Rscript PP_Dists.R
+# Date: Oct, 2021
+# Output: PP_Regress_Results.csv and PP_Regress_Results.pdf
+
+MyDF <- read.csv("../data/EcolArchives-E089-51-D1.csv")
+#dim(MyDF) #check the size of the data frame you loaded
+#str(MyDF)
+require(tidyverse)
+
+#Use dplyr #temp1
+#temp2
+#temp3
+# DO a self created function to format the output of summary()
+lmSum = function(df){
+  my_lm <- summary(lm(Predator.mass ~ Prey.mass, data = df))
+  
+  #when looping, deal with the error
+  safefstat <- possibly(function(.x) my_lm$fstatistic[[.x]], otherwise = NA_real_)
+  safepValue <- possibly(function(.x) my_lm$coefficients[,4][[.x]] , otherwise = NA_real_)
+  safecoeff <- possibly(function(.x) my_lm$coefficients[[.x]] , otherwise = NA_real_)
+  
+  mychoicelist <-list(
+      R_sqaure = my_lm$r.squared,
+   Intercept= sapply(1,safecoeff),
+    Slope = sapply(2,safecoeff),
+     pValue = sapply(2,safepValue),
+  F_statistics_value = sapply(1,safefstat)
+  )
+  return(mychoicelist)
+}
+
+#Use dplyr to do looping
+meaninful_df <- MyDF %>%
+  group_by(Type.of.feeding.interaction,Predator.lifestage,Location) %>%
+  nest() %>% mutate(R_sqaured = sapply(data, function(df) lmSum(df)[[1]])) %>% #do() can also be used here
+         mutate(Intercept = sapply(data, function(df) lmSum(df)[[2]])) %>%
+  mutate( Slope = sapply(data, function(df) lmSum(df)[[3]])) %>%
+  mutate( pValue = sapply(data, function(df) lmSum(df)[[4]])) %>%
+  mutate( F_statistics_value = lapply(data, function(df) lmSum(df)[[5]])) %>% select(-data) %>% as_tibble()
+
+#something not good when using lapply, ddply may be better
+str(meaninful_df)
+
+#flaten the output meaninful_df
+resultdf <- apply(meaninful_df,2,as.character)
+
+write.csv(resultdf, file = "../results/PP_Regress_loc.csv", row.names = FALSE)

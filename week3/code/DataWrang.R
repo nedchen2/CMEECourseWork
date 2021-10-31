@@ -1,3 +1,9 @@
+# Language: R
+# Script: DataWrang.R
+# Des: Wrangling the Pound Hill Dataset
+# Usage: Rscript DataWrang.R
+# Date: Oct, 2021
+
 ################################################################
 ################## Wrangling the Pound Hill Dataset ############
 ################################################################

@@ -1,3 +1,9 @@
+# Language: R
+# Script: Vectorize1.R
+# Des: Illustrate R Vectorization 1
+# Usage: Rscript Vectorize1.R
+# Date: Oct, 2021
+
 M <- matrix(runif(1000000),1000,1000)
 
 SumAllElements <- function(M){
