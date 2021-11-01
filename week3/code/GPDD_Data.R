@@ -1,6 +1,6 @@
 # Language: R
 # Script: GPDD_Data.R (self-sufficient)
-# Des: Map initial
+# Des: visualize a map and a data including the distribution of several animals  
 # Usage: Rscript GPDD_Data.R
 # Date: Oct, 2021
 

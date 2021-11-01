@@ -42,7 +42,6 @@ calculate_p_value <- function(resultset,N){
 
 main_function <- function(num){ 
   # num is the repeat times
-  
   N <- reformat_matrix() #initialize a matrix
   result <- sapply(1:num, function(i) mysample(N))
   score_result <- calculate_p_value(result,N)

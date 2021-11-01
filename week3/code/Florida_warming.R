@@ -1,7 +1,7 @@
 # Language: R
-# Script: Florida.R
+# Script: Florida_warming.R
 # Des: Is Florida getting warmer? 
-# Usage: Rscript Florida.R
+# Usage: Rscript Florida_warming.R
 # Date: Oct, 2021
 # Input: ../data/KeyWestAnnualMeanTemperature.RData
 # Output: the density plot of coeff distribution

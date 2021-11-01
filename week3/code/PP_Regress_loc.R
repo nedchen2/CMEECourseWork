@@ -1,9 +1,9 @@
 # Language: R
-# Script: PP_Dists.R
-# Des: Subgroup linear regression
-# Usage: Rscript PP_Dists.R
+# Script: PP_Regress_loc.R
+# Des: Subgroup linear regression of three different group
+# Usage: Rscript PP_Regree_loc.R
 # Date: Oct, 2021
-# Output: PP_Regress_Results.csv and PP_Regress_Results.pdf
+# Output: PP_Regress_Results_loc.csv 
 
 MyDF <- read.csv("../data/EcolArchives-E089-51-D1.csv")
 #dim(MyDF) #check the size of the data frame you loaded
@@ -16,7 +16,6 @@ require(tidyverse)
 # DO a self created function to format the output of summary()
 lmSum = function(df){
   my_lm <- summary(lm(Predator.mass ~ Prey.mass, data = df))
-  
   #when looping, deal with the error
   safefstat <- possibly(function(.x) my_lm$fstatistic[[.x]], otherwise = NA_real_)
   safepValue <- possibly(function(.x) my_lm$coefficients[,4][[.x]] , otherwise = NA_real_)

@@ -1,7 +1,7 @@
 # Language: R
-# Script: PP_Dists.R
+# Script: PP_Regress.R
 # Des: Subgroup linear regression
-# Usage: Rscript PP_Dists.R
+# Usage: Rscript PP_Regress.R
 # Date: Oct, 2021
 # Output: PP_Regress_Results.csv and PP_Regress_Results.pdf
 

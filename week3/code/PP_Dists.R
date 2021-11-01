@@ -1,200 +1,66 @@
 # Language: R
 # Script: PP_Dists.R
-# Des: Run script
+# Des: Body mass distribution subplots by feeding interaction type
 # Usage: Rscript PP_Dists.R
 # Date: Oct, 2021
 
 rm(list = ls())
 
-data = read.csv("../data/EcolArchives-E089-51-D1.csv")
+MyDF <- read.csv("../data/EcolArchives-E089-51-D1.csv")
 
-log_predator_mass = log(data$Predator.mass)
-log_prey_mass = log(data$Prey.mass)
-ratio = data$Prey.mass/data$Predator.mass
-log_ratio = log(ratio)
+require(tidyverse)
+#The data shoule be converted into log or to ratio
 
-TempData = data.frame(data$Type.of.feeding.interaction, 
-                      log_predator_mass,
-                      log_prey_mass,
-                      log_ratio)
+TempData <- MyDF %>% select(Type.of.feeding.interaction,Predator.mass,Prey.mass) %>% 
+  mutate(Log.predator_mass = as.numeric(log(Predator.mass)),
+         Log.prey_mass = as.numeric(log(Prey.mass)),
+         Log.MassRatio = as.numeric(log(Prey.mass/Predator.mass)))
 
+#str(TempData)
 
-library(ggplot2)
+#require 3 subplots 
+
+#def the plot function
+#hist function can only accept the numeric type
+#can use [[1]] to convert the list to numeric
+myplotfunction <- function(interaction_type, featurename){
+    subdf <- subset(TempData,Type.of.feeding.interaction == interaction_type,select = featurename)[[1]]
+    newname <- strsplit("Log.predator_mass",split = ".",fixed=T)[[1]][2]
+    hist(subdf,
+    xlab = paste0("log10(",newname,"(g))"),
+    ylab = "Count",
+    main = interaction_type)
+}
 
 #Plots of Predator
 pdf("../results/Pred_Subplots.pdf")
-attach(mtcars)
-opar = par(no.readonly = T)
 par(mfcol=c(2,3))
-par(mfg=c(1,1))
-hist(subset(TempData,
-            TempData$data.Type.of.feeding.interaction == 
-              "insectivorous")$log_predator_mass,
-     xlab = "log10(Predator Mass (g))",
-     ylab = "Count",
-     main = "insectivorous")
-par(mfg = c(1,2))
-hist(subset(TempData,
-            TempData$data.Type.of.feeding.interaction == 
-              "piscivorous")$log_predator_mass,
-     xlab = "log10(Predator Mass (g))",
-     ylab = "Count",
-     main = "piscivorous")
-par(mfg = c(1,3))
-hist(subset(TempData,
-            TempData$data.Type.of.feeding.interaction == 
-              "planktivorous")$log_predator_mass,
-     xlab = "log10(Predator Mass (g))",
-     ylab = "Count",
-     main = "planktivorous")
-par(mfg = c(2,1))
-hist(subset(TempData,
-            TempData$data.Type.of.feeding.interaction == 
-              "predacious")$log_predator_mass,
-     xlab = "log10(Predator Mass (g))",
-     ylab = "Count",
-     main = "predacious")
-par(mfg = c(2,2))
-hist(subset(TempData,
-            TempData$data.Type.of.feeding.interaction == 
-              "predacious/piscivorous")$log_predator_mass,
-     xlab = "log10(Predator Mass (g))",
-     ylab = "Count",
-     main = "predacious/piscivorous")
+sapply(unique(MyDF$Type.of.feeding.interaction),function(i) myplotfunction(i,"Log.predator_mass"))
 dev.off()
-
 #Plots of Prey
 pdf("../results/Prey_Subplots.pdf")
-attach(mtcars)
 par(mfcol=c(2,3))
-par(mfg=c(1,1))
-hist(subset(TempData,
-            TempData$data.Type.of.feeding.interaction == 
-              "insectivorous")$log_prey_mass,
-     xlab = "log10(Prey Mass (g))",
-     ylab = "Count",
-     main = "insectivorous")
-par(mfg = c(1,2))
-hist(subset(TempData,
-            TempData$data.Type.of.feeding.interaction == 
-              "piscivorous")$log_prey_mass,
-     xlab = "log10(Prey Mass (g))",
-     ylab = "Count",
-     main = "piscivorous")
-par(mfg = c(1,3))
-hist(subset(TempData,
-            TempData$data.Type.of.feeding.interaction == 
-              "planktivorous")$log_prey_mass,
-     xlab = "log10(Prey Mass (g))",
-     ylab = "Count",
-     main = "planktivorous")
-par(mfg = c(2,1))
-hist(subset(TempData,
-            TempData$data.Type.of.feeding.interaction == 
-              "predacious")$log_prey_mass,
-     xlab = "log10(Prey Mass (g))",
-     ylab = "Count",
-     main = "predacious")
-par(mfg = c(2,2))
-hist(subset(TempData,
-            TempData$data.Type.of.feeding.interaction == 
-              "predacious/piscivorous")$log_prey_mass,
-     xlab = "log10(Prey Mass (g))",
-     ylab = "Count",
-     main = "predacious/piscivorous")
+sapply(unique(MyDF$Type.of.feeding.interaction),function(i) myplotfunction(i,"Log.prey_mass"))
 dev.off()
-
 #Plots of Ratio
 pdf("../results/SizeRatio_Subplots.pdf")
-attach(mtcars)
 par(mfcol=c(2,3))
-par(mfg=c(1,1))
-hist(subset(TempData,
-            TempData$data.Type.of.feeding.interaction == 
-              "insectivorous")$log_ratio,
-     xlab = "log10(Prey/Predator)",
-     ylab = "Count",
-     main = "insectivorous")
-par(mfg = c(1,2))
-hist(subset(TempData,
-            TempData$data.Type.of.feeding.interaction == 
-              "piscivorous")$log_ratio,
-     xlab = "log10(Prey/Predator)",
-     ylab = "Count",
-     main = "piscivorous")
-par(mfg = c(1,3))
-hist(subset(TempData,
-            TempData$data.Type.of.feeding.interaction == 
-              "planktivorous")$log_ratio,
-     xlab = "log10(Prey/Predator)",
-     ylab = "Count",
-     main = "planktivorous")
-par(mfg = c(2,1))
-hist(subset(TempData,
-            TempData$data.Type.of.feeding.interaction == 
-              "predacious")$log_ratio,
-     xlab = "log10(Prey/Predator)",
-     ylab = "Count",
-     main = "predacious")
-par(mfg = c(2,2))
-hist(subset(TempData,
-            TempData$data.Type.of.feeding.interaction == 
-              "predacious/piscivorous")$log_ratio,
-     xlab = "log10(Prey/Predator)",
-     ylab = "Count",
-     main = "predacious/piscivorous")
+sapply(unique(MyDF$Type.of.feeding.interaction),function(i) myplotfunction(i,"Log.MassRatio"))
 dev.off()
 
-#Calculate means and variances
-ty = names(table(TempData$data.Type.of.feeding.interaction))
-insec = subset(TempData,
-               TempData$data.Type.of.feeding.interaction == 
-                 "insectivorous")
-pisci = subset(TempData,
-               TempData$data.Type.of.feeding.interaction == 
-                 "piscivorous")
-plank = subset(TempData,
-               TempData$data.Type.of.feeding.interaction == 
-                 "planktivorous")
-pred = subset(TempData,
-              TempData$data.Type.of.feeding.interaction == 
-                "predacious")
-prepis = subset(TempData,
-                TempData$data.Type.of.feeding.interaction == 
-                  "predacious/piscivorous")
-log_Prey_means = c(mean(insec$log_prey_mass),
-                   mean(pisci$log_prey_mass),
-                   mean(plank$log_prey_mass),
-                   mean(pred$log_prey_mass),
-                   mean(prepis$log_prey_mass))
-log_Prey_medians = c(median(insec$log_prey_mass),
-                     median(pisci$log_prey_mass),
-                     median(plank$log_prey_mass),
-                     median(pred$log_prey_mass),
-                     median(prepis$log_prey_mass))
-log_Predator_means = c(mean(insec$log_predator_mass),
-                       mean(pisci$log_predator_mass),
-                       mean(plank$log_predator_mass),
-                       mean(pred$log_predator_mass),
-                       mean(prepis$log_predator_mass))
-log_Predator_medians = c(median(insec$log_predator_mass),
-                         median(pisci$log_predator_mass),
-                         median(plank$log_predator_mass),
-                         median(pred$log_predator_mass),
-                         median(prepis$log_predator_mass))
-log_ratio_means = c(mean(insec$log_ratio),
-                    mean(pisci$log_ratio),
-                    mean(plank$log_ratio),
-                    mean(pred$log_ratio),
-                    mean(prepis$log_ratio))
-log_ratio_medians = c(median(insec$log_ratio),
-                      median(pisci$log_ratio),
-                      median(plank$log_ratio),
-                      median(pred$log_ratio),
-                      median(prepis$log_ratio))
+#Calculate means and median
+#method1 use tapply
+#tapply(TempData$Log.predator_mass,TempData$Type.of.feeding.interaction, mean)
 
-re = data.frame(type = ty,log_Prey_means, log_Prey_medians,
-                log_Predator_means, log_Predator_medians,
-                log_ratio_means,log_ratio_medians)
+#method2
+#use dplyr
+resultdf <- TempData %>% group_by(Type.of.feeding.interaction) %>% summarise("Mean.Log.predator_mass" = mean(Log.predator_mass),
+                                                                 "Median.Log.predator_mass" = median(Log.predator_mass),
+                                                                 "Mean.Log.prey_mass" = mean(Log.prey_mass),
+                                                                 "Median.Log.prey_mass" = median(Log.prey_mass),
+                                                                 "Mean.Log.MassRatio" = mean(Log.MassRatio),
+                                                                 "Median.Log.MassRatio" = median(Log.MassRatio),
+                                                                 )
+ 
 
-write.csv(re, "../results/PP_Results.csv", row.names = F)
+write.csv(resultdf, "../results/PP_Results.csv", row.names = F)
