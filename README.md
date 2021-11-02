@@ -12,6 +12,7 @@
   - [**Link to Subdirectory**](#link-to-subdirectory)
     - [**WEEK1**](#week1)
     - [**WEEK2**](#week2)
+    - [**WEEK3**](#week3)
   - [**Author and Contact**](#author-and-contact)
 
 ## **Brief Description**
@@ -55,6 +56,10 @@ git clone https://github.com/nedchen2/CMEECourseWork.git
 ### **WEEK2**
 
 <https://github.com/nedchen2/CMEECourseWork/tree/master/week2>
+
+### **WEEK3**
+
+<https://github.com/nedchen2/CMEECourseWork/tree/master/week3>
 
 ## **Author and Contact**
 Congjia Chen

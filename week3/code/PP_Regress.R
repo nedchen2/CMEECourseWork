@@ -5,10 +5,11 @@
 # Date: Oct, 2021
 # Output: PP_Regress_Results.csv and PP_Regress_Results.pdf
 
+require(tidyverse)
+
 MyDF <- read.csv("../data/EcolArchives-E089-51-D1.csv")
 #dim(MyDF) #check the size of the data frame you loaded
 #str(MyDF)
-require(tidyverse)
 
 #Use dplyr #temp1
 #temp2
@@ -51,14 +52,11 @@ write.csv(resultdf, file = "../results/PP_Regress_Results.csv", row.names = FALS
 
 #========================plotting=====================================================
 
-library(ggplot2)
-library(scales)
-
 p = ggplot(MyDF, aes(x = Prey.mass, y = Predator.mass, colour = Predator.lifestage)) +
   geom_point(size = 0.5, shape = 3) + 
   facet_grid(Type.of.feeding.interaction ~ .,) + # split by feed interaction
-  scale_y_continuous(trans = "log10") + 
-  scale_x_continuous(trans = "log10") +
+  scale_y_log10() + 
+  scale_x_log10() +
   stat_smooth(method = lm, fullrange = T, level = 0.95, size = 0.7)+ #Regression 
   xlab("Prey Mass in grams") +
   ylab("Predator Mass in grams") +  

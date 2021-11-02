@@ -4,7 +4,7 @@
 
 - [**CMEECourseWork** - Week3](#cmeecoursework---week3)
   - [Table of Contents](#table-of-contents)
-  - [**Brief Description**-***Week2 review of the CMEECourseWork***](#brief-description-week2-review-of-the-cmeecoursework)
+  - [**Brief Description**-***Week3 review of the CMEECourseWork***](#brief-description-week3-review-of-the-cmeecoursework)
   - [**Languages**](#languages)
   - [**Installation**](#installation)
   - [**Dependencies**](#dependencies)
@@ -13,7 +13,7 @@
     - [**(2) Scripts List**](#2-scripts-list)
   - [**Author and Contact**](#author-and-contact)
 
-## **Brief Description**-***Week2 review of the CMEECourseWork***
+## **Brief Description**-***Week3 review of the CMEECourseWork***
 
 1. Basic R data structure, function , Vectorization and control flow tools.
 2. R debugging
