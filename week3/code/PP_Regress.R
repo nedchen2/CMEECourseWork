@@ -8,12 +8,11 @@
 require(tidyverse)
 
 MyDF <- read.csv("../data/EcolArchives-E089-51-D1.csv")
-#dim(MyDF) #check the size of the data frame you loaded
-#str(MyDF)
 
-#Use dplyr #temp1
-#temp2
-#temp3
+# ============convery mg to g====================
+# MyDF[which(MyDF$Prey.mass.unit == "mg"),"Predator.mass"] = MyDF[which(MyDF$Prey.mass.unit == "mg"),"Predator.mass"] / 1000
+
+#Use dplyr 
 # DO a self created function to format the output of summary()
 lmSum = function(df){
   my_lm <- summary(lm(Predator.mass ~ Prey.mass, data = df))
