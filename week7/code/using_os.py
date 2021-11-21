@@ -1,4 +1,9 @@
-""" This is blah blah"""
+""" 
+Language:python3
+Author: congjia chen (congjia.chen21@imperial.ac.uk)
+Des: use oa.walk to process the dir and files
+Dep: subprocess
+"""
 
 # Use the subprocess.os module to get a list of files and directories 
 # in your ubuntu home directory 

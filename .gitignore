@@ -4,5 +4,4 @@
 .RData
 .Rhistory
 *_tmp.*
-*.ipynb*
 __pycache__

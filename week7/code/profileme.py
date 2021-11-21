@@ -1,12 +1,14 @@
 """
-In ipython %run -p can be used to profile the speed of script
+Language:python3
+Author: congjia chen (congjia.chen21@imperial.ac.uk)
+Des:In ipython %run -p can be used to profile the speed of script
 """
 
 def my_squares(iters):
     """[test for profiling]
 
     Args:
-        iters ([type]): [the number for iteration]
+        iters ([int]): [the number for iteration]
 
     Returns:
         [list]: [the square results of ranges of iters]
@@ -39,7 +41,7 @@ def run_my_funcs(x,y):
         y ([strings]): [the start of the result string]
 
     Returns:
-        [bolean]: [for the script to end]
+        [boolean]: [for the script to end]
     """    
 
     print(x,y)

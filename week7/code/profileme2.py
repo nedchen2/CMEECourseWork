@@ -21,25 +21,25 @@ Here the results are stored in a file called profires, which can be read using t
 import numpy as np
 
 def my_squares(iters):
-    """[summary]
+    """[test for profiling]
 
     Args:
-        iters ([type]): [description]
+        iters ([int]): [the number for iteration]
 
     Returns:
-        [type]: [description]
+        [list]: [the square results of ranges of iters]
     """    
     out = [i ** 2 for i in range(iters)] #list comprehension much faster
     return out
 
 def my_squares_numpy(iters):
-    """[summary]
+    """[test for profiling]
 
     Args:
-        iters ([type]): [description]
+        iters ([int]): [the number for iteration]
 
     Returns:
-        [type]: [description]
+        [list]: [the square results of ranges of iters]
     """    
 
     out = np.arange(iters)
@@ -47,13 +47,13 @@ def my_squares_numpy(iters):
     return out 
 
 def my_squares_numpy2(iters):
-    """[summary]
+    """[test for profiling]
 
     Args:
-        iters ([type]): [description]
+        iters ([int]): [the number for iteration]
 
     Returns:
-        [type]: [description]
+        [list]: [the square results of ranges of iters]
     """    
     OUT = range(iters)
     out = np.array(OUT)
@@ -61,14 +61,14 @@ def my_squares_numpy2(iters):
     return out 
 
 def my_join(iters, string):
-    """[summary]
+    """[add the string args with number in range(iters)]
 
     Args:
-        iters ([type]): [description]
-        string ([type]): [description]
+        iters ([numbers]): [number for interations]
+        string ([string]): [the start of the result string]
 
     Returns:
-        [type]: [description]
+        [string]: [the string args with number in range(iters)]
     """    
     out = ''
     for i in range(iters):
@@ -76,19 +76,19 @@ def my_join(iters, string):
     return out
 
 def run_my_funcs(x,y):
-    """[summary]
+    """[Main function to run the other two function]
 
     Args:
-        x ([type]): [description]
-        y ([type]): [description]
+        x ([numbers]): [number for interations]
+        y ([strings]): [the start of the result string]
 
     Returns:
-        [type]: [description]
+        [boolean]: [for the script to end]
     """    
     print(x,y)
     my_squares(x)
     my_join(x,y)
-    my_squares_numpy(x)
+    my_squares_numpy(x) #test the use of numpy to profile the script
     my_squares_numpy2(x)
     return 0
 

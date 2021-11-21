@@ -1,10 +1,10 @@
-# **CMEECourseWork** - Week3
+# **CMEECourseWork** - Week7
 
 ## Table of Contents
 
-- [**CMEECourseWork** - Week3](#cmeecoursework---week3)
+- [**CMEECourseWork** - Week7](#cmeecoursework---week7)
   - [Table of Contents](#table-of-contents)
-  - [**Brief Description**-***Week3 review of the CMEECourseWork***](#brief-description-week3-review-of-the-cmeecoursework)
+  - [**Brief Description**-***Week7 review of the CMEECourseWork***](#brief-description-week7-review-of-the-cmeecoursework)
   - [**Languages**](#languages)
   - [**Installation**](#installation)
   - [**Dependencies**](#dependencies)
@@ -13,16 +13,15 @@
     - [**(2) Scripts List**](#2-scripts-list)
   - [**Author and Contact**](#author-and-contact)
 
-## **Brief Description**-***Week3 review of the CMEECourseWork***
+## **Brief Description**-***Week7 review of the CMEECourseWork***
 
-1. Basic R data structure, function , Vectorization and control flow tools.
-2. R debugging
-3. Data wrangling and visualization based on tidyverse (super useful)
-4. These works are based on the Notebook and Data from https://github.com/mhasoba/TheMulQuaBio.git.
+1. Regex,Numerical computing,Build workflows with python
+2. Using Jupyter Notebooks
+3. These works are based on the Notebook and Data from https://github.com/mhasoba/TheMulQuaBio.git.
 
 ## **Languages**
 ```
-R(99%),Latex,python
+python,R
 ```
 ## **Installation**
 ```
@@ -43,27 +42,15 @@ Each week’s directory contain directories called `code`, `data`, `results`, an
 
 ### **(2) Scripts List**
 > 1.Some simple example scripts would not be included here
-> 2.`tidyverse` is extremly useful to do data wrangling and data visualization.Most of the complex wrangling tasks here were done by `tidyverse`.
 
 ```Pratical scripts```
 | Script Name |Description | Arguments |
 | ------ | ------ | ------ |
-| TreeHeight.R |calculates heights of trees given distance of each tree from its base and angle to its top, using  the trigonometric formula | None |
-| Vectorize2.R  | Illustrate R Vectorization 2 | None |
-| Florida_warming.R   | Is Florida getting warmer? (use cor()) | None |
-| DataWrangTidy.R    | Wrangling the Pound Hill Dataset by tidyverse | None |
-| PP_Dists.R    | Body mass distribution subplots by feeding interaction type | None|
-| PP_Regress.R  | Subgroup linear regression: a try on tidyverse| None |
-| GPDD_Data.R   | visualize a map and a data including the distribution of several animals | None |
-
-```Group practices scripts```
-| Script Name |Description | Arguments |
-| ------ | ------ | ------ |
-| get_TreeHeight.R    | Calculate the treeheight according to the degrees and distances by R | 1 -> file with degrees and distances|
-| get_TreeHeight.py  | Calculate the treeheight according to the degrees and distances by python| 1 -> file with degrees and distances|
-| run_get_TreeHeight.sh | run get_TreeHeight.R and get_TreeHeight.py| None |
-| TAutoCorr.R |Autocorrelation to solve "is florida getting warmer"| None |
-| PP_Regress_loc.R | Subgroup linear regression of three different group | None |
+| oaks_debugme.py | debug the searching scripts | None |
+| LV1.py | the use of scipt integration based on LV models | None |
+| timeitme.py |  Profiling the script | None |
+| profileme.py |  Functon for profiling using for loop | None |
+| profileme2.py |  Function for profiling using numpy, list comprehension | None |
 
 ## **Author and Contact**
 

@@ -1,5 +1,3 @@
-import re
-
 """" 
 Playing around with extracting email addresses or their subsets.
 
@@ -19,7 +17,12 @@ ASCII characters:
 
 The domain name is formed by letters, digits,
 hypens and dots.
+
+Language: python3
+Author: congjia chen (congjia.chen21@imperial.ac.uk)
+Dep: re
 """
+import re
 
 valid1 = "niceandsimple@example.com"
 valid2 = "very.common@example.com"
@@ -30,8 +33,8 @@ invalid2 = "Abc.@example.com"
 
 #matching the simplest one:
 emailpattern1 = r'^[a-zA-Z0-9\._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$'
-print re.search(emailpattern1, valid1).group()
+print (re.search(emailpattern1, valid1).group())
 
 #matching a nasty one:
 emailpattern = r'[a-z0-9!#$%&\'*+/=?^_`{|}~-]+(?:\.[a-z0-9!\#$%&\'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?'
-print re.search(emailpattern, validbutterrible).group()
+print (re.search(emailpattern, validbutterrible).group())

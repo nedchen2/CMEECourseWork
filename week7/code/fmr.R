@@ -1,3 +1,10 @@
+#Language: R
+#Author: Congjia chen (congjia.chen21@imperial.ac.uk)
+#Dep: None
+#Des: Rscript for run_fmr_R.py 
+#Date: Nov,2021
+
+
 # Plots log(field metabolic rate) against log(body mass) for the Nagy et al 
 # 1999 dataset to a file fmr.pdf.
 

@@ -1,3 +1,10 @@
+"""
+Language: Python3
+Author: Congjia chen (congjia.chen21@imperial.ac.uk)
+Dep: re
+Date: Nov,2021
+"""
+
 import re
 
 # Read the file (using a different, more python 3 way, just for fun!)

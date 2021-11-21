@@ -1,5 +1,9 @@
+"""
+Language: python3
+Author: congjia chen (congjia.chen21@imperial.ac.uk)
+Dep: sys,numpy,scipy,matplotlib
+"""
 import sys
-import os
 import numpy as np
 import scipy.integrate as integrate
 import matplotlib.pylab as p

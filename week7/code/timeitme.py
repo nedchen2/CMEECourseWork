@@ -1,3 +1,11 @@
+"""
+Language: Python3
+Author: Congjia chen (congjia.chen21@imperial.ac.uk)
+Dep: timeit,profileme,profileme2
+Date: Nov,2021
+Des: Profiling the script
+"""
+
 ##############################################################################
 # loops vs. list comprehensions: which is faster?
 ##############################################################################

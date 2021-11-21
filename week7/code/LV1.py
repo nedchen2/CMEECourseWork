@@ -1,6 +1,8 @@
 """
 Language: Python3
-   Author: Congjia chen (congjia.chen21@imperial.ac.uk)
+Author: Congjia chen (congjia.chen21@imperial.ac.uk)
+Dep: numpy,scipy,matplotlib
+Date: Nov,2021
 """
 
 import numpy as np
@@ -8,16 +10,23 @@ import scipy.integrate as integrate
 import matplotlib.pylab as p
 
 def dCR_dt(pops, t=0):
-    """
-    Cauculate dR/dt and dC/dt, where t is time, 
-       R and C :densities of resource and consumer. 
-    """
-    R = pops[0]
-    C = pops[1]
-    dRdt = r * R - a * R * C 
-    dCdt = -z * C + e * a * R * C
+   """
+   [Function of population integration]
+
+   Args:
+       pops ([array]): [initial population aray]
+       t (int, optional): [time]. Defaults to 0.
+
+   Returns:
+       [np.array]: [array of population]
+   """  
+
+   R = pops[0]
+   C = pops[1]
+   dRdt = r * R - a * R * C 
+   dCdt = -z * C + e * a * R * C
     
-    return np.array([dRdt, dCdt])
+   return np.array([dRdt, dCdt])
 
 # assign some parameter values
 r = 1.
@@ -52,8 +61,8 @@ p.legend(loc='best')
 p.xlabel('Time')
 p.ylabel('Population density')
 p.title('Consumer-Resource population dynamics')
-#p.show()# To display the figure
-f1.savefig('../results/LV_model.pdf') #Save figure
+#p.show()# Show the pic
+f1.savefig('../results/LV_model.pdf') #save 
 
 f2 = p.figure()
 p.plot(pops[:,0], pops[:,1], "r-")
