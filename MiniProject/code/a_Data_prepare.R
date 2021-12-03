@@ -49,9 +49,9 @@ Data_final[Data_final["PopBio"] <= 0,"PopBio"] = 0.0000000000000000001
 Data_final["LogPopBio"] = log(Data_final["PopBio"])
 
 #change the time which belows the zero to 0
-#print (length(Data_final[Data_final["Time"] <= 0,"ID"]))
-#print ("Time can not be negative, therefore, they will be replaced by 0")
-#Data_final[Data_final["Time"] <= 0, "Time"] = 0
+print (length(Data_final[Data_final["Time"] <= 0,"ID"]))
+print ("Time can not be negative, therefore, they will be replaced by 0")
+Data_final[Data_final["Time"] <= 0, "Time"] = 0
 #output the Data_final_with_log to csv file
 
 write.csv(Data_final,"../results/Csvafterpreprocessing2.csv",row.names = F)
