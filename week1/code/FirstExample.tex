@@ -1,20 +1,45 @@
-\documentclass[12pt]{article}
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{setspace}
+\usepackage[colorlinks]{hyperref}
+\usepackage{lineno}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{subfigure}
+\usepackage[justification=centering]{caption}
+\usepackage{amsmath}
 
-\title{A Simple Document}
+\title{Comparisons of Models Applied in Microbial Population Growth}
 
-\author{Your Name}
+\author{Congjia.chen Congjia.Chen21@imperial.ac.uk}
 
-\date{}
+\date{Dec,2021}
+
+\footnotetext[1]{Word Count: 2597}
+\footnotetext[2]{CMEECoursework,Department of Life Sciences, Imperial College of Science, Technology and Medicine}
 
 \begin{document}
   \maketitle
   
   \begin{abstract}
-    This paper analyzes a seminal equation in population biology.
+    Microbial growths is highly correlated with human society. Therefore, having knowledge of the microbial growth is essential so that human can anticipate or control their growth under particular conditions. Mathematical models have been proved to be functional in microbial growth anticipation. However, lack of empirical model comparison with universal data will lead some bias to the model selection. In this report, based on the model fitting and model selection on 285 empirical data sets,  non-linear model performs better than linear model.Among the non-linear model, logistic model is sufficient for simple growth situation,while Gompertz and Baranyi can handle more complicated situation like lag phase. However, all of the non-linear models such as logistic model and Baranyi model have the defect that they can not be applied to fit the death phase properly. Segmented model and external factors calibration might be a potential strategy to optimize the result.
   \end{abstract}
   
   \section{Introduction}
-    Blah Blah
+  Microbial growths is highly correlated with human society, for example, the yeast growing in wort to make beer, the pathogenic bacteria to make human sick and the microbe which leads to food spoilage. Therefore, having knowledge of the microbial growth is essential so that human can anticipate or control their growth under particular conditions\cite{shoemaker_microbial_2021}. In contrast to multi-cellular organisms, microbial growth is measured by population growth, either by counting the number of cells or by increasing the overall mass. However, current methods of population measurement are relatively complicated\cite{egli_microbial_2015}.
+   
+  In a closed system, the growth curve of the microbial population can be divided into four phases: (1) Lag Phase, (2) Log(exponential) phase, (3)Stationary phase, (4) Death phase\cite{peleg_microbial_2011}. In particular, after adapting the new environment to the lag phase, the microbial population increases exponentially while its abundance is low and resources are not limited. This growth slows down and ends up when resources become scarce.
+ 
+  Figure 1 shows that the application of mathematical model is dramatically increasing on microbial researches.
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{../results/ModelGrowth.pdf}
+    \caption{The searching result from PudMed.gov with key words : Microbial Modeling}
+  \end{figure}
+  There are currently many mathematical models with different benefits and drawbacks to illustrate the population growth curve\cite{baranyi_modeling_1993}. The most widely used mathematical models are the Logistic model\cite{zwietering_modeling_1990},modified Gompertz model\cite{zwietering_modeling_1990} and Baranyi model\cite{baranyi_modeling_1993}. Theoretically, if the per-capita growth rate of a population is held constant (with limitless resource), the microbe will lead to exponential unbound growth. However, it is not biologically realistic. Therefore, one common way to address this deficiency is to use the logistics model. In which,after the exponential growth, the rate will decrease to zero as the population approaches a fixed value, also know as carrying capacity. Although the logistic model is apparently simple and suitable for some situations, it is still not generic enough in capturing other phenomena. Therefore, the modified Gompertz model (Gompertz)\cite{zwietering_modeling_1990} and Baranyi model \cite{baranyi_modeling_1993} which considered the influence of lag phase duration were created. Although some literature had examined the goodness of fit among several models\cite{xiong_comparison_1999,buchanan_when_1997}, most of them focus on the growth curve in one microbial species which might be not generic for other species or under other conditions.
+ 
+  Therefore, Which model's performance is better to describe the general microbial population growth is the main concern of this study. Based on 285 different empirical experiments data collected around the world with different traits like species,growing medium,growing temperature etc., this study focused on fitting and compare 6 different models (including linear models and Non-linear models) to all the lab experiments data. Both Akaike information criterion (AIC)  and Bayesian information criterion (BIC) \cite{kuha_aic_2004} were used as criterion to assess the model fitting and to evaluate the performance of model. However, given that the AIC and BIC performed 98\% similar selection, for the concern of efficiency and universality, AIC will be used as the main criterion in this study. Moreover, Whether the environment (temperature and medium), measurements (Units) will influence the performance of the model will be assessed as an extra support to the model selection strategy.
   
   \section{Materials \& Methods}
   

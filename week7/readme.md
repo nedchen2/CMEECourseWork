@@ -30,9 +30,9 @@ git clone https://github.com/nedchen2/CMEECourseWork.git
 
 ## **Dependencies** 
 
-Most of the scripts in the current repository can be ran in baseR. Some of the scripts needs `tidyverse`,`reshape2` package
+Most of the scripts in the current repository can be ran in python3. Some of the scripts needs `scipy`,`numpy`,`doctest`,`matplotlib`,`sys`,`subprocess` package
 
-Installation: `install.packages("*")`
+Installation: `pip3 install *`
 
 ## **Project structure and Usage**
 
