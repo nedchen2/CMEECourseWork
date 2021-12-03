@@ -51,7 +51,7 @@
     \subsection{Data Set and Preparation}
     \linenumbers
     The data set used in the study is called LogisticGrowthData.csv.The field names are defined in a meta-file called LogisticGrowthMetaData.csv. Both files are accessible in :
-   
+    \newline    
     \href{https://github.com/nedchen2/CMEECourseWork/tree/master/MiniProject/data}{https://github.com/nedchen2/CMEECourseWork/tree/master/MiniProject/data}. 
    
     The two main fields of interest are PopBio (abundance with different units) and Time (Hours). Based on the combination identifier (unique temperature-species-medium-citation combinations), 285 independent empirical experiments were labelled with unique id from 1 to 285. Given the log(exponential) phase during the growth, we did $ln$ transform to the abundance (PopBio) and named the result as LogPopBio. Among the data sets, there were some negative abundance which were replaced with a small number 0.0000000000000000001.  
@@ -211,7 +211,7 @@ The parameters used in non-linear least squares model have biological meanings. 
   Figure 7 shows that logistic models perform well (accounting for over 60\% of best fitted model) for OD595 and DryWeight, while for CFU, Gompertz performs well. 
   
   
-  According to previous work\cite{buckland1997model}, we roughly classify the temperature between 0 - 5 into  "cold lover", the temperature between 5-20 into "middle cold lover", and the temperature between 20-37 into "middle hot lover".
+  According to previous work, we roughly classify the temperature between 0 - 5 into  "cold lover", the temperature between 5-20 into "middle cold lover", and the temperature between 20-37 into "middle hot lover".
   \begin{figure}[H]
         \centering
         \includegraphics[width=\textwidth]{../results/Best_Fitted_and_Temperatures.pdf}
