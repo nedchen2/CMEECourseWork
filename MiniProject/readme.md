@@ -30,9 +30,19 @@ git clone https://github.com/nedchen2/CMEECourseWork.git
 
 ## **Dependencies** 
 
-R：`ggthemes`,`tidyverse`,`ggpubr`
-Python ： `subprocess`
-LaTex
+R：
+`ggthemes`:For good-looking of plots
+`tidyverse`:For Data wrangling and visualization
+`ggpubr`:For put several plot together 
+`minpack.lm` : For NLLS model fitting
+Installation: install.packages("*")
+
+Python ： 
+`subprocess`: For work flow control
+
+Latex:
+`graphicx`:For adding the figure
+`lineno`:For adding the line number
 
 ## **Project structure and Usage**
 
@@ -54,13 +64,14 @@ Each week’s directory contain directories called `code`, `data`, `results`, an
 
 | Script Name |Description | Arguments |
 | ------ | ------ | ------ |
-|a_Data_prepare.R   |Preprocess the data|NONE |
-|b_model_name.R  |Modeling| None |
-|c0_best_linear_model.R  | Output the plot and table |1 <- CRITERIA (aic,bic,R2) | 
-|c1_LS_NLLS_model.R  |Output the plot and table for nonlinear model |1 <- CRITERIA (aic,bic,AIC_C) | 
-|d0_stat_of_best_model.R  |Output the plot and table for report |1 <- CRITERIA (aic,bic,AIC_C) | 
+|a_Data_prepare.R   |Preprocess the data|None |
+|b_`model_name`.R  |Modeling of different models| None |
+|c0_best_linear_model.R  | Output the plot and table |1 <- CRITERIA (AIC,BIC,R2) | 
+|c1_LS_NLLS_model.R  |Output the plot and table for nonlinear model |1 <- CRITERIA (AIC,BIC,AIC_C) | 
+|d0_StatisticsOfbest_model.R  |Output the plot and table for report |None | 
 |run_pipeline.py  |workflow control |work flow control| 
 |Compile_LaTeX.sh |compile latex |1 <- <file .tex> <outputdir>  | 
+|Miniproject.tex | latex file  |None | 
 
 ## **Author and Contact**
 
