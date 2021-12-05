@@ -1,0 +1,1660 @@
+Starting code feedback for Congjia, Week7
+
+Current Points = 100
+
+Note that: 
+(1) Major sections begin with a double "====" line 
+(2) Subsections begin with a single "====" line 
+(3) Code output or text file content are printed within single "*****" lines 
+
+======================================================================
+======================================================================
+Your Git repo size this week is about 5.03 MiB on disk 
+
+PART 1: Checking project workflow...
+
+Found the following directories in parent directory: week1, week2, week7, .git, MiniProject, week3, Feedback
+
+Found the following files in parent directory: .gitignore, README.md
+
+Checking for key files in parent directory...
+
+Found .gitignore in parent directory, great! 
+
+Printing contents of .gitignore:
+
+**********************************************************************
+*~ 
+*.tmp
+!.gitkeep
+.RData
+.Rhistory
+*_tmp.*
+__pycache__
+**********************************************************************
+
+Found README in parent directory, named: README.md
+
+Printing contents of README.md:
+
+**********************************************************************
+# **CMEE Coursework Repository**
+
+## Table of Contents
+
+- [**CMEE Coursework Repository**](#cmee-coursework-repository)
+  - [Table of Contents](#table-of-contents)
+  - [**Brief Description**](#brief-description)
+  - [**Languages**](#languages)
+  - [**Dependencies**](#dependencies)
+  - [**Installation**](#installation)
+  - [**Project structure and Usage**](#project-structure-and-usage)
+  - [**Link to Subdirectory**](#link-to-subdirectory)
+    - [**WEEK1**](#week1)
+    - [**WEEK2**](#week2)
+    - [**WEEK3**](#week3)
+  - [**Author and Contact**](#author-and-contact)
+
+## **Brief Description**
+1. Ideally, a quantitative biologist should be multilingual, knowing:
+
+>A modern, easy-to-write, interpreted (or semi-compiled) language that is “reasonably” fast, like `Python`
+
+>Mathematical/statistical software with programming and graphing capabilities, like `R`
+
+>A compiled (or semi-compiled) ‘procedural’ language, like `C`
+
+2. These works are based on the Notebook and Data from https://github.com/mhasoba/TheMulQuaBio.git.
+
+3. As the course going on, i will add more to the repository
+
+## **Languages**
+```
+Shell,Python,R,C,Latex
+```
+
+## **Dependencies**
+> Please check with the weekly readme file.
+
+## **Installation**
+```
+git clone https://github.com/nedchen2/CMEECourseWork.git
+```
+
+## **Project structure and Usage**
+
+> The Repository would be updated weekly. Please have a look at the subdirectory for more detail.
+
+> Usage: For the CMEECoursework 
+
+## **Link to Subdirectory**
+
+### **WEEK1**
+
+<https://github.com/nedchen2/CMEECourseWork/tree/master/week1>
+
+### **WEEK2**
+
+<https://github.com/nedchen2/CMEECourseWork/tree/master/week2>
+
+### **WEEK3**
+
+<https://github.com/nedchen2/CMEECourseWork/tree/master/week3>
+
+## **Author and Contact**
+Congjia Chen
+
+Congjia.Chen21@imperial.ac.uk
+**********************************************************************
+
+======================================================================
+Looking for the weekly directories...
+
+Found 4 weekly directories: week1, week2, week3, week7
+
+The Week7 directory will be assessed 
+
+======================================================================
+======================================================================
+PART 2: Checking weekly code and workflow...
+
+======================================================================
+Assessing WEEK7...
+
+Found the following directories: code, data, sandbox, results
+
+Found the following files: readme.md
+
+Checking for readme file in weekly directory...
+
+Found README in parent directory, named: readme.md
+
+Printing contents of readme.md:
+
+**********************************************************************
+# **CMEECourseWork** - Week7
+
+## Table of Contents
+
+- [**CMEECourseWork** - Week7](#cmeecoursework---week7)
+  - [Table of Contents](#table-of-contents)
+  - [**Brief Description**-***Week7 review of the CMEECourseWork***](#brief-description-week7-review-of-the-cmeecoursework)
+  - [**Languages**](#languages)
+  - [**Installation**](#installation)
+  - [**Dependencies**](#dependencies)
+  - [**Project structure and Usage**](#project-structure-and-usage)
+    - [**(1) Repo Structure introduction**](#1-repo-structure-introduction)
+    - [**(2) Scripts List**](#2-scripts-list)
+  - [**Author and Contact**](#author-and-contact)
+
+## **Brief Description**-***Week7 review of the CMEECourseWork***
+
+1. Regex,Numerical computing,Build workflows with python
+2. Using Jupyter Notebooks
+3. These works are based on the Notebook and Data from https://github.com/mhasoba/TheMulQuaBio.git.
+
+## **Languages**
+```
+python,R
+```
+## **Installation**
+```
+git clone https://github.com/nedchen2/CMEECourseWork.git
+```
+
+## **Dependencies** 
+
+Most of the scripts in the current repository can be ran in python3. Some of the scripts needs `scipy`,`numpy`,`doctest`,`matplotlib`,`sys`,`subprocess` package
+
+Installation: `pip3 install *`
+
+## **Project structure and Usage**
+
+### **(1) Repo Structure introduction**
+
+Each week’s directory contain directories called `code`, `data`, `results`, and `sandbox` 
+
+### **(2) Scripts List**
+> 1.Some simple example scripts would not be included here
+
+```Pratical scripts```
+| Script Name |Description | Arguments |
+| ------ | ------ | ------ |
+| oaks_debugme.py | debug the searching scripts | None |
+| LV1.py | the use of scipt integration based on LV models | None |
+| timeitme.py |  Profiling the script | None |
+| profileme.py |  Functon for profiling using for loop | None |
+| profileme2.py |  Function for profiling using numpy, list comprehension | None |
+
+## **Author and Contact**
+
+**Congjia Chen**
+
+Congjia.Chen21@imperial.ac.uk
+
+
+**********************************************************************
+
+Results directory is empty - good! 
+
+Found 15 code files: TestR.py, profileme.py, regexs.py, oaks_debugme.py, blackbirds.py, MyFirstJupyterNb.ipynb, profileme2.py, TestR.R, run_fmr_R.py, using_os.py, LV1.py, fmr.R, re4.py, timeitme.py, LV2.py
+
+======================================================================
+Testing script/code files...
+
+======================================================================
+Inspecting script file TestR.py...
+
+File contents are:
+
+**********************************************************************
+"""
+Language: python3
+Author: congjia chen (congjia.chen21@imperial.ac.uk)
+Dep: subprocess
+"""
+
+import subprocess
+subprocess.Popen("Rscript --verbose TestR.R > ../results/TestR.Rout 2> ../results/TestR_errFile.Rout", shell=True).wait()
+#subprocess.Popen("Rscript --verbose NonExistScript.R > ../results/outputFile.Rout 2> ../results/errorFile.Rout", shell=True).wait()
+#--verbose amazing 
+
+**********************************************************************
+
+Testing TestR.py...
+
+TestR.py is a Python script file;
+
+checking for docstrings...
+
+Found no functions, but one docstring for the script, good
+
+Current Points = 100
+
+Output (only first 500 characters): 
+
+
+**********************************************************************
+
+**********************************************************************
+
+Code ran without errors
+
+Time consumed = 0.10652s
+
+======================================================================
+Inspecting script file profileme.py...
+
+File contents are:
+
+**********************************************************************
+"""
+Language:python3
+Author: congjia chen (congjia.chen21@imperial.ac.uk)
+Des:In ipython %run -p can be used to profile the speed of script
+"""
+
+def my_squares(iters):
+    """[test for profiling]
+
+    Args:
+        iters ([int]): [the number for iteration]
+
+    Returns:
+        [list]: [the square results of ranges of iters]
+    """    
+    out = []
+    for i in range(iters):
+        out.append(i ** 2)
+    return out
+
+def my_join(iters, string):
+    """[add the string args with number in range(iters)]
+
+    Args:
+        iters ([numbers]): [number for interations]
+        string ([string]): [the start of the result string]
+
+    Returns:
+        [string]: [the string args with number in range(iters)]
+    """    
+    out = ''
+    for i in range(iters):
+        out += string.join(", ")   #subfunction.join taking a lot of time
+    return out
+
+def run_my_funcs(x,y):
+    """[Main function to run the other two function]
+
+    Args:
+        x ([numbers]): [number for interations]
+        y ([strings]): [the start of the result string]
+
+    Returns:
+        [boolean]: [for the script to end]
+    """    
+
+    print(x,y)
+    my_squares(x)
+    my_join(x,y)
+    return 0
+
+run_my_funcs(10000000,"My string")
+**********************************************************************
+
+Testing profileme.py...
+
+profileme.py is a Python script file;
+
+checking for docstrings...
+
+Found one or more docstrings and functions
+
+Current Points = 100
+
+Output (only first 500 characters): 
+
+
+**********************************************************************
+10000000 My string
+
+**********************************************************************
+
+Code ran without errors
+
+Time consumed = 5.24999s
+
+======================================================================
+Inspecting script file regexs.py...
+
+File contents are:
+
+**********************************************************************
+"""
+Regex Prac
+"""
+
+import re
+
+my_string = "a given string"
+match = re.search(r"\s", my_string) #always have r preceding the regex
+print(match)
+print(match.group())
+
+match = re.search(r'\d', my_string) #find any number 
+print(match)
+
+MyStr = 'an example'
+match = re.search(r'\w*\s', MyStr) #find any character that precede a whitespace
+if match:                      
+    print('found a match:', match.group()) 
+else:
+    print('did not find a match')    
+
+match = re.search(r'2', "it takes 2 to tango")
+print(match.group())
+
+match = re.search(r'\d', "it takes 2 to tango")
+print(match.group())
+
+match = re.search(r'\d.*' , "it takes 2   to tango") #find all the character that behind the number
+print(match.group())
+
+match = re.search(r'\s\w{1,3}\s', 'once upon a time') #start with a space,followed with 1-3 character end with a space 
+print(match.group())
+
+match = re.search(r'\s\w*$', 'once upon a time') #start with a space,followed with 0-inf character, end with no more character
+print(match.group())
+
+print(
+    re.search(r'\w*\s\d.*\d', 'take 2 grams of H2O').group() #random character, space, number, random character,number 
+)
+
+print(re.search(r'^\w*.*\s', 'once upon a time').group())  #random character until the last space
+
+print(re.search(r'^\w*.*?\s', 'once upon a time').group()) #use ? to match only the first pattern (non-greedy) 
+
+print(re.search(r'<.+>', 'This is a <EM>first</EM> test').group()) #print all
+
+print(re.search(r'<.+?>', 'This is a <EM>first</EM> test').group()) #print only the first tag
+
+print(re.search(r'\d*\.?\d*','1432.75+60.22i').group()) #number precede the +
+
+print(re.search(r'[AGTC]+', 'the sequence ATTCGT').group()) #print only the seq
+
+print(re.search(r'\s+[A-Z]\w+\s*\w+', "The bird-shit frog's name is Theloderma asper.").group()) # start with space.Captial letter,random character,space,end with number
+**********************************************************************
+
+Testing regexs.py...
+
+regexs.py is a Python script file;
+
+checking for docstrings...
+
+Found no functions, but one docstring for the script, good
+
+Current Points = 100
+
+Output (only first 500 characters): 
+
+
+**********************************************************************
+<_sre.SRE_Match object; span=(1, 2), match=' '>
+ 
+None
+found a match: an 
+2
+2
+2   to tango
+ a 
+ time
+take 2 grams of H2
+once upon a 
+once 
+<EM>first</EM>
+<EM>
+1432.75
+ATTCGT
+ Theloderma asper
+
+**********************************************************************
+
+Code ran without errors
+
+Time consumed = 0.02549s
+
+======================================================================
+Inspecting script file oaks_debugme.py...
+
+File contents are:
+
+**********************************************************************
+
+"""
+Auther: Congjia Chen (congjia.chen21@imperial.ac.uk)
+Script: oaks_debugme.py
+Des: Only when the first column of the input file strictly equals to "quercus", the rows would be saved into JustOaksData.csv
+Usage: python3 oaks_debugme.py (in terminal)
+Dep: sys,csv,doctest
+Date: Oct, 2021
+Input: "../data/TestOaksData.csv"
+Output: "../data/JustOaksData.csv"
+"""
+
+import csv
+import sys
+import doctest
+#from itertools import islice
+
+#Define function
+def is_an_oak(name):
+    
+    """ 
+    Returns True if name is starts with 'quercus' 
+    
+    >>> is_an_oak("quercus")
+    True
+    
+    >>> is_an_oak("Quercus")
+    True
+
+    >>> is_an_oak("Quer")
+    False
+
+    >>> is_an_oak("Ned")
+    False
+
+    >>> is_an_oak('Fagus sylvatica')
+    False
+    
+    >>> is_an_oak("Quercuss")
+    False
+
+    >>> is_an_oak("Quercussquercus")
+    False
+
+    """
+    return name.lower().startswith('quercus') & name.lower().endswith('quercus') & name.lower().count("quercus") == 1 
+
+
+def main(argv): 
+
+    """
+    
+    the main function to output the oaks to JustOaksData.csv
+    
+    """
+    f = open('../data/TestOaksData.csv','r')
+    g = open('../data/JustOaksData.csv','w')
+    taxa = csv.reader(f)
+    csvwrite = csv.writer(g)
+    oaks = set()
+    #count = 0
+    #method1
+    #for row in islice(taxa,1,None):
+    #    print(row)
+    #    print ("The genus is: ") 
+    #    print(row[0] + '\n')
+        #import ipdb; ipdb.set_trace()
+    #    if is_an_oak(row[0]):
+    #        print('FOUND AN OAK!\n')
+    #        csvwrite.writerow([row[0], row[1]]) 
+    
+    #method2
+    csvwrite.writerow(["Genus", " species"])
+    for i,row in enumerate(taxa):
+        if i > 0:
+            print(row)
+            print ("The genus is: ") 
+            print(row[0] + '\n')
+            if is_an_oak(row[0]):
+                print('FOUND AN OAK!\n')
+                csvwrite.writerow([row[0], row[1]]) 
+
+    return 0
+    
+if (__name__ == "__main__"):
+    status = main(sys.argv)
+
+doctest.testmod()
+**********************************************************************
+
+Testing oaks_debugme.py...
+
+oaks_debugme.py is a Python script file;
+
+checking for docstrings...
+
+Found one or more docstrings and functions
+
+Current Points = 100
+
+Output (only first 500 characters): 
+
+
+**********************************************************************
+['Quercus', ' robur']
+The genus is: 
+Quercus
+
+FOUND AN OAK!
+
+['Fraxinus', ' excelsior']
+The genus is: 
+Fraxinus
+
+['Pinus', ' sylvestris']
+The genus is: 
+Pinus
+
+['Quercus', ' cerris']
+The genus is: 
+Quercus
+
+FOUND AN OAK!
+
+['Quercus', ' petraea']
+The genus is: 
+Quercus
+
+FOUND AN OAK!
+
+
+**********************************************************************
+
+Code ran without errors
+
+Time consumed = 0.05230s
+
+======================================================================
+Inspecting script file blackbirds.py...
+
+File contents are:
+
+**********************************************************************
+"""
+Language: Python3
+Author: Congjia chen (congjia.chen21@imperial.ac.uk)
+Dep: re
+Date: Nov,2021
+"""
+
+import re
+
+# Read the file (using a different, more python 3 way, just for fun!)
+with open('../data/blackbirds.txt', 'r') as f:
+    text = f.read()
+
+# replace \t's and \n's with a spaces:
+text = text.replace('\t', ' ')
+text = text.replace('\n', ' ')
+# You may want to make other changes to the text.
+
+
+
+# In particular, note that there are "strange characters" (these are accents and
+# non-ascii symbols) because we don't care for them, first transform to ASCII:
+
+text = text.encode('ascii', 'ignore')  # first encode into ascii bytes
+text = text.decode('ascii', 'ignore')  # Now decode back to string
+
+# Now extend this script so that it captures the Kingdom, Phylum and Species
+# name for each species and prints it out to screen neatly.
+
+# Hint: you may want to use re.findall(my_reg, text)... Keep in mind that there
+# are multiple ways to skin this cat! Your solution could involve multiple
+# regular expression calls (slightly easier!), or a single one (slightly harder!)
+# Here are some example outputs of possible solutions (These are not the only two ways to do this!):
+#
+# Solution 1:
+#pattern = r'.*Kingdom\s([\w]+)\s+.+Phylum?\s([\w]+)\s.+Species?\s([\w\s]*)\s\('
+#re.findall(pattern, text)
+
+# ['Animalia', 'Chordata ', 'Euphagus carolinus']
+# ['Animalia', 'Chordata ', 'Euphagus cyanocephalus']
+# ['Animalia', 'Chordata ', 'Turdus boulboul']
+# ['Animalia', 'Chordata ', 'Agelaius assimilis']
+#
+# ===============
+#
+# Solution 2:
+#
+#  [('Animalia', 'Chordata', 'Euphagus carolinus'), ('Animalia', 'Chordata', 'Euphagus cyanocephalus'), ('Animalia', 'Chordata', 'Turdus boulboul'), ('Animalia', 'Chordata', 'Agelaius assimilis')]
+Kingdom = re.findall(r'Kingdom\s(.+?)\s', text)
+Phylum = re.findall(r'Phylum\s(.*?)\s', text)
+Species = re.findall(r'Species\s(.*?)\s\(', text)
+
+list = [(Kingdom[i], Phylum[i], Species[i]) for i in range(len(Kingdom))]
+print(list)
+
+
+
+**********************************************************************
+
+Testing blackbirds.py...
+
+blackbirds.py is a Python script file;
+
+checking for docstrings...
+
+Found no functions, but one docstring for the script, good
+
+Current Points = 100
+
+Output (only first 500 characters): 
+
+
+**********************************************************************
+[('Animalia', 'Chordata', 'Euphagus carolinus'), ('Animalia', 'Chordata', 'Euphagus cyanocephalus'), ('Animalia', 'Chordata', 'Turdus boulboul'), ('Animalia', 'Chordata', 'Agelaius assimilis')]
+
+**********************************************************************
+
+Code ran without errors
+
+Time consumed = 0.02662s
+
+======================================================================
+Inspecting script file MyFirstJupyterNb.ipynb...
+
+File contents are:
+
+**********************************************************************
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "id": "b1ecfd0f",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import re"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "id": "f00d1146",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "\"Taxonomic Hierarchy\\n \\t \\t \\t \\n \\tKingdom\\tAnimalia  – Animal, animaux, animals\\t \\n \\t   Phylum\\tChordata  – cordés, cordado, chordates\\t \\n \\t      Subphylum\\tVertebrata  – vertebrado, vertébrés, vertebrates\\t \\n \\t         Class\\tAves  – Birds, oiseaux\\t \\n \\t            Order\\tPasseriformes  – Perching Birds, passereaux\\t \\n \\t               Family\\tIcteridae  – American Blackbirds, Orioles, New World Blackbirds\\t \\n \\t                  Genus\\tEuphagus Cassin, 1867 – American Blackbirds\\t \\n \\t                     Species\\tEuphagus carolinus (Statius Muller, 1776) – Tordo canadiense, Rusty Blackbird, quiscale rouilleux\\t \\n \\t                        Subspecies\\tEuphagus carolinus carolinus (Statius Muller, 1776)\\n \\t                        \\n\\t \\t \\t \\n \\tKingdom\\tAnimalia  – Animal, animaux, animals\\t \\n \\t   Phylum\\tChordata  – cordés, cordado, chordates\\t \\n \\t      Subphylum\\tVertebrata  – vertebrado, vertébrés, vertebrates\\t \\n \\t         Class\\tAves  – Birds, oiseaux\\t \\n \\t            Order\\tPasseriformes  – Perching Birds, passereaux\\t \\n \\t               Family\\tIcteridae  – American Blackbirds, Orioles, New World Blackbirds\\t \\n \\t                  Genus\\tEuphagus Cassin, 1867 – American Blackbirds\\t \\n \\t                     Species\\tEuphagus cyanocephalus (Wagler, 1829) – Brewer's Blackbird, quiscale de Brewer, Tordo ojo amarillo\\t \\n \\t \\t \\t\\n \\t \\t \\t\\n \\t Kingdom\\tAnimalia  – Animal, animaux, animals\\t \\n \\t   Phylum\\tChordata  – cordés, cordado, chordates\\t \\n \\t      Subphylum\\tVertebrata  – vertebrado, vertébrés, vertebrates\\t \\n \\t         Class\\tAves  – Birds, oiseaux\\t \\n \\t            Order\\tPasseriformes  – Perching Birds, passereaux\\t \\n \\t               Family\\tTurdidae \\t \\n \\t                  Genus\\tTurdus Linnaeus, 1758 – Robins\\t \\n \\t                     Species\\tTurdus boulboul (Latham, 1790) – Grey-winged Blackbird\\n \\t                     \\nKingdom\\tAnimalia  – Animal, animaux, animals\\t \\n \\t   Phylum\\tChordata  – cordés, cordado, chordates\\t \\n \\t      Subphylum\\tVertebrata  – vertebrado, vertébrés, vertebrates\\t \\n \\t         Class\\tAves  – Birds, oiseaux\\t \\n \\t            Order\\tPasseriformes  – Perching Birds, passereaux\\t \\n \\t               Family\\tIcteridae  – American Blackbirds, Orioles, New World Blackbirds\\t \\n \\t                  Genus\\tAgelaius Vieillot, 1816 – Red-winged Blackbirds\\t \\n \\t                     Species\\tAgelaius assimilis (Lembeye, 1850) – Red-shouldered Blackbird\\t \\n \\t \\tDirect Children:\\t \\n \\t                        Subspecies\\t Agelaius assimilis assimilis Lembeye, 1850\\t \\n \\t                        Subspecies\\t Agelaius assimilis subniger Bangs, 1913\\n\""
+      ]
+     },
+     "execution_count": 4,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# Read the file (using a different, more python 3 way, just for fun!)\n",
+    "with open('../data/blackbirds.txt', 'r') as f:\n",
+    "    text = f.read()\n",
+    "text"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "id": "a2135152",
+   "metadata": {
+    "lines_to_next_cell": 2
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "\"Taxonomic Hierarchy           Kingdom Animalia  – Animal, animaux, animals        Phylum Chordata  – cordés, cordado, chordates           Subphylum Vertebrata  – vertebrado, vertébrés, vertebrates              Class Aves  – Birds, oiseaux                 Order Passeriformes  – Perching Birds, passereaux                    Family Icteridae  – American Blackbirds, Orioles, New World Blackbirds                       Genus Euphagus Cassin, 1867 – American Blackbirds                          Species Euphagus carolinus (Statius Muller, 1776) – Tordo canadiense, Rusty Blackbird, quiscale rouilleux                             Subspecies Euphagus carolinus carolinus (Statius Muller, 1776)                                     Kingdom Animalia  – Animal, animaux, animals        Phylum Chordata  – cordés, cordado, chordates           Subphylum Vertebrata  – vertebrado, vertébrés, vertebrates              Class Aves  – Birds, oiseaux                 Order Passeriformes  – Perching Birds, passereaux                    Family Icteridae  – American Blackbirds, Orioles, New World Blackbirds                       Genus Euphagus Cassin, 1867 – American Blackbirds                          Species Euphagus cyanocephalus (Wagler, 1829) – Brewer's Blackbird, quiscale de Brewer, Tordo ojo amarillo                    Kingdom Animalia  – Animal, animaux, animals        Phylum Chordata  – cordés, cordado, chordates           Subphylum Vertebrata  – vertebrado, vertébrés, vertebrates              Class Aves  – Birds, oiseaux                 Order Passeriformes  – Perching Birds, passereaux                    Family Turdidae                        Genus Turdus Linnaeus, 1758 – Robins                          Species Turdus boulboul (Latham, 1790) – Grey-winged Blackbird                         Kingdom Animalia  – Animal, animaux, animals        Phylum Chordata  – cordés, cordado, chordates           Subphylum Vertebrata  – vertebrado, vertébrés, vertebrates              Class Aves  – Birds, oiseaux                 Order Passeriformes  – Perching Birds, passereaux                    Family Icteridae  – American Blackbirds, Orioles, New World Blackbirds                       Genus Agelaius Vieillot, 1816 – Red-winged Blackbirds                          Species Agelaius assimilis (Lembeye, 1850) – Red-shouldered Blackbird       Direct Children:                             Subspecies  Agelaius assimilis assimilis Lembeye, 1850                             Subspecies  Agelaius assimilis subniger Bangs, 1913 \""
+      ]
+     },
+     "execution_count": 6,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# replace \\t's and \\n's with a spaces:\n",
+    "text = text.replace('\\t',' ')\n",
+    "text = text.replace('\\n',' ')\n",
+    "# You may want to make other changes to the text. \n",
+    "text"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "5743540e",
+   "metadata": {},
+   "source": [
+    "In particular, note that there are \"strange characters\" (these are accents and\n",
+    "non-ascii symbols) because we don't care for them, first transform to ASCII:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "id": "180f5605",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "\"Taxonomic Hierarchy           Kingdom Animalia   Animal, animaux, animals        Phylum Chordata   cords, cordado, chordates           Subphylum Vertebrata   vertebrado, vertbrs, vertebrates              Class Aves   Birds, oiseaux                 Order Passeriformes   Perching Birds, passereaux                    Family Icteridae   American Blackbirds, Orioles, New World Blackbirds                       Genus Euphagus Cassin, 1867  American Blackbirds                          Species Euphagus carolinus (Statius Muller, 1776)  Tordo canadiense, Rusty Blackbird, quiscale rouilleux                             Subspecies Euphagus carolinus carolinus (Statius Muller, 1776)                                     Kingdom Animalia   Animal, animaux, animals        Phylum Chordata   cords, cordado, chordates           Subphylum Vertebrata   vertebrado, vertbrs, vertebrates              Class Aves   Birds, oiseaux                 Order Passeriformes   Perching Birds, passereaux                    Family Icteridae   American Blackbirds, Orioles, New World Blackbirds                       Genus Euphagus Cassin, 1867  American Blackbirds                          Species Euphagus cyanocephalus (Wagler, 1829)  Brewer's Blackbird, quiscale de Brewer, Tordo ojo amarillo                    Kingdom Animalia   Animal, animaux, animals        Phylum Chordata   cords, cordado, chordates           Subphylum Vertebrata   vertebrado, vertbrs, vertebrates              Class Aves   Birds, oiseaux                 Order Passeriformes   Perching Birds, passereaux                    Family Turdidae                        Genus Turdus Linnaeus, 1758  Robins                          Species Turdus boulboul (Latham, 1790)  Grey-winged Blackbird                         Kingdom Animalia   Animal, animaux, animals        Phylum Chordata   cords, cordado, chordates           Subphylum Vertebrata   vertebrado, vertbrs, vertebrates              Class Aves   Birds, oiseaux                 Order Passeriformes   Perching Birds, passereaux                    Family Icteridae   American Blackbirds, Orioles, New World Blackbirds                       Genus Agelaius Vieillot, 1816  Red-winged Blackbirds                          Species Agelaius assimilis (Lembeye, 1850)  Red-shouldered Blackbird       Direct Children:                             Subspecies  Agelaius assimilis assimilis Lembeye, 1850                             Subspecies  Agelaius assimilis subniger Bangs, 1913 \""
+      ]
+     },
+     "execution_count": 8,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "text = text.encode('ascii', 'ignore') # first encode into ascii bytes\n",
+    "text = text.decode('ascii', 'ignore') # Now decode back to string\n",
+    "text"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "6eac0dbf",
+   "metadata": {},
+   "source": [
+    "Now extend this script so that it captures the Kingdom, Phylum and Species\n",
+    "name for each species and prints it out to screen neatly."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "cf71d4b0",
+   "metadata": {},
+   "source": [
+    "Hint: you may want to use re.findall(my_reg, text)... Keep in mind that there\n",
+    "are multiple ways to skin this cat! Your solution could involve multiple\n",
+    "regular expression calls (slightly easier!), or a single one (slightly harder!)\n",
+    "Here are some example outputs of possible solutions (These are not the only two ways to do this!): \n",
+    "\n",
+    "Solution 1:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 12,
+   "id": "9f2c1c71",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "[(\"Kingdom Animalia   Animal, animaux, animals        Phylum Chordata   cords, cordado, chordates           Subphylum Vertebrata   vertebrado, vertbrs, vertebrates              Class Aves   Birds, oiseaux                 Order Passeriformes   Perching Birds, passereaux                    Family Icteridae   American Blackbirds, Orioles, New World Blackbirds                       Genus Euphagus Cassin, 1867  American Blackbirds                          Species Euphagus carolinus (Statius Muller, 1776)  Tordo canadiense, Rusty Blackbird, quiscale rouilleux                             Subspecies Euphagus carolinus carolinus (Statius Muller, 1776)                                     Kingdom Animalia   Animal, animaux, animals        Phylum Chordata   cords, cordado, chordates           Subphylum Vertebrata   vertebrado, vertbrs, vertebrates              Class Aves   Birds, oiseaux                 Order Passeriformes   Perching Birds, passereaux                    Family Icteridae   American Blackbirds, Orioles, New World Blackbirds                       Genus Euphagus Cassin, 1867  American Blackbirds                          Species Euphagus cyanocephalus (Wagler, 1829)  Brewer's Blackbird, quiscale de Brewer, Tordo ojo amarillo                    Kingdom Animalia   Animal, animaux, animals        Phylum Chordata   cords, cordado, chordates           Subphylum Vertebrata   vertebrado, vertbrs, vertebrates              Class Aves   Birds, oiseaux                 Order Passeriformes   Perching Birds, passereaux                    Family Turdidae                        Genus Turdus Linnaeus, 1758  Robins                          Species Turdus boulboul (Latham, 1790)  Grey-winged Blackbird                         Kingdom Animalia   Animal, animaux, animals        \",\n",
+       "  \"Animalia   Animal, animaux, animals        Phylum Chordata   cords, cordado, chordates           Subphylum Vertebrata   vertebrado, vertbrs, vertebrates              Class Aves   Birds, oiseaux                 Order Passeriformes   Perching Birds, passereaux                    Family Icteridae   American Blackbirds, Orioles, New World Blackbirds                       Genus Euphagus Cassin, 1867  American Blackbirds                          Species Euphagus carolinus (Statius Muller, 1776)  Tordo canadiense, Rusty Blackbird, quiscale rouilleux                             Subspecies Euphagus carolinus carolinus (Statius Muller, 1776)                                     Kingdom Animalia   Animal, animaux, animals        Phylum Chordata   cords, cordado, chordates           Subphylum Vertebrata   vertebrado, vertbrs, vertebrates              Class Aves   Birds, oiseaux                 Order Passeriformes   Perching Birds, passereaux                    Family Icteridae   American Blackbirds, Orioles, New World Blackbirds                       Genus Euphagus Cassin, 1867  American Blackbirds                          Species Euphagus cyanocephalus (Wagler, 1829)  Brewer's Blackbird, quiscale de Brewer, Tordo ojo amarillo                    Kingdom Animalia   Animal, animaux, animals        Phylum Chordata   cords, cordado, chordates           Subphylum Vertebrata   vertebrado, vertbrs, vertebrates              Class Aves   Birds, oiseaux                 Order Passeriformes   Perching Birds, passereaux                    Family Turdidae                        Genus Turdus Linnaeus, 1758  Robins                          Species Turdus boulboul (Latham, 1790)  Grey-winged Blackbird                         Kingdom Animalia   Animal, animaux, animals       \",\n",
+       "  'Phylum Chordata   cords, cordado, chordates           Subphylum Vertebrata   vertebrado, vertbrs, vertebrates              Class Aves   Birds, oiseaux                 Order Passeriformes   Perching Birds, passereaux                    Family Icteridae   American Blackbirds, Orioles, New World Blackbirds                       Genus Agelaius Vieillot, 1816  Red-winged Blackbirds                          ',\n",
+       "  'Chordata   cords, cordado, chordates           Subphylum Vertebrata   vertebrado, vertbrs, vertebrates              Class Aves   Birds, oiseaux                 Order Passeriformes   Perching Birds, passereaux                    Family Icteridae   American Blackbirds, Orioles, New World Blackbirds                       Genus Agelaius Vieillot, 1816  Red-winged Blackbirds                         ',\n",
+       "  'Species Agelaius assimilis (',\n",
+       "  'Agelaius assimilis')]"
+      ]
+     },
+     "execution_count": 12,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "re.findall(r'(Kingdom\\s(.+)\\s).*(Phylum\\s(.*)\\s).*(Species\\s(.*)\\s\\()', text) "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "428cc52c",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "df796a9c",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "markdown",
+   "id": "2a8ca766",
+   "metadata": {},
+   "source": [
+    "## good"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "09ce52e6",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 13,
+   "id": "06b35c32",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "['Euphagus carolinus',\n",
+       " 'Euphagus cyanocephalus',\n",
+       " 'Turdus boulboul',\n",
+       " 'Agelaius assimilis']"
+      ]
+     },
+     "execution_count": 13,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "re.findall(r'Kingdom\\s(.+?)\\s', text) \n",
+    "re.findall(r'Phylum\\s(.*?)\\s', text) \n",
+    "re.findall(r'Species\\s(.*?)\\s\\(', text)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "5b54b1f2",
+   "metadata": {},
+   "source": [
+    "['Animalia', 'Chordata ', 'Euphagus carolinus']\n",
+    "['Animalia', 'Chordata ', 'Euphagus cyanocephalus']\n",
+    "['Animalia', 'Chordata ', 'Turdus boulboul']\n",
+    "['Animalia', 'Chordata ', 'Agelaius assimilis']\n",
+    "\n",
+    "===============\n",
+    "\n",
+    "Solution 2:\n",
+    "\n",
+    " [('Animalia', 'Chordata', 'Euphagus carolinus'), ('Animalia', 'Chordata', 'Euphagus cyanocephalus'), ('Animalia', 'Chordata', 'Turdus boulboul'), ('Animalia', 'Chordata', 'Agelaius assimilis')]\n"
+   ]
+  }
+ ],
+ "metadata": {
+  "jupytext": {
+   "cell_metadata_filter": "-all",
+   "main_language": "python",
+   "notebook_metadata_filter": "-all",
+   "text_representation": {
+    "extension": ".py",
+    "format_name": "light"
+   }
+  },
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.8.10"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
+
+**********************************************************************
+
+Testing MyFirstJupyterNb.ipynb...
+
+======================================================================
+Inspecting script file profileme2.py...
+
+File contents are:
+
+**********************************************************************
+"""
+Description:
+
+# other options for profiling
+
+run -p -s cumtime profileme2.py
+
+-s allows sorting the report by a particular column,
+-l limits the number of lines displayed or filters the results by function name, 
+and -T saves the report in a text file
+
+
+# run profiling outside the ipython with cProfile
+
+`python3 -m cProfile -o profires myscript.py`
+Here the results are stored in a file called profires, which can be read using the pstats module.
+
+# Or USE IDLE to profile
+
+"""
+import numpy as np
+
+def my_squares(iters):
+    """[test for profiling]
+
+    Args:
+        iters ([int]): [the number for iteration]
+
+    Returns:
+        [list]: [the square results of ranges of iters]
+    """    
+    out = [i ** 2 for i in range(iters)] #list comprehension much faster
+    return out
+
+def my_squares_numpy(iters):
+    """[test for profiling]
+
+    Args:
+        iters ([int]): [the number for iteration]
+
+    Returns:
+        [list]: [the square results of ranges of iters]
+    """    
+
+    out = np.arange(iters)
+    out = out ** 2                # much faster with numpy preallocation
+    return out 
+
+def my_squares_numpy2(iters):
+    """[test for profiling]
+
+    Args:
+        iters ([int]): [the number for iteration]
+
+    Returns:
+        [list]: [the square results of ranges of iters]
+    """    
+    OUT = range(iters)
+    out = np.array(OUT)
+    out = out ** 2                #faster than the list comprehension but slower than the np.arange
+    return out 
+
+def my_join(iters, string):
+    """[add the string args with number in range(iters)]
+
+    Args:
+        iters ([numbers]): [number for interations]
+        string ([string]): [the start of the result string]
+
+    Returns:
+        [string]: [the string args with number in range(iters)]
+    """    
+    out = ''
+    for i in range(iters):
+        out += ", " + string    #remove the sub function .join
+    return out
+
+def run_my_funcs(x,y):
+    """[Main function to run the other two function]
+
+    Args:
+        x ([numbers]): [number for interations]
+        y ([strings]): [the start of the result string]
+
+    Returns:
+        [boolean]: [for the script to end]
+    """    
+    print(x,y)
+    my_squares(x)
+    my_join(x,y)
+    my_squares_numpy(x) #test the use of numpy to profile the script
+    my_squares_numpy2(x)
+    return 0
+
+run_my_funcs(10000000,"My string")
+**********************************************************************
+
+Testing profileme2.py...
+
+profileme2.py is a Python script file;
+
+checking for docstrings...
+
+Found one or more docstrings and functions
+
+Current Points = 100
+
+Output (only first 500 characters): 
+
+
+**********************************************************************
+10000000 My string
+
+**********************************************************************
+
+Code ran without errors
+
+Time consumed = 4.55767s
+
+======================================================================
+Inspecting script file TestR.R...
+
+File contents are:
+
+**********************************************************************
+#Author: congjia chen
+#Des:Rscript for TestR.py
+#Language:R
+
+print("Hello, this is R!")
+**********************************************************************
+
+Testing TestR.R...
+
+Output (only first 500 characters): 
+
+
+**********************************************************************
+[1] "Hello, this is R!"
+
+**********************************************************************
+
+Code ran without errors
+
+Time consumed = 0.05406s
+
+======================================================================
+Inspecting script file run_fmr_R.py...
+
+File contents are:
+
+**********************************************************************
+"""
+Language: Python3
+Author: Congjia chen (congjia.chen21@imperial.ac.uk)
+Dep: subprocess
+Date: Nov,2021
+"""
+
+import subprocess
+p = subprocess.Popen("Rscript fmr.R", shell=True).wait()
+
+if p == 0:
+    print ("Congratulation! Succeed!")
+else:
+    print ("Error! Please check the script")
+**********************************************************************
+
+Testing run_fmr_R.py...
+
+run_fmr_R.py is a Python script file;
+
+checking for docstrings...
+
+Found no functions, but one docstring for the script, good
+
+Current Points = 100
+
+Output (only first 500 characters): 
+
+
+**********************************************************************
+Reading CSV
+Creating graph
+null device 
+          1 
+Finished in R!
+Congratulation! Succeed!
+
+**********************************************************************
+
+Code ran without errors
+
+Time consumed = 0.14518s
+
+======================================================================
+Inspecting script file using_os.py...
+
+File contents are:
+
+**********************************************************************
+""" 
+Language:python3
+Author: congjia chen (congjia.chen21@imperial.ac.uk)
+Des: use oa.walk to process the dir and files
+Dep: subprocess
+"""
+
+# Use the subprocess.os module to get a list of files and directories 
+# in your ubuntu home directory 
+
+# Hint: look in subprocess.os and/or subprocess.os.path and/or 
+# subprocess.os.walk for helpful functions
+
+import subprocess
+
+#################################
+#~Get a list of files and 
+#~directories in your home/ that start with an uppercase 'C'
+
+# Type your code here:
+
+# Get the user's home directory.
+home = subprocess.os.path.expanduser("~")
+
+# Create a list to store the results.
+FilesDirsStartingWithC = []
+
+# Use a for loop to walk through the home directory.
+for dir, subdir, files in subprocess.os.walk(home):
+    for f in files:
+        if f.startswith("C"):
+            FilesDirsStartingWithC.append(f)
+    for d in subdir:
+        if d.startswith("C"):
+            FilesDirsStartingWithC.append(d)
+print (FilesDirsStartingWithC)
+
+
+#################################
+# Get files and directories in your home/ that start with either an 
+# upper or lower case 'C'
+
+# Type your code here:
+
+# Create a list to store the results.
+FilesDirsStartingWithCc = []
+
+# Use a for loop to walk through the home directory.
+for dir, subdir, files in subprocess.os.walk(home):
+    for f in files:
+        if f.startswith("C") or f.startswith("c"):
+            FilesDirsStartingWithCc.append(f)
+    for d in subdir:
+        if d.startswith("C") or d.startswith("c"):
+            FilesDirsStartingWithCc.append(d)
+print (FilesDirsStartingWithCc)
+    
+#################################
+# Get only directories in your home/ that start with either an upper or 
+#~lower case 'C' 
+
+# Type your code here:
+
+# Create a list to store the results.
+DirsStartingWithC = []
+
+# Use a for loop to walk through the home directory.
+for dir, subdir, files in subprocess.os.walk(home):
+    for d in subdir:
+        if d.startswith("C") or d.startswith("c"):
+            DirsStartingWithC.append(d)
+print (DirsStartingWithC)
+    
+    
+**********************************************************************
+
+Testing using_os.py...
+
+using_os.py is a Python script file;
+
+checking for docstrings...
+
+Found no functions, but one docstring for the script, good
+
+Current Points = 100
+
+Output (only first 500 characters): 
+
+
+**********************************************************************
+['CREDITS.txt', 'ChangeLog', 'Conda.psm1', 'COPYING.LIB', 'COPYING', 'COPYING', 'COPYING', 'CHTML-preview.js', 'CommonHTML', 'CombDiactForSymbols.js', 'CombDiacritMarks.js', 'ContentEditableInput.js', 'CodeMirror.js', 'COPYING', 'CMakeLists.txt', 'COPYING', 'COPYING', 'COPYING', 'COPYING', 'COPYING', 'CREDITS.txt', 'ChangeLog', 'CMakeLists.txt', 'CMakeLists.txt', 'CREDITS.txt', 'ChangeLog', 'CMakeLists.txt', 'CMakeLists.txt', 'CHANGES', 'COPYING', 'COPYING', 'COPYING', 'CMakeLists.txt.patch', 'CO
+**********************************************************************
+
+Code ran without errors
+
+Time consumed = 4.61185s
+
+======================================================================
+Inspecting script file LV1.py...
+
+File contents are:
+
+**********************************************************************
+"""
+Language: Python3
+Author: Congjia chen (congjia.chen21@imperial.ac.uk)
+Dep: numpy,scipy,matplotlib
+Date: Nov,2021
+"""
+
+import numpy as np
+import scipy.integrate as integrate
+import matplotlib.pylab as p
+
+def dCR_dt(pops, t=0):
+   """
+   [Function of population integration]
+
+   Args:
+       pops ([array]): [initial population aray]
+       t (int, optional): [time]. Defaults to 0.
+
+   Returns:
+       [np.array]: [array of population]
+   """  
+
+   R = pops[0]
+   C = pops[1]
+   dRdt = r * R - a * R * C 
+   dCdt = -z * C + e * a * R * C
+    
+   return np.array([dRdt, dCdt])
+
+# assign some parameter values
+r = 1.
+a = 0.1 
+z = 1.5
+e = 0.75
+
+#generate the time series
+t = np.linspace(0, 15, 1000)
+
+#Set the initial conditions for the two populations (10 resources and 5 consumers per unit area)
+R0 = 10
+C0 = 5 
+RC0 = np.array([R0, C0])
+
+#Integration
+pops, infodict = integrate.odeint(dCR_dt, RC0, t, full_output=True)
+#from integrate.odeint()  it returns two things.one of it is the infodict which contains several information about the integration
+#RC0 is an array, in this function.it acts as the initial value of y,and t in this case as the x
+
+#pops.shape 
+#pops contains the pop situation calculated by integration in different time point
+
+#infodict.keys()
+
+#Plotting
+f1 = p.figure()
+p.plot(t, pops[:,0], 'g-', label='Resource density') # Plot
+p.plot(t, pops[:,1]  , 'b-', label='Consumer density')
+p.grid()
+p.legend(loc='best')
+p.xlabel('Time')
+p.ylabel('Population density')
+p.title('Consumer-Resource population dynamics')
+#p.show()# Show the pic
+f1.savefig('../results/LV_model.pdf') #save 
+
+f2 = p.figure()
+p.plot(pops[:,0], pops[:,1], "r-")
+p.grid()
+p.xlabel("Resource density")
+p.ylabel("Consumer density")
+p.title("Consumer-Resource population dynamics")
+f2.savefig("../results/LV_model2.pdf")
+
+
+**********************************************************************
+
+Testing LV1.py...
+
+LV1.py is a Python script file;
+
+checking for docstrings...
+
+Found one or more docstrings and functions
+
+Current Points = 100
+
+Output (only first 500 characters): 
+
+
+**********************************************************************
+
+**********************************************************************
+
+Code ran without errors
+
+Time consumed = 0.78296s
+
+======================================================================
+Inspecting script file fmr.R...
+
+File contents are:
+
+**********************************************************************
+#Language: R
+#Author: Congjia chen (congjia.chen21@imperial.ac.uk)
+#Dep: None
+#Des: Rscript for run_fmr_R.py 
+#Date: Nov,2021
+
+
+# Plots log(field metabolic rate) against log(body mass) for the Nagy et al 
+# 1999 dataset to a file fmr.pdf.
+
+cat("Reading CSV\n")
+
+nagy <- read.csv('../data/NagyEtAl1999.csv', stringsAsFactors = FALSE)
+
+cat("Creating graph\n")
+pdf('../results/fmr_plot.pdf', 11, 8.5)
+col <- c(Aves='purple3', Mammalia='red3', Reptilia='green3')
+plot(log10(nagy$M.g), log10(nagy$FMR.kJ.day.1), pch=19, col=col[nagy$Class], 
+     xlab=~log[10](M), ylab=~log[10](FMR))
+for(class in unique(nagy$Class)){
+    model <- lm(log10(FMR.kJ.day.1) ~ log10(M.g), data=nagy[nagy$Class==class,])
+    abline(model, col=col[class])
+}
+dev.off()
+
+cat("Finished in R!\n")
+
+**********************************************************************
+
+Testing fmr.R...
+
+Output (only first 500 characters): 
+
+
+**********************************************************************
+Reading CSV
+Creating graph
+null device 
+          1 
+Finished in R!
+
+**********************************************************************
+
+Code ran without errors
+
+Time consumed = 0.11618s
+
+======================================================================
+Inspecting script file re4.py...
+
+File contents are:
+
+**********************************************************************
+"""" 
+Playing around with extracting email addresses or their subsets.
+
+From Wikipedia: 
+The format of email addresses is local-part@domain 
+the local-part may be up to 64 characters 
+the domain name may have a maximum of 253 characters
+
+The local-part of the email address may use any of these 
+ASCII characters:
+- Uppercase and lowercase English letters
+- Digits 0 to 9
+- Characters !#$%&'*+-/=?^_`{|}~
+- Character . provided that it is not the first or last 
+  character, and provided also that it does not appear 
+  two or more times consecutively
+
+The domain name is formed by letters, digits,
+hypens and dots.
+
+Language: python3
+Author: congjia chen (congjia.chen21@imperial.ac.uk)
+Dep: re
+"""
+import re
+
+valid1 = "niceandsimple@example.com"
+valid2 = "very.common@example.com"
+validbutterrible = "!#$%&'*+-/=?^_`{}|~@example.org"
+
+invalid1 = "Abc.example.com"
+invalid2 = "Abc.@example.com"
+
+#matching the simplest one:
+emailpattern1 = r'^[a-zA-Z0-9\._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$'
+print (re.search(emailpattern1, valid1).group())
+
+#matching a nasty one:
+emailpattern = r'[a-z0-9!#$%&\'*+/=?^_`{|}~-]+(?:\.[a-z0-9!\#$%&\'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?'
+print (re.search(emailpattern, validbutterrible).group())
+**********************************************************************
+
+Testing re4.py...
+
+re4.py is a Python script file;
+
+checking for docstrings...
+
+Found no functions, but one docstring for the script, good
+
+Current Points = 100
+
+Output (only first 500 characters): 
+
+
+**********************************************************************
+niceandsimple@example.com
+!#$%&'*+-/=?^_`{}|~@example.org
+
+**********************************************************************
+
+Code ran without errors
+
+Time consumed = 0.02443s
+
+======================================================================
+Inspecting script file timeitme.py...
+
+File contents are:
+
+**********************************************************************
+"""
+Language: Python3
+Author: Congjia chen (congjia.chen21@imperial.ac.uk)
+Dep: timeit,profileme,profileme2
+Date: Nov,2021
+Des: Profiling the script
+"""
+
+##############################################################################
+# loops vs. list comprehensions: which is faster?
+##############################################################################
+
+iters = 1000000
+
+import timeit
+
+from profileme import my_squares as my_squares_loops
+
+from profileme2 import my_squares as my_squares_lc
+
+##########################q####################################################
+# loops vs. the join method for strings: which is faster?
+##############################################################################
+
+mystring = "my string"
+
+from profileme import my_join as my_join_join
+
+from profileme2 import my_join as my_join
+
+# magic code should not be ran in the script. Shoud be ran in ipython 
+#%timeit my_squares_loops(iters)
+#%timeit my_squares_lc(iters)
+#%timeit (my_join_join(iters, mystring))
+#%timeit (my_join(iters, mystring))
+
+##########################q####################################################
+# Using time module to calculate the time manually
+##############################################################################
+
+import time
+start = time.time()
+my_squares_loops(iters)
+print("my_squares_loops takes %f s to run." % (time.time() - start))
+
+start = time.time()
+my_squares_lc(iters)
+print("my_squares_lc takes %f s to run." % (time.time() - start))
+**********************************************************************
+
+Testing timeitme.py...
+
+timeitme.py is a Python script file;
+
+checking for docstrings...
+
+Found no functions, but one docstring for the script, good
+
+Current Points = 100
+
+Output (only first 500 characters): 
+
+
+**********************************************************************
+
+**********************************************************************
+
+Code ran without errors
+
+Time consumed = 10.00315s
+
+======================================================================
+Inspecting script file LV2.py...
+
+File contents are:
+
+**********************************************************************
+"""
+Language: python3
+Author: congjia chen (congjia.chen21@imperial.ac.uk)
+Dep: sys,numpy,scipy,matplotlib
+"""
+import sys
+import numpy as np
+import scipy.integrate as integrate
+import matplotlib.pylab as p
+
+# assign some parameter values
+print (len(sys.argv))
+if len(sys.argv) == 6:
+    print ("We are running ",sys.argv[0])
+    try:
+        r = float(sys.argv[1])
+        a = float(sys.argv[2])
+        z = float(sys.argv[3])
+        e = float(sys.argv[4])
+        K = float(sys.argv[5])
+    except IndexError:
+        print ("Your args provided are not sufficient, We will use default value here")
+    except ValueError:
+        print ("Please provide number for every args")
+else:
+    print ("Your args provided are not sufficient, We will use default value here")
+    r = 1
+    a = 0.1
+    z = 1.5
+    e = 0.75
+    K = 1000000
+
+print("r = %f, a = %f, z= %f, e = %f, K = %f" % (r,a,z,e,K))
+
+def dCR_dt(pops, t = 0):
+    """LV model"""
+    R = pops[0]
+    C = pops[1]
+    dRdt = r * R * (1 - R/K) - a * R * C 
+    dCdt = -z * C + e * a * R * C
+    
+    return np.array([dRdt, dCdt])
+
+
+#generate the time series
+t = np.linspace(0, 15, 1000)
+
+#Set the initial conditions for the two populations (10 resources and 5 consumers per unit area)
+R0 = 10
+C0 = 5 
+RC0 = np.array([R0, C0])
+
+#Integration
+pops, infodict = integrate.odeint(dCR_dt, RC0, t, full_output=True)
+
+#print(pops[-1,:])
+
+#Plotting
+f1 = p.figure(figsize=(8,6))
+p.plot(t, pops[:,0], 'g-', label='Resource density') # Plot
+p.plot(t, pops[:,1]  , 'b-', label='Consumer density')
+p.grid()
+p.legend(loc='upper left')
+p.text(0,35,"r = " + str(r))
+p.text(0,33.5,"a = " + str(a))
+p.text(0,32,"z = " + str(z))
+p.text(0,30.5,"e = " + str(e))
+p.text(0,29,"K = " + str(int(K)))
+p.xlabel('Time')
+p.ylabel('Population density')
+p.title('Consumer-Resource population dynamics')
+#p.show()# To display the figure
+f1.savefig('../results/LV2_model.pdf') #Save figure
+
+f2 = p.figure()
+p.plot(pops[:,0], pops[:,1], "r-")
+p.grid()
+p.text(35,23,"r = " + str(r))
+p.text(35,22,"a = " + str(a))
+p.text(35,21,"z = " + str(z))
+p.text(35,20,"e = " + str(e))
+p.text(35,19,"K = " + str(int(K)))
+p.xlabel("Resource density")
+p.ylabel("Consumer density")
+p.title("Consumer-Resource population dynamics")
+f2.savefig("../results/LV2_model2.pdf")
+
+
+
+**********************************************************************
+
+Testing LV2.py...
+
+LV2.py is a Python script file;
+
+checking for docstrings...
+
+Found one or more docstrings and functions
+
+Current Points = 100
+
+Output (only first 500 characters): 
+
+
+**********************************************************************
+1
+Your args provided are not sufficient, We will use default value here
+r = 1.000000, a = 0.100000, z= 1.500000, e = 0.750000, K = 1000000.000000
+
+**********************************************************************
+
+Code ran without errors
+
+Time consumed = 0.77704s
+
+======================================================================
+======================================================================
+Finished running scripts
+
+Ran into 0 errors
+
+======================================================================
+======================================================================
+
+FINISHED WEEKLY ASSESSMENT
+
+Current Points for the Week = 100
+
+NOTE THAT THESE ARE POINTS, NOT MARKS FOR THE WEEK!
