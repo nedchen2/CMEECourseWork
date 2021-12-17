@@ -46,7 +46,7 @@ neutral_generation <- function(community){
   }
   #print (step_number) the number for one generation that neutral_step will take place
   for (i in seq(step_number)){
-    #print (i) # the time when looping
+    #print (i) # the vector for octaves to sumtime when looping
     community = neutral_step(community)
     #print (community) 
   }
@@ -234,8 +234,8 @@ function_for_process20 <- function(range){
   
   #Load results of cluster and calculate average abundances
 
-  octaves_sum <- c()
-  counts_of_repeats <- 0
+  octaves_sum <- c() # predefined vector for octaves to sum
+  counts_of_repeats <- 0 # predefined counts
   
   for (i in range){
     load(paste0("SimulationOutput_",i,".rda"))
@@ -493,7 +493,7 @@ Challenge_A <- function() { # this question is about the species in
 # we want a function to return commuity with given richness and size with same identity (replace = T)
 init_community_random <- function(size,def_richness){ # size will be predefined larger than the richness
   init_random <- seq(def_richness) # first create a community with given richness.
-  supply_comunity <- sample(seq(def_richness),size-def_richness,replace = T) #create a supply community with sample
+  supply_comunity <- sample(seq(def_richness),size-def_richness,replace = T) #create a supply community with FUNCTION sample
   init_community_random <- c(init_random,supply_comunity)
   return(init_community_random)
 }
@@ -538,8 +538,8 @@ process_result_for_ChallengeC <- function(range){
   # store the four result vectors to the combined_results
   
   #Load results of cluster and calculate average abundances
-  richness_sum <- c() #predefined
-  counts_of_repeats <- 0
+  richness_sum <- c() #predefined vector for richness to sum
+  counts_of_repeats <- 0 #predefined value for counts
   
   for (i in range){
     load(paste0("SimulationOutput_",i,".rda")) # load the rda
@@ -580,7 +580,7 @@ simulation_coalesence <- function (J,v) { # J :size, v: speciation_rate
   seta <- v*(J-1)/(1-v)
   
   while (N > 1){ #  N - 1 times loop
-    index_vector <- sample(length(lineages),2,replace = T)
+    index_vector <- choose_two(length(lineages)) # i, j not identical
     j <- index_vector[1]
     i <- index_vector[2]
     randnum <- runif(1)
