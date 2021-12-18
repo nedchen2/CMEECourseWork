@@ -296,14 +296,14 @@ plot_cluster_results <- function()  {
 
 # Question 21
 question_21 <- function()  {
-  result = list(log(8)/log(3), "Given 3 times wider than the original shape, we can count that we need 8 small materials (The size should be 8). Therefore, 8 = 3^x, and x = log(8)/log(3)")
+  result = list(log(8)/log(3), "Given 3 times wider than the original shape, we can count that we need 8 small materials (The size should be 8). Therefore, 8 = 3^x, and x = log(8)/log(3) (= 1.892789)")
   return(result)
 }
 
 # Question 22
 question_22 <- function()  {
   result = list(log(20)/log(3),
-                "Given 3 times wider than the original shape, we can count that we need 20 small materials(The size should be 20). Therefore, 20 = 3^x, and x = log(20)/log(3)")
+                "Given 3 times wider than the original shape, we can count that we need 20 small materials(The size should be 20). Therefore, 20 = 3^x, and x = log(20)/log(3) ( = 2.726833)")
   return(result)
 }
 
