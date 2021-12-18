@@ -665,7 +665,7 @@ plot_function_for_Challenge_E <- function(A=c(0,0),B=c(2,4),C=c(4,0),X=c(0,0),N=
   text(x=A[1],y=A[2]+0.5,"A") #add some text
   text(x=B[1],y=B[2]+0.5,"B")
   text(x=C[1],y=C[2]+0.5,"C")
-  legend("topright",legend ="First 100 point",col="red", lty = 1, bty = "n")
+  legend("topright",legend ="First 100 points",col="red", bty = "n",pch = 1)
 }
 
 Challenge_E <- function() {
