@@ -38,7 +38,7 @@ plot_the_distribution <- function(result){
   dfresult <- as.data.frame(result)
   p = ggplot(dfresult,aes(x=result))+geom_density(color="black",fill="grey") +
         theme_economist_white() + geom_vline(xintercept = correlation_of_successive,linetype=3,colour = "blue")+xlab("Correlation Coefficient")
-  ggsave("../results/Density_plot.png",type="cairo-png",width=5,height=3.7,plot=p)
+  ggsave("../results/Density_plot.png",width=5,height=3.7,plot=p)
   return (p)
 }
 
@@ -47,9 +47,8 @@ main_function <- function(num){
   #num is the repeat times
   N <- ats
   result <- sapply(1:num, function(i) mysample(N))
-  picture <- plot_the_distribution(result)
+  picture <- plot_the_distribution(result) # plot
   score_result <- calculate_p_value(result)
-  #print (paste0("p-value:", score_result, "(",num," repeats)"))
   return(paste0("p-value:", score_result, " (",num," repeats)"))
 }
 
