@@ -32,6 +32,7 @@ elif [[ -f $1 ]] ; then  #if the user input a single file, just convert the sing
     exit 1
 fi
 
+# if user provide a directory, we will iterate the tif file to png
 dir="$1"
 outputdir="$2"
 echo "We are now working at $dir"

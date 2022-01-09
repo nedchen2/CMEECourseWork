@@ -20,7 +20,7 @@ echo 'the current value of the variable is' $MyVar
 ## Reading multiple values
 echo 'Enter two numbers separated by space(s)'
 read a b
-if [[ -n $a ]] && [[ -n $b ]]; then
+if [[ -n $a ]] && [[ -n $b ]]; then ##see if the variable is number
     echo 'you entered' $a 'and' $b '. Their sum is:'
     mysum=`expr $a + $b`
     echo $mysum

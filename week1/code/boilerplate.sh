@@ -5,6 +5,6 @@
 # Arguments: none
 # Date: Oct 2021
 
-echo -e "\nThis is a shell script! \n" #what does -e do?
+echo -e "\nThis is a shell script! \n" #"-e": express the escape newline "\n"
 
 #exit
