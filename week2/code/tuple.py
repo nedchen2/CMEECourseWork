@@ -37,7 +37,7 @@ birds = (('Passerculus sandwichensis', 'Savannah sparrow', 18.7),
 
 # Method2: Advanced for loop
 for  (x,y,z) in birds:
-    print ("Latin name:", x, "\n", "Common name:", y,"\n","Mass:", z, "\n")
+    print ("Latin name:" + x + "\n" + "Common name:" + y + "\n" + "Mass:" + str(z) +"\n")
 
 # Method3: List Comprehensions
 # [print ("Latin name:", x, "\n", "Common name:", y,"\n","Mass:", z, "\n") for  (x,y,z) in birds]

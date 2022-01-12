@@ -45,6 +45,7 @@ rainfall = (('JAN',111.4),
 # Step #1:
 # Months and rainfall values when the amount of rain was greater than 100mm:
 # Method1:list comprehensions
+print(" Months and rainfall values when the amount of rain was greater than 100mm:")
 list1=[n for n in rainfall if n[1] > 100]
 print (list1)
 
@@ -59,6 +60,7 @@ print(for_loop_result1)
 # Step #2:
 # to create a list of just month names where the amount of rain was less than 50 mm. 
 # Method1:list comprehensions
+print (" a list of just month names where the amount of rain was less than 50 mm") 
 list2=[n[0] for n in rainfall if n[1] < 50]
 print (list2)
 

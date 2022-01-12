@@ -76,9 +76,10 @@ def calculate_score(s1, s2, l1, l2, startpoint):
 
     Returns:
         The score of alignment starting with different start point 
+        and the match
 
     Des:
-        calculate the score for the match of the two sequence 
+        calculate the score for the match of the two sequence and return the matching situation
     
     """
     matched = "" # to hold string displaying alignements
@@ -86,10 +87,10 @@ def calculate_score(s1, s2, l1, l2, startpoint):
     for i in range(l2):
         if (i + startpoint) < l1:
             if s1[i + startpoint] == s2[i]: # if the bases match
-                matched = matched + "*"
+                matched = matched + "*" # add * if match
                 score = score + 1
             else:
-                matched = matched + "-"
+                matched = matched + "-" # add - if not match
 
     # some formatted output
     #print("." * startpoint + matched)           
@@ -98,7 +99,7 @@ def calculate_score(s1, s2, l1, l2, startpoint):
     #print(score) 
     #print(" ")
 
-    return score
+    return [score,matched]
 
 def higher_score_finder(s1, s2, l1, l2):
 
@@ -120,11 +121,13 @@ def higher_score_finder(s1, s2, l1, l2):
     my_best_align = None
     my_best_score = -1
     dict_for_seq = {}
-    for i in range(l1): # Note that you just take the last alignment with the highest score
-        z = calculate_score(s1, s2, l1, l2, i)
+    for i in range(l1): # select i as a start point from sequence l1
+        z = calculate_score(s1, s2, l1, l2, i)[0]
         if z > my_best_score:
-            my_best_align = "." * i + s2 # think about what this is doing!
+            my_best_align = "." * i + str(s2) # use "." to indicate the start point
             my_best_score = z 
+            matched = "." * i + str(calculate_score(s1, s2, l1, l2, i)[1])
+    print(matched)
     print(my_best_align)
     print(s1)
     print("Best score:", my_best_score)

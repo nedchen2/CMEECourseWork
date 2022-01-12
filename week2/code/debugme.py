@@ -4,7 +4,7 @@
 """
 Auther:Congjia Chen (congjia.chen21@imperial.ac.uk)
 Script: debugme.py
-Des: Practice for dictionary comprehension
+Des: Practice for debugging
 Usage: python3 debugme.py (in terminal)
 Date: Oct, 2021
 """

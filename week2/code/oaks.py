@@ -20,7 +20,7 @@ def is_an_oak(name):
     Return 
         the lower version of the species name which start with "quercus"
     """
-    return name.lower().startswith('quercus ')
+    return name.lower().startswith('quercus ') ##return T or F
 
 ##Using for loops
 oaks_loops = set()

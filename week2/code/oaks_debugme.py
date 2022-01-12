@@ -80,6 +80,9 @@ def main(argv):
                 print('FOUND AN OAK!\n')
                 csvwrite.writerow([row[0], row[1]]) 
 
+    f.close()
+    g.close()
+
     return 0
     
 if (__name__ == "__main__"):
