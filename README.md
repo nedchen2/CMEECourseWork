@@ -9,10 +9,7 @@
   - [**Dependencies**](#dependencies)
   - [**Installation**](#installation)
   - [**Project structure and Usage**](#project-structure-and-usage)
-  - [**Link to Subdirectory**](#link-to-subdirectory)
-    - [**WEEK1**](#week1)
-    - [**WEEK2**](#week2)
-    - [**WEEK3**](#week3)
+  - [**Content table**](#content-table)
   - [**Author and Contact**](#author-and-contact)
 
 ## **Brief Description**
@@ -47,19 +44,17 @@ git clone https://github.com/nedchen2/CMEECourseWork.git
 
 > Usage: For the CMEECoursework 
 
-## **Link to Subdirectory**
-
-### **WEEK1**
-
-<https://github.com/nedchen2/CMEECourseWork/tree/master/week1>
-
-### **WEEK2**
-
-<https://github.com/nedchen2/CMEECourseWork/tree/master/week2>
-
-### **WEEK3**
-
-<https://github.com/nedchen2/CMEECourseWork/tree/master/week3>
+## **Content table**
+```Week1-Week7```
+| Week Name |Description | 
+| ------ | ------ | 
+| Week1    | Linux and shell,latex| 
+| Week2    | Basic Python| 
+| Week3    | R and little python | 
+| Week4    | R in stat | 
+| Week5    | GIS SYSTEM and model | 
+| Week6    | Genomics and script to deal with the fasta ACGT|
+| Week7    | Advanced Python|
 
 ## **Author and Contact**
 Congjia Chen
