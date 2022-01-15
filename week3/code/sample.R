@@ -3,6 +3,7 @@
 # Des: illusstrate the use of sample and lapply
 # Usage: Rscript sample.R
 # Date: Oct, 2021
+# Author: Congjia Chen
 
 ######### Functions ##########
 

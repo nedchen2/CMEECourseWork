@@ -1,8 +1,9 @@
 # Language: R
-# Script: DataWrang.R
-# Des: Wrangling the Pound Hill Dataset
-# Usage: Rscript DataWrang.R
+# Script: TAutoCorr.R
+# Des: Calculate the correlation between n-1 pairs of years
+# Usage: Rscript TAutoCorr.R
 # Date: Dec, 2021
+# Author: Congjia Chen
 
 #load the data and plot it
 #plot(ats, type="l")

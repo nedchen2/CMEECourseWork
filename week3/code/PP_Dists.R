@@ -3,6 +3,7 @@
 # Des: Body mass distribution subplots by feeding interaction type
 # Usage: Rscript PP_Dists.R
 # Date: Oct, 2021
+# Author: Congjia Chen
 
 rm(list = ls())
 
@@ -33,18 +34,18 @@ myplotfunction <- function(interaction_type, featurename){
 }
 
 #Plots of Predator
-pdf("../results/Pred_Subplots.pdf")
-par(mfcol=c(2,3))
+pdf("../results/Pred_Subplots.pdf",width = 4, height = 8)
+par(mfcol=c(5,1))
 sapply(unique(MyDF$Type.of.feeding.interaction),function(i) myplotfunction(i,"Log.predator_mass"))
 dev.off()
 #Plots of Prey
-pdf("../results/Prey_Subplots.pdf")
-par(mfcol=c(2,3))
+pdf("../results/Prey_Subplots.pdf",width = 4, height = 8)
+par(mfcol=c(5,1))
 sapply(unique(MyDF$Type.of.feeding.interaction),function(i) myplotfunction(i,"Log.prey_mass"))
 dev.off()
 #Plots of Ratio
-pdf("../results/SizeRatio_Subplots.pdf")
-par(mfcol=c(2,3))
+pdf("../results/SizeRatio_Subplots.pdf",width = 4, height = 8)
+par(mfcol=c(5,1))
 sapply(unique(MyDF$Type.of.feeding.interaction),function(i) myplotfunction(i,"Log.MassRatio"))
 dev.off()
 

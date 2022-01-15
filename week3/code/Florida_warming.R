@@ -5,11 +5,11 @@
 # Date: Oct, 2021
 # Input: ../data/KeyWestAnnualMeanTemperature.RData
 # Output: the density plot of coeff distribution
-
+# Author: Congjia Chen
+rm(list=ls())
 require(ggplot2)
 require(ggthemes)
-# draw a histogram
-rm(list=ls())
+
 
 load("../data/KeyWestAnnualMeanTemperature.RData")
 

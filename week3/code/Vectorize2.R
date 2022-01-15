@@ -3,6 +3,7 @@
 # Des: Illustrate R Vectorization 2
 # Usage: Rscript Vectorize2.R
 # Date: Oct, 2021
+# Author : Congjia Chen
 
 # Runs the stochastic Ricker equation with gaussian fluctuations
 rm(list = ls())

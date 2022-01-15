@@ -3,6 +3,7 @@
 # Des: Illustrate R Vectorization 1
 # Usage: Rscript Vectorize1.R
 # Date: Oct, 2021
+# Author: Congjia Chen
 
 M <- matrix(runif(1000000),1000,1000)
 

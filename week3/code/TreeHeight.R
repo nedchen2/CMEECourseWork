@@ -17,6 +17,7 @@
 #
 # Usage: Rscript TreeHeight.R
 # Date: Oct, 2021
+# Author: Congjia Chen
 
 TreeHeight <- function(degrees, distance){
     radians <- degrees * pi / 180 #

@@ -1,7 +1,7 @@
 # Language: R
 # Script: DataWrangTidy.R
 # Des: Wrangling the Pound Hill Dataset by tidyverse
-# Usage: Rscript DataWrang.R
+# Usage: Rscript DataWrangTidy.R
 # Date: Oct, 2021
 
 ################################################################
@@ -43,8 +43,6 @@ colnames(TempData) <- MyData[1,] # assign column names from original data
 #MyWrangledData <- melt(TempData, id=c("Cultivation", "Block", "Plot", "Quadrat"), variable.name = "Species", value.name = "Count")
 
 require(tidyverse)
-
-#as_tibble(MyWrangledData)
 
 MyWrangledData <- TempData %>% pivot_longer(cols = !c("Cultivation", "Block", "Plot", "Quadrat"),names_to = "Species", values_to = "Count") 
 #cols provide the col that you want to transform into one col

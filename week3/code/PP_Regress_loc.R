@@ -4,6 +4,7 @@
 # Usage: Rscript PP_Regree_loc.R
 # Date: Oct, 2021
 # Output: PP_Regress_Results_loc.csv 
+# Author: Congjia Chen
 
 MyDF <- read.csv("../data/EcolArchives-E089-51-D1.csv")
 #dim(MyDF) #check the size of the data frame you loaded

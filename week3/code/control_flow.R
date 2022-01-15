@@ -3,6 +3,7 @@
 # Des: Illustrate R control flow tools including (if , for , while)
 # Usage: Rscript control_flow.R
 # Date: Oct, 2021
+# Author: Congjia Chen
 
 # Please indent your code for readability
 

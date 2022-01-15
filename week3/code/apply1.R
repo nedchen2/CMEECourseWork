@@ -3,6 +3,7 @@
 # Des: illusstrate the use of apply
 # Usage: Rscript apply1.R
 # Date: Oct, 2021
+# Author: Congjia Chen
 
 ## Build a random matrix
 M <- matrix(rnorm(100), 10, 10)

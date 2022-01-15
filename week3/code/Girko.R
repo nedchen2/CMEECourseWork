@@ -3,6 +3,7 @@
 # Des: Output the GIRKO to the results directory
 # Usage: Rscript Girko.R
 # Date: Oct, 2021
+# Author: Congjia Chen
 require(ggplot2)
 
 build_ellipse <- function(hradius, vradius){ # function that returns an ellipse

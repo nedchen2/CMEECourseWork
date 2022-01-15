@@ -3,6 +3,8 @@
 # Des: Output the line plot to the results
 # Usage: Rscript plotLin.R
 # Date: Oct, 2021
+# Author;Congjia Chen
+
 require(ggplot2)
 x <- seq(0, 100, by = 0.1)
 y <- -4. + 0.25 * x +

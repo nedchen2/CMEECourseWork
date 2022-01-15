@@ -4,6 +4,7 @@
 # Usage: Rscript PP_Regress.R
 # Date: Oct, 2021
 # Output: PP_Regress_Results.csv and PP_Regress_Results.pdf
+# Author: Congjia Chen
 
 require(tidyverse)
 
@@ -12,7 +13,7 @@ MyDF <- read.csv("../data/EcolArchives-E089-51-D1.csv")
 # ============convery mg to g====================
 # MyDF[which(MyDF$Prey.mass.unit == "mg"),"Predator.mass"] = MyDF[which(MyDF$Prey.mass.unit == "mg"),"Predator.mass"] / 1000
 
-#Use dplyr 
+# Use dplyr 
 # DO a self created function to format the output of summary()
 lmSum = function(df){
   my_lm <- summary(lm(Predator.mass ~ Prey.mass, data = df))

@@ -3,6 +3,7 @@
 # Des: Output the barplot based on ../data/Results.txt
 # Usage: Rscript MyBars.R
 # Date: Oct, 2021
+# Author: Congjia Chen
 
 require(ggplot2)
 a <- read.table("../data/Results.txt", header = TRUE)

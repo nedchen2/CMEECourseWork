@@ -3,6 +3,7 @@
 # Des: r for database
 # Usage: Rscript SQLinR.R
 # Date: Oct, 2021
+# Author: Congjia Chen
 
 #install the sqlite package
 #install.packages('sqldf')

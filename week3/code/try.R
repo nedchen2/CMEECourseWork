@@ -3,6 +3,7 @@
 # Des: catch errors by try
 # Usage: Rscript try.R
 # Date: Oct, 2021
+# Author: CONGJIA chen
 
 doit <- function(x){
     temp_x <- sample(x, replace = TRUE)
@@ -16,7 +17,7 @@ doit <- function(x){
 
 set.seed(1345) # again, to get the same result for illustration
 popn <- rnorm(50)
-hist(popn)
+#hist(popn)
 #lappy
 result <- lapply(1:15, function(i) try(doit(popn), FALSE)) #SET FALSE TO SUPPRESS THE ERROR, KEEP RUNNING
 #for loop

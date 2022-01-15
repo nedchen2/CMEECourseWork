@@ -14,17 +14,39 @@
 # Usage: Rscript get_TreeHeight.R infile(default: ../data/trees.csv)
 # Date: Oct, 2020
 
+usage = "\
+usage:
+Rscript get_TreeHeight.R infile(default: ../data/trees.csv)
+
+input csv format:
+Species,Distance.m,Angle.degrees
+Populus tremula,31.6658337740228,41.2826361937914
+Quercus robur,45.984992608428,44.5359166583512
+Ginkgo biloba,31.2417666241527,25.1462585572153
+
+"
+
 arg <- commandArgs(T)
-if(length(arg) < 1){
-  cat("Argument: You need to provide the file \n Example: Rscript get_TreeHeight.R ../data/trees.csv\n")
+if(length(arg) > 1){
+  cat("ERROR: You can only PROVIDE one csv file\n")
+  cat(usage)
   quit('no')
+}else if(length(arg) < 1){
+  cat("Argument: You providing no input \nWe will run script with default ../data/trees.csv\n")
+  cat(usage)
+  input = "../data/trees.csv"
+}else if (length(arg) == 1 && file.exists(arg[1])){
+  input = arg[1]
+}else{
+  cat(usage)
 }
 
-MyData <- read.csv(arg[1], header = TRUE)
+
+MyData <- read.csv(input, header = TRUE)
 
 #infilename <- gsub(".csv$","",basename(arg[1])) #use regular expression to remove .csv
 
-infilename <- unlist(strsplit(basename(arg[1]), split = ".", fixed = T))[1] # split the basename
+infilename <- unlist(strsplit(basename(input), split = ".", fixed = T))[1] # split the basename
 
 outfilename <- paste0("../results/",infilename,"_treeheights.csv") #create the outputfile name
 

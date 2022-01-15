@@ -56,9 +56,8 @@ dim(MyWrangledData)
 ############# Exploring the data (extend the script below)  ###############
 require(tidyverse)
 #tidyverse_packages(include_self = TRUE) 
-
-as_tibble(MyWrangledData)
-glimpse(MyWrangledData) #short look at the data similar to str
+#as_tibble(MyWrangledData)
+#glimpse(MyWrangledData) #short look at the data similar to str
 
 
 tibble::as_tibble(MyWrangledData) 

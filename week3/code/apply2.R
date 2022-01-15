@@ -3,6 +3,7 @@
 # Des: illusstrate the use of apply by self-defined function
 # Usage: Rscript apply2.R
 # Date: Oct, 2021
+# Author : Congjia Chen
 
 SomeOperation <- function(v){ # (What does this function do?)
   if (sum(v) > 0){ #note that sum(v) is a single (scalar) value

@@ -3,7 +3,7 @@
 #Des:  ILLUSTRATE THE FUNCTION
 #Usage: Rscript boilerplate.R
 #Date: Oct, 2021
-
+#Author: Congjia Chen
 
 MyFunction <- function(Arg1, Arg2){
       # Statements involving Arg1, Arg2:

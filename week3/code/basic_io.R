@@ -1,10 +1,10 @@
 #Language: R
 #Script: basic_io.R
-#Des:  
-# A simple script to illustrate R input-output.  
+#Des:  A simple script to illustrate R input-output.  
 # Run line by line and check inputs outputs to understand what is happening  
 #Usage: Rscript basic_io.R
 #Date: Oct, 2021
+#Author: Congjia Chen
 
 MyData <- read.csv("../data/trees.csv", header = TRUE) # import with headers
 

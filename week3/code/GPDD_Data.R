@@ -22,4 +22,4 @@ dev.off()
 
 #Bias1: For diversity issues: No marine habitats
 #Bias2: For global issues: The locations of animals recorded are not distributed evenly among the world.
-#Most animals are found in Europe (especially in United Kingdom) and North America, 
+#Most animals are found in Europe (especially in United Kingdom) and North America, which will cause bias

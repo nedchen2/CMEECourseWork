@@ -3,7 +3,7 @@
 # Des: R debugging with browser
 # Usage: Rscript browse.R
 # Date: Oct, 2021
-
+# Author: Congjia Chen
 
 Exponential <- function(N0 = 1, r = 1, generations = 10){
   # Runs a simulation of exponential growth
@@ -14,7 +14,7 @@ Exponential <- function(N0 = 1, r = 1, generations = 10){
   N[1] <- N0
   for (t in 2:generations){
     N[t] <- N[t-1] * exp(r)
-    browser()
+    browser() #debug with browser() in the console
   }
   return (N)
 }
