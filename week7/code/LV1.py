@@ -3,6 +3,7 @@ Language: Python3
 Author: Congjia chen (congjia.chen21@imperial.ac.uk)
 Dep: numpy,scipy,matplotlib
 Date: Nov,2021
+Description: Using function of population integration
 """
 
 import numpy as np

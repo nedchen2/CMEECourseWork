@@ -1,21 +1,12 @@
 """
-Description:
 
-# other options for profiling
+Author: Congjia Chen
 
-run -p -s cumtime profileme2.py
+Dep: Numpy
 
--s allows sorting the report by a particular column,
--l limits the number of lines displayed or filters the results by function name, 
-and -T saves the report in a text file
+Note: Using Numpy and list comprehension to shorten the time
 
-
-# run profiling outside the ipython with cProfile
-
-`python3 -m cProfile -o profires myscript.py`
-Here the results are stored in a file called profires, which can be read using the pstats module.
-
-# Or USE IDLE to profile
+Description: Profiling the script
 
 """
 import numpy as np

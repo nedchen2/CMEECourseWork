@@ -46,11 +46,13 @@ Each week’s directory contain directories called `code`, `data`, `results`, an
 ```Pratical scripts```
 | Script Name |Description | Arguments |
 | ------ | ------ | ------ |
-| oaks_debugme.py | debug the searching scripts | None |
 | LV1.py | the use of scipt integration based on LV models | None |
+| LV2.py | the use of scipt integration based on LV models |  r,a,z,e,K (with default) |
 | timeitme.py |  Profiling the script | None |
 | profileme.py |  Functon for profiling using for loop | None |
 | profileme2.py |  Function for profiling using numpy, list comprehension | None |
+| blackbirds.py |  extract the information by regex| None |
+| using_os | using as.walk to deal with the file and directory| None |
 
 ## **Author and Contact**
 

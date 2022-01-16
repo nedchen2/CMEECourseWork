@@ -2,6 +2,7 @@
 Language: python3
 Author: congjia chen (congjia.chen21@imperial.ac.uk)
 Dep: sys,numpy,scipy,matplotlib
+Description: Command line interface of LV1
 """
 import sys
 import numpy as np
