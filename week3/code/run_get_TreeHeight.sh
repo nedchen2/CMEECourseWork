@@ -1,9 +1,13 @@
 #!/bin/bash
-# Author: Congjia.Chen21@imperial.ac.uk
-# Script: run_get_TreeHeight.sh
-# Desc: Example to run get_TreeHeight.R
-# Arguments: none
-# Date: Oct 2021
 
-Rscript get_TreeHeight.R ../data/trees.csv
-python3 get_TreeHeight.py ../data/trees.csv
+#Author: Group3
+#Script: run_get_TreeHeight.sh
+#Des: Runs get_TreeHeight.r and get_TreeHeight.py on trees.csv from bash
+#Usage: bash run_get_TreeHeight.sh  (in terminal)
+#Dep: 
+
+# Run get_TreeHieght R script on trees.csv
+Rscript get_TreeHeight.R ../data/trees.csv 
+
+# Run get_TreeHieght Python script on trees.csv
+python3 get_TreeHeight.py ../data/trees.csv 

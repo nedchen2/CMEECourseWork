@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 """
-Auther: Congjia Chen (congjia.chen21@imperial.ac.uk)
+Author: Group3
 Script: align_seqs_better.py
 Des: Calculate the match score between two seqs. Print and save all the possible alignment with the highest match score of it
 Usage: python3 align_seqs_better.py seq1.fasta seq2.fasta (in terminal)
@@ -11,7 +11,7 @@ Output: "../results/Best_score_better.pickle"
 """
 
 __appname__ = '[align_seqs_fasta.py]'
-__author__ = 'Congjia Chen (congjia.chen21@imperial.ac.uk)'
+__author__ = 'Group3'
 __version__ = '0.0.1'
 
 import sys
@@ -138,7 +138,7 @@ def higher_score_finder(s1, s2, l1, l2):
     #my_best_align = None
     my_best_score = -1
 
-    for i in range(l1):  # Note that you just take the last alignment with the highest score
+    for i in range(l1):  # calculate the best score
         z = calculate_score(s1, s2, l1, l2, i)
         if z > my_best_score:
             # my_best_align = "." * i + s2 # think about what this is doing!
@@ -170,7 +170,7 @@ def seq_finder(s1, s2, l1, l2, my_best_score):
     for count,i in enumerate(range(l1)):
         z = calculate_score(s1, s2, l1, l2, i)
         if z == my_best_score:
-            my_best_align = "." * i + s2  # think about what this is doing!
+            my_best_align = "." * i + s2  # use "." to indicate the start point
             #print(my_best_align)
             #print(s1)
             #print("Best score:", my_best_score)
@@ -198,6 +198,7 @@ def pickle_read(my_dictionary):
         print ("=====================storing the result=====================")
         pickle.dump(my_dictionary, f)
         print ("The result has been stored in the ../results/Best_score_better.pickle")
+        print ("Stored in binary file will be more handy for subsequent analysis")
     with open('../results/Best_score_better.pickle', 'rb') as f:
         another = pickle.load(f)
         print ("=====================checking the result=====================")

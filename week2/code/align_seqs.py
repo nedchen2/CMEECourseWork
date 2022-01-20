@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 """
-Auther: Congjia Chen (congjia.chen21@imperial.ac.uk)
+Author: Congjia Chen (congjia.chen21@imperial.ac.uk)
 Script: align_seqs.py
 Des: Calculate the match score between two seqs. Print and save the best score along with best alignment to binary file
 Usage: python3 align_seqs.py (in terminal)

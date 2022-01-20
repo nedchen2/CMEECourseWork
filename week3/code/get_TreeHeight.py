@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 """
-Auther: Congjia Chen (congjia.chen21@imperial.ac.uk)
+Author: Group3
 Script: get_TreeHeight.py
 Des: Calculate the treeheight according to the degrees and distances
 Usage: python3 get_TreeHeight.py file
@@ -10,7 +10,7 @@ Date: Oct, 2021
 """
 
 __appname__ = '[get_TreeHeight.py]'
-__author__ = 'Congjia Chen (congjia.chen21@imperial.ac.uk)'
+__author__ = 'Group3'
 __version__ = '0.0.1'
 
 import pandas as pd #data ana
