@@ -1,0 +1,67 @@
+Integer                                                       
+char(No point in representing it as decimal,ASCII)     
+CHAR ---> INTER (CONVERTED BY THE RULE OF ASCII)
+CHAR ---> 1 BYTE (No string type  ---- a spcial array of CHAR)
+one byte ---> 00000000 -> 256 2^8 representation   11111111(255 max)
+64-bit /32-bit largest Integer on your machine
+
+Int        
+
+Floating POINT
+ Float/double
+
+Signed and Unsigned
+
+But for this example, let's look at 4-bit integers. Tiny, but useful for illustration purposes.
+
+Since there are four bits in such an integer, it can assume one of 16 values; 16 is two to the fourth power, or 2 times 2 times 2 times 2. What are those values? The answer depends on whether this integer is a signed int or an unsigned int. With an unsigned int, the value is never negative; there is no sign associated with the value. Here are the 16 possible values of a four-bit unsigned int:
+
+bits  value
+0000    0
+0001    1
+0010    2
+0011    3
+0100    4
+0101    5
+0110    6
+0111    7
+1000    8
+1001    9
+1010   10
+1011   11
+1100   12
+1101   13
+1110   14
+1111   15
+... and Here are the 16 possible values of a four-bit signed int:
+
+bits  value
+0000    0
+0001    1
+0010    2
+0011    3
+0100    4
+0101    5
+0110    6
+0111    7
+1000   -8
+1001   -7
+1010   -6
+1011   -5
+1100   -4
+1101   -3
+1110   -2
+1111   -1
+As you can see, for signed ints the most significant bit is 1 if and only if the number is negative. That is why, for signed ints, this bit is known as the "sign bit".
+
+overflow of signed int will be negative
+
+overflow of unsigned int will be 0 , because no signed available
+
+
+====bydefault is Signed======
+
+Short and long
+
+short: Depending on the computer but in most cases a "short" is two bytes a "long" is four bytes and an "int" can be two or four bytes
+
