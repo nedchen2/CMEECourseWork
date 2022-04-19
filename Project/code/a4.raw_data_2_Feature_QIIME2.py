@@ -62,8 +62,8 @@ print ("============Start Trimming Low Quality============")
 
 ####
 #run in cluster 
-#
 ### 
+
 ## filter q-score and stat ---- Do the quality filter
 Command3 = "qiime quality-filter q-score \
  --i-demux " + outputDirectory + "/Primer_trimmed-seqs.qza \
@@ -77,7 +77,7 @@ Command3 = Command3 + " && " + "qiime metadata tabulate \
   --m-input-file " + outputDirectory + "/demux-filter-stats.qza \
   --o-visualization " + outputDirectory + "/demux-filter-stats.qzv"
 
-#subprocess.run(Command3,shell=True,check=True)
+subprocess.run(Command3,shell=True,check=True)
 
 # I would suggest revisiting your demux summarize 12 visualization, and come up with a good value for your trim length!
 # the trim length set here is not good ! 
@@ -111,7 +111,8 @@ Command = Command + " && " +"qiime deblur visualize-stats \
 subprocess.run(Command,shell=True,check=True)
 
 
-print ("============Start Filtering the Feature table============")
+
+#print ("============Start Filtering the Feature table with blank sample============")
 
 #"qiime feature_table filter-features --p-min-samples"  ## queshi keyi
 

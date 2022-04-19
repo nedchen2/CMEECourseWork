@@ -14,6 +14,8 @@ parser.add_argument("-o", "--outputDirectory", help="Output directory with resul
                     default="../results/1.Quality_Control/Demultiplexing")
 parser.add_argument("-i", "--inputDirectory", help="input directory with fastq files",
                     default="../results/1.Quality_Control/joinedreads/")
+parser.add_argument("-m", "--metadata", help="metadata",
+                    default="./")    
 parser.add_argument("-t", "--threads", help="Threads",
                     default="2")
 parser.add_argument("-e", "--error", help="error rate",
@@ -29,7 +31,9 @@ configfile = os.path.abspath(args.configfile)
 inputDirectory = os.path.abspath(args.inputDirectory)
 threads = str(args.threads)
 error =  str(args.error)
- 
+metadata =  os.path.abspath(args.metadata)
+
+
 # get the software list by config file
 config = configparser.ConfigParser()
 config.read(configfile, encoding="utf-8")
@@ -58,7 +62,7 @@ Command = "qiime tools import --type EMPSingleEndSequences \
     --output-path " + outputDirectory + "/emp-single-end-sequences.qza"
 # emp-single-end-sequences.qza: barcodes and sequence fasta
 
-Command = Command + " && " + R + " ./Process.MetaData.R" #get the sample-metadata.csv
+#Command = Command + " && " + R + " ./Process.MetaData.R" #get the sample-metadata.csv
 subprocess.run(Command,shell=True,check=True)
 
 
@@ -66,7 +70,7 @@ print ("============Start Demultiplexing============")
 ## demultiplexing
 Command1 = "qiime demux emp-single \
     --i-seqs " + outputDirectory + "/emp-single-end-sequences.qza \
-    --m-barcodes-file " + outputDirectory + "/sample-metadata.tsv \
+    --m-barcodes-file " + metadata + "/sample-metadata.tsv \
     --m-barcodes-column BarcodeSequence   \
     --o-per-sample-sequences " + outputDirectory + "/demux.qza \
     --o-error-correction-details " +outputDirectory + "/demux-details.qza \
