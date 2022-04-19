@@ -49,6 +49,6 @@ df.merged = df.new.revised %>%  left_join(df.old.revised,by = "sample_name")
 df.merged$BarcodeSequence == df.merged$BarcodeSequence_old
 str(df.merged)
 
-write.table(df.merged,file = "../results/1.Quality_Control/Demultiplexing/sample-metadata.tsv",row.names = F,sep="\t")
+#write.table(df.merged,file = "../results/1.Quality_Control/Demultiplexing/sample-metadata.tsv",row.names = F,sep="\t")
 
-write.table(df.merged,file = "./sample-metadata.tsv",row.names = F,sep="\t")
+#write.table(df.merged,file = "./sample-metadata.tsv",row.names = F,sep="\t")
