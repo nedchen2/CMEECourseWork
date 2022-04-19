@@ -10,6 +10,12 @@ df_old= read.table("map_UKBB.txt",sep = "\t",header = T)
 
 df_old = df_old[(df_old$Sample.ID != ""),]
 
+# We found that the barcode of Index2i5Sequence TAGATCGC
+index = df_old$Index2i5Sequence == "TAGATCGC"
+replace = "GCGTAAGN"
+
+df_old$Index2.modified = str_replace(df_old$Index2i5Sequence,pattern = "TAGATCGC",replacement = "GCGTAAGN")
+
 df.old.revised  <- df_old %>% mutate(BarcodeSequence=paste0(substr(df_old$Index1i7Sequence,1,7),substr(df_old$Index2i5Sequence,1,7)),
                      LinkerPrimerSequence=Linker1PrimerSequence,
                      sample_name=Sample.ID) %>% dplyr::select("sample_name","BarcodeSequence","LinkerPrimerSequence","CollectionSite","Species","Infection","Infection.intensity","Description")  %>% 
@@ -28,10 +34,9 @@ df_top120Barcode = read.delim("../16sRaw/result.txt",header = F) %>%
   mutate(repeats = extract_numeric(V1),
   BarcodeSequence = str_sub(V1,-14)) %>%
   select("repeats","BarcodeSequence" ) %>% 
- left_join(df.old.revised,by = c("BarcodeSequence"))
+  full_join(df.old.revised,by = c("BarcodeSequence"))
 
 write.table(df_top120Barcode,file = "./Top120Barcode.tsv",row.names = F,sep="\t")
-
 
 
 
