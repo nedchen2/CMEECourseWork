@@ -49,10 +49,4 @@ df3 = df.merge(df2, on="Feature.ID")
 
 df3.to_csv("../results/2.Feature_table/Feature-table-result/feature-table-with-seq.tsv",sep = "\t")
 
-# ========== revise the taxa collapse table to fit R ============
 
-df_taxa = pd.read_table("../results/3.Taxonomy_ana/Feature-table-result/feature-table-taxa.tsv",skiprows = 0,header = 1)
-df_taxa = df_taxa.rename(columns={"#OTU ID":"Feature.ID"}).set_index("Feature.ID")
-df_taxa.to_csv("../results/3.Taxonomy_ana/Feature-table-result/feature-table-taxa2.tsv",sep = "\t")
-
-# ========== revise the Functional profiling table to add description====

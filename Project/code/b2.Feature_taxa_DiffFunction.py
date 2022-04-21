@@ -61,78 +61,6 @@ if os.path.exists(outputDirectory):
 else :
   os.mkdir(outputDirectory)
 
-# Region of 16S sequence
-PRIMER1 = "AGAGTTTGATCCTGGCTCAG" #8F
-PRIMER2 = "GCTGCCTCCCGTAGGAGT"   #338R
-
-
-# Later could add some arguments (Outputdirectory etc)
-# add some function to check and download the sequence and taxanomy
-
-# silva data base sequence
-# source and license
-# https://docs.qiime2.org/2022.2/data-resources/
-# Output the sequence into code
-
-print ("=============Start Training the Classifier=============")
-
-Command0 = "qiime feature-classifier extract-reads \
---i-sequences " + classifier + "/silva-138-99-seqs.qza \
---p-f-primer " +  PRIMER1 + " \
---p-r-primer " + PRIMER2 + " \
---o-reads "+ classifier + "/silva-138-99-8F338R.qza \
---verbose"
-
-# Train the classifer
-# Output the classifer to code 
-Command0 = Command0 + " &&  qiime feature-classifier fit-classifier-naive-bayes \
---i-reference-reads "+ classifier + "/silva-138-99-8F338R.qza \
---i-reference-taxonomy "+ classifier + "/silva-138-99-tax.qza \
---o-classifier "+ classifier + "/silva-138-99-8F338R-classifier.qza"
-
-#subprocess.run(Command0,shell=True,check=True)
-
-
-## TAXONOMY analysis
-# the region we amplified is 8F-338R--- V1,V2 region
-# Given the sequence, I want to know the taxonomy  information
-# Use silva pre-trained  database q2-feature-classifier 
-# silva may better than greengene
-# however, the trained database is much bigger than GG, which will cause memory inadequate,
-# therefore,here we use gg full-length data
-
-# We tried the pre-trained GG Database,silva database classifer
-
-# We will use HPC to do silva classification
-
-# We will try classify the taxanomy with self-trained classifier which is recommanded by QIIME
-print ("=============Start Classification=============")
-
-Command ="qiime feature-classifier classify-sklearn \
-  --i-classifier " + classifier + "/silva-138-99-8F338R-classifier.qza \
-  --i-reads " + inputDirectory + "/rep-seqs.qza \
-  --o-classification " + outputDirectory + "/taxonomy.qza\
-  --p-n-jobs " + threads
-
-Command = Command + " && " + "qiime tools export \
-      --input-path " + outputDirectory + "/taxonomy.qza \
-      --output-path " + outputDirectory + "/Taxonomy_export\
-      "
-# visualize the barplot of taxonomy distribution
-Command = Command + " && " + "qiime taxa barplot \
-   --i-table " + inputDirectory + "/table.qza \
-   --i-taxonomy " + outputDirectory + "/taxonomy.qza \
-   --m-metadata-file " + classifier + "/sample-metadata.tsv \
-   --o-visualization " + outputDirectory + "/taxa-bar-plots.qzv"
-# taxa-bar-plots.qzv: the counts of taxa in different level
-# could use the data in it for example the level-2.csv to visualize
-
-Command = Command + " && " + "qiime tools export \
-      --input-path " + outputDirectory + "/taxa-bar-plots.qzv \
-      --output-path " + outputDirectory + "/Taxonomy_export \
-      "
-
-#subprocess.run(Command,shell=True,check=True)
 
 # run 
 #============
@@ -167,7 +95,7 @@ for i in Metadatalist:
     --o-visualization " + outputDirectory + "/Feature-table-result/l6-ancom-" + i +".qzv"
 
 
-#subprocess.run(Command1,shell=True,check=True)
+subprocess.run(Command1,shell=True,check=True)
 
 
 #according to the information so far, there are no difference taxa according to the current data.
@@ -212,7 +140,7 @@ Command2 = Command2 + " && " + "qiime tools export \
       -o  " + outputDirectory + "/q2-picrust2_output/Functional_profiling_ec/ec_metagenome.tsv --to-tsv \
        "
 
-#subprocess.run(Command2,shell=True,check=True)
+subprocess.run(Command2,shell=True,check=True)
 
 
 
@@ -247,7 +175,7 @@ subprocess.run(Command3,shell=True,check=True)
 
 # ========= combine the table together ===========
 
-Command4 = " python3 fasta2tsv.py"
+#Command4 = " python3 fasta2tsv.py"
 
 #subprocess.run(Command4,shell=True,check=True)
 
@@ -290,7 +218,3 @@ Command4 = " python3 fasta2tsv.py"
 #subprocess.run(Command1,shell=True,check=True)
 
 # ============
-
-
-
-

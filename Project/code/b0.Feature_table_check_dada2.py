@@ -1,4 +1,3 @@
-
 # ========= import the module ======
 
 import os
@@ -78,12 +77,9 @@ Command0 = Command0 + "qiime feature-table filter-seqs --i-data " + inputDirecto
 # ==========================================================
 
 ## rename 
-Command =" mv " + inputDirectory + "/rep-seqs-deblur.qza  " + inputDirectory + "/rep-seqs.qza && \
-mv  " + inputDirectory + "/table-deblur.qza  " + inputDirectory + "/table.qza" #rename 
-# rep-seqs.qza : OTUID and sequence
-# table.qza : OTUID and abundance in each sample
 
-Command = Command + " && " + "qiime  feature-table summarize \
+
+Command = "qiime  feature-table summarize \
   --i-table  " + inputDirectory + "/table.qza \
   --o-visualization  " + inputDirectory + "/table.qzv \
   --m-sample-metadata-file  " + metadata + "/sample-metadata.tsv && \

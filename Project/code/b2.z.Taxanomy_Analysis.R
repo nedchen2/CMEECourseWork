@@ -4,62 +4,9 @@ require(pheatmap)
 require(reshape2)
 require(RColorBrewer)
 
-# ======== Summary of the OTU table including confidence, taxa annotation and sequence,and total frequency
-
-taxonomy <- read.delim ("../results/3.Taxonomy_ana/Taxonomy_export/taxonomy.tsv")
-
-taxonomy.l6 <- read.delim("../results/3.Taxonomy_ana/Taxonomy_export/level-6.csv",sep = ",")
-
-
-#feature_table <- read.table("../results/2.Feature_table/Feature-table-result/feature-table2.tsv",header=T,check.names = F)
-#feature_table_seq <-  read.table("../results/2.Feature_table/Feature-table-result/feature-table-with-seq.tsv",header=T,check.names = F) 
-
-NUMBER <- ncol(read.table("../results/2.Feature_table/Feature-table-result/feature-table-with-seq.tsv",header=T,check.names = F))
-
-feature_table_with_seq <- read.table("../results/2.Feature_table/Feature-table-result/feature-table-with-seq.tsv",header=T,check.names = F)  %>%
-  column_to_rownames(var = "Feature.ID") %>%
-  mutate(Frequency = rowSums(.[1:(NUMBER-2)])) %>%  # 2 is the Non-sample column number
-  arrange(desc(Frequency)) %>% rownames_to_column(var = "Feature.ID")
-
-
-Join_Three_table <-left_join(feature_table_with_seq,taxonomy,by = "Feature.ID") %>% arrange(desc(Frequency))
-
-write.table(Join_Three_table,file="../results/3.Taxonomy_ana/Feature_abundance_table_with_seq_and_taxa_annotation.tsv",row.names = F)
-
-
-# ===== deal with unassigned
-
-idx = grepl("g__",Join_Three_table$Taxon,ignore.case = T)
-
-add_blastn <- function(data){
-  blasteURL = paste0("http://www.ncbi.nlm.nih.gov/BLAST/Blast.cgi?ALIGNMENT_VIEW=Pairwise&PROGRAM=blastn&DATABASE=nt&CMD=Put&QUERY=",data$Sequence)
-  return(blasteURL)
-}
-
-unassigned = Join_Three_table[!idx,] %>% mutate(blastURL = add_blastn(.))
-
-write.table(unassigned,file="../results/3.Taxonomy_ana/Unassigned_Feature_abundance_table_with_seq_and_taxa_annotation.tsv",row.names = F)
-
-label = unassigned %>% select("Feature.ID","Frequency","Taxon","Confidence")
-
-blast_dir = "../results/blast/"
-
-blast_result = c()
-for (i in 1:length(list.files(blast_dir))){
-  df = read.csv(paste0(blast_dir, list.files(blast_dir)[i])) %>% mutate(Feature.ID = unlist(strsplit(list.files(blast_dir)[i],split = ".",fixed = T))[1])
-  blast_result =  rbind(blast_result,df[1,])
-}
-
-
-Top10_unassigned_genus_blast = left_join(blast_result,label,by = "Feature.ID") %>% 
-  select("Taxon", "Frequency" ,  "Confidence"  ,"Description","Scientific.Name", "Max.Score" ,
-         "Total.Score","Query.Cover","E.value","Per..ident",     
-        "Acc..Len", "Accession","Feature.ID"   )
-
-write.table(Top10_unassigned_genus_blast ,file="../results/blast/Top10_unassigned_genus_blast.xls",row.names = F)
-
 
 # =======================Taxanomy analysis
+taxonomy.l6 <- read.delim("../results/3.Taxonomy_ana/Taxonomy_export/level-6.csv",sep = ",")
 
 metadata <- read.table("./sample-metadata.tsv",header = T)
 

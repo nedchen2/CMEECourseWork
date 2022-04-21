@@ -16,7 +16,7 @@ replace = "GCGTAAGN"
 
 df_old$Index2.modified = str_replace(df_old$Index2i5Sequence,pattern = "TAGATCGC",replacement = "GCGTAAGN")
 
-df.old.revised  <- df_old %>% mutate(BarcodeSequence=paste0(substr(df_old$Index1i7Sequence,1,7),substr(df_old$Index2i5Sequence,1,7)),
+df.old.revised  <- df_old %>% mutate(BarcodeSequence=paste0(substr(df_old$Index1i7Sequence,1,7),substr(df_old$Index2.modified,1,7)),
                      LinkerPrimerSequence=Linker1PrimerSequence,
                      sample_name=Sample.ID) %>% dplyr::select("sample_name","BarcodeSequence","LinkerPrimerSequence","CollectionSite","Species","Infection","Infection.intensity","Description")  %>% 
                       replace_na(list(CollectionSite = "Blank",Species = "Blank",Infection = "Blank",Infection.intensity = "Blank"))
