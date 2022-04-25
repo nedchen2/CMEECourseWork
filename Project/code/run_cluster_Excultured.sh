@@ -12,11 +12,11 @@ echo " QIIME2 is about to run"
 # this is where my submit directory is
 cd $PBS_O_WORKDIR
 
-#pipeline for dada2-PE
+#pipeline for deblur-PE
 
 #python3 $HOME/UKBB_Microbiomes/code/a3.raw_data_demuTrim.py
-python3 $HOME/UKBB_Microbiomes/code/a4.raw_data_2_Feature_dada2.py
-python3 $HOME/UKBB_Microbiomes/code/b0.Feature_table_check_dada2.py
+#python3 $HOME/UKBB_Microbiomes/code/a4.raw_data_2_Feature_deblur.py
+#python3 $HOME/UKBB_Microbiomes/code/b0.Feature_table_check.py
 python3 $HOME/UKBB_Microbiomes/code/b1.Feature_taxa_classification.py
 
 echo "Mission complete" 

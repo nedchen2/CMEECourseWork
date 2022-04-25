@@ -1,7 +1,6 @@
 """
-This script provide deblur denoise approach with single-end Data imported ,i.e. following a3.raw_data_demuTrim.py 
+This script provide deblur denoise approach with Paired-end Data imported  
 """
-
 
 # ========= import the module ======
 
@@ -63,7 +62,7 @@ print ("============Start Trimming Low Quality============")
 
 ## filter q-score and stat ---- Do the quality filter
 Command3 = "qiime quality-filter q-score \
- --i-demux " + outputDirectory + "/Primer_trimmed-seqs.qza \
+ --i-demux " + outputDirectory + "/demux.qza \
  --o-filtered-sequences " + outputDirectory + "/demux-filtered.qza \
  --o-filter-stats " + outputDirectory + "/demux-filter-stats.qza" # filter and stat
 # demux-filterer.qza: a lot of filtered demutiplexed fastq file in qza
@@ -87,11 +86,10 @@ print ("============Start Denoising and Clustering into subOTU============")
 ## denoise -16s - Using deblur
 Command = "qiime deblur denoise-16S \
   --i-demultiplexed-seqs  " + outputDirectory + "/demux-filtered.qza \
-  --p-trim-length 310 \
+  --p-trim-length 240 \
   --o-representative-sequences  " + inputDirectory + "/rep-seqs-deblur.qza \
   --o-table " + inputDirectory + "/table-deblur.qza \
-  --p-sample-stats \
-  --o-stats  " + inputDirectory + "/deblur-stats.qza"
+  --p-sample-stats --p-jobs-to-start 4 --o-stats " + inputDirectory + "/deblur-stats.qza"
 
 Command = Command + " && " +"qiime deblur visualize-stats \
   --i-deblur-stats " + inputDirectory + "/deblur-stats.qza \

@@ -29,6 +29,8 @@ parser.add_argument("-t", "--threads", help="Threads",
                     default="3")
 parser.add_argument("-e", "--error", help="error rate",
                     default="1") # admit one error rate
+parser.add_argument("-u", "--uncultured", help="Exclude Uncultured or not",
+                    default="Exclude") # admit one error rate                    
 
 # Might add something related to HPC
 
@@ -41,6 +43,7 @@ inputDirectory = os.path.abspath(args.inputDirectory)
 threads = str(args.threads)
 error =  str(args.error)
 classifier =  os.path.abspath(args.metadata) # dir of the pre-trained classifier
+uncultured = str(args.uncultured)
  
 # get the software list by config file
 config = configparser.ConfigParser()
@@ -83,14 +86,29 @@ Command0 = "qiime feature-classifier extract-reads \
 --o-reads "+ classifier + "/silva-138-99-8F338R.qza \
 --verbose"
 
-# Train the classifer
-# Output the classifer to code 
-Command0 = Command0 + " &&  qiime feature-classifier fit-classifier-naive-bayes \
---i-reference-reads "+ classifier + "/silva-138-99-8F338R.qza \
---i-reference-taxonomy "+ classifier + "/silva-138-99-tax.qza \
---o-classifier "+ classifier + "/silva-138-99-8F338R-classifier.qza"
+if uncultured != "Exclude":
+  Command0 = Command0 + " &&  qiime feature-classifier fit-classifier-naive-bayes \
+    --i-reference-reads "+ classifier + "/silva-138-99-8F338R.qza \
+    --i-reference-taxonomy "+ classifier + "/silva-138-99-tax.qza \
+    --o-classifier "+ classifier + "/silva-138-99-8F338R-classifier.qza"  # Train the classifer # Output the classifer to code 
+  classifier_name = "silva-138-99-8F338R-classifier.qza"
+else:
+  Command0 = Command0 + " &&  qiime rescript filter-taxa \
+    --i-taxonomy ./silva-138-99-tax.qza \
+    --p-exclude \"uncultured\" \"Uncultured\" \
+    --o-filtered-taxonomy ./silva-138-99-tax-ExUncultured.qza"# or we exclude the uncultured species  # exclude the taxa
+  Command0 = Command0 + " qiime taxa filter-seqs --i-sequences silva-138-99-8F338R.qza \
+    --i-taxonomy silva-138-99-tax.qza \
+       --p-exclude  \"uncultured\",\"Uncultured\"  \
+         --o-filtered-sequences ./silva-138-99-8F338R-ExUncultured.qza"   # exclude the sequence
+  Command0 =  Command0 + " qiime feature-classifier fit-classifier-naive-bayes \
+    --i-reference-reads "+ classifier + "/silva-138-99-8F338R-ExUncultured.qza \
+    --i-reference-taxonomy "+ classifier + "/silva-138-99-tax-ExUncultured.qza \
+    --o-classifier "+ classifier + "/silva-138-99-8F338R-ExUncultured-classifier.qza"  # Train the uncultured classifer
+  classifier_name = "silva-138-99-8F338R-ExUncultured-classifier.qza" #uncultured classifier
 
-#subprocess.run(Command0,shell=True,check=True)
+subprocess.run(Command0,shell=True,check=True)
+# qiime feature-classifier fit-classifier-naive-bayes --i-reference-reads ./silva-139-99-8F338R-ExUncultured.qza --i-reference-taxonomy ./silva-138-99-tax-ExUncultured.qza --o-classifier silva-138-99-8F338R-ExUncultured-classifier.qza
 
 
 ## TAXONOMY analysis
@@ -108,8 +126,9 @@ Command0 = Command0 + " &&  qiime feature-classifier fit-classifier-naive-bayes 
 # We will try classify the taxanomy with self-trained classifier which is recommanded by QIIME
 print ("=============Start Classification=============")
 
+
 Command ="qiime feature-classifier classify-sklearn \
-  --i-classifier " + classifier + "/silva-138-99-8F338R-classifier.qza \
+  --i-classifier " + classifier + "/" + classifier_name + "\
   --i-reads " + inputDirectory + "/rep-seqs.qza \
   --o-classification " + outputDirectory + "/taxonomy.qza\
   --p-n-jobs " + threads
@@ -137,6 +156,12 @@ Command = Command + " && " + "qiime tools export \
 subprocess.run(Command,shell=True,check=True)
 
 
+
+# Do blast consensus analysis
+
+Command2 = "python3 b1.w.Feature_taxa_Doblast.py"
+
+subprocess.run(Command2,shell=True,check=True)
 # ================= remove the possible contaminant
 
 

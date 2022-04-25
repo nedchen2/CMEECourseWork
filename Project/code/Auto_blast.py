@@ -1,13 +1,14 @@
+from os import pread
 from Bio.Blast import NCBIWWW
 import pandas as pd
 from Bio.Blast import NCBIXML
 from sqlalchemy import column
 
-df = pd.read_table("../results/3.Taxonomy_ana/Unassigned_blastn-result.tsv")
+df = pd.read_csv("../results/3.Taxonomy_ana/Unassigned_blastn-result.tsv",sep=" ")
+n=15
+Topn = df.loc[0:n,:]
 
-Top10 = df.loc[0:10,:]
-
-fasta_string = Top10.loc[:,"Sequence"]
+fasta_string = Topn["Sequence"]
 
 E_VALUE_THRESH = 0.04
 
@@ -17,11 +18,11 @@ for i in range(0,len(fasta_string)):
     for alignment in blast_record.alignments:
         for hsp in alignment.hsps:
             if hsp.expect < E_VALUE_THRESH:
-                Top10.loc[i,"title"] = alignment.title
-                Top10.loc[i,"length"] = alignment.length
-                Top10.loc[i,"evalue"] = hsp.expect
-                Top10.loc[i,"MimicPercIdentity"] = hsp.identities/hsp.align_length
-                print ('****Alignment****')
+                Topn.loc[i,"title"] = alignment.title
+                Topn.loc[i,"length"] = alignment.length
+                Topn.loc[i,"evalue"] = hsp.expect
+                Topn.loc[i,"MimicPercIdentity"] = hsp.identities/hsp.align_length
+                print ('********Alignment*********')
                 print ('sequence:', alignment.title)
                 print ('length:', alignment.length)
                 print ('e value:', hsp.expect)
@@ -30,7 +31,9 @@ for i in range(0,len(fasta_string)):
                 print (hsp.match[0:75] + '...')
                 print (hsp.sbjct[0:75] + '...')
 
-Top10.to_csv("../results/blast/top10_unassigned_blast_result.tsv",sep = "\t")
+filename = "../results/3.Taxonomy_ana/top" + str(n) + "_unassigned_blast_result.tsv"
+
+Topn.to_csv(filename,sep = "\t")
 
 
 

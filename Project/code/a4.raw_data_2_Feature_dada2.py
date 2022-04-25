@@ -1,9 +1,6 @@
-# 1.import the data to QIIME2 
-# 2.Demultiplexing 
-# 3. output exact sequence variant / in deblur, called sub-OTUs
-# 4. Taxonomy analysis
-# need anaconda
-# based on QIIME2
+"""
+This script provide dada2 denoise approach with Paired-end Data imported  
+"""
 
 
 # ========= import the module ======
