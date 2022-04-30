@@ -1,5 +1,6 @@
 from os import pread
 from Bio.Blast import NCBIWWW
+from isort import file
 import pandas as pd
 from Bio.Blast import NCBIXML
 from sqlalchemy import column
@@ -34,6 +35,5 @@ for i in range(0,len(fasta_string)):
 filename = "../results/3.Taxonomy_ana/top" + str(n) + "_unassigned_blast_result.tsv"
 
 Topn.to_csv(filename,sep = "\t")
-
 
 

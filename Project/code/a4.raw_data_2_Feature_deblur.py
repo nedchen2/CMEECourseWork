@@ -62,7 +62,7 @@ print ("============Start Trimming Low Quality============")
 
 ## filter q-score and stat ---- Do the quality filter
 Command3 = "qiime quality-filter q-score \
- --i-demux " + outputDirectory + "/demux.qza \
+ --i-demux " + outputDirectory + "/Primer_trimmed-seqs.qza \
  --o-filtered-sequences " + outputDirectory + "/demux-filtered.qza \
  --o-filter-stats " + outputDirectory + "/demux-filter-stats.qza" # filter and stat
 # demux-filterer.qza: a lot of filtered demutiplexed fastq file in qza
@@ -84,9 +84,13 @@ subprocess.run(Command3,shell=True,check=True)
 
 print ("============Start Denoising and Clustering into subOTU============")
 ## denoise -16s - Using deblur
+# deblur trim the length post the join
+# compared with dada2, they trim the length prior to the join
+# Therefore, we have paired-end sequence each of which have 240bps. we can not write 240 below
+# 310 Might more information .
 Command = "qiime deblur denoise-16S \
   --i-demultiplexed-seqs  " + outputDirectory + "/demux-filtered.qza \
-  --p-trim-length 240 \
+  --p-trim-length 310 \
   --o-representative-sequences  " + inputDirectory + "/rep-seqs-deblur.qza \
   --o-table " + inputDirectory + "/table-deblur.qza \
   --p-sample-stats --p-jobs-to-start 4 --o-stats " + inputDirectory + "/deblur-stats.qza"

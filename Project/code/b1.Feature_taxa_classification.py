@@ -86,22 +86,26 @@ Command0 = "qiime feature-classifier extract-reads \
 --o-reads "+ classifier + "/silva-138-99-8F338R.qza \
 --verbose"
 
+# unidentified
+# gut_metagenome
+# human_gut
+# soil_bacterium
 if uncultured != "Exclude":
-  Command0 = Command0 + " &&  qiime feature-classifier fit-classifier-naive-bayes \
+  Command0 = Command0 + " && qiime feature-classifier fit-classifier-naive-bayes \
     --i-reference-reads "+ classifier + "/silva-138-99-8F338R.qza \
     --i-reference-taxonomy "+ classifier + "/silva-138-99-tax.qza \
     --o-classifier "+ classifier + "/silva-138-99-8F338R-classifier.qza"  # Train the classifer # Output the classifer to code 
   classifier_name = "silva-138-99-8F338R-classifier.qza"
 else:
-  Command0 = Command0 + " &&  qiime rescript filter-taxa \
+  Command0 = Command0 + " && qiime rescript filter-taxa \
     --i-taxonomy ./silva-138-99-tax.qza \
-    --p-exclude \"uncultured\" \"Uncultured\" \
+    --p-exclude \"uncultured\" \"Uncultured\" \"Megalopta_genalis\" \"metagenome\" \"mouse_gut\" 'unidentified' 'gut_metagenome' 'human_gut'\
     --o-filtered-taxonomy ./silva-138-99-tax-ExUncultured.qza"# or we exclude the uncultured species  # exclude the taxa
-  Command0 = Command0 + " qiime taxa filter-seqs --i-sequences silva-138-99-8F338R.qza \
+  Command0 = Command0 + " && qiime taxa filter-seqs --i-sequences silva-138-99-8F338R.qza \
     --i-taxonomy silva-138-99-tax.qza \
-       --p-exclude  \"uncultured\",\"Uncultured\"  \
+       --p-exclude  \"uncultured\",\"Uncultured\",\"Megalopta_genalis\",\"metagenome\",\"mouse_gut\",'unidentified','gut_metagenome','human_gut' \
          --o-filtered-sequences ./silva-138-99-8F338R-ExUncultured.qza"   # exclude the sequence
-  Command0 =  Command0 + " qiime feature-classifier fit-classifier-naive-bayes \
+  Command0 =  Command0 + " && qiime feature-classifier fit-classifier-naive-bayes \
     --i-reference-reads "+ classifier + "/silva-138-99-8F338R-ExUncultured.qza \
     --i-reference-taxonomy "+ classifier + "/silva-138-99-tax-ExUncultured.qza \
     --o-classifier "+ classifier + "/silva-138-99-8F338R-ExUncultured-classifier.qza"  # Train the uncultured classifer

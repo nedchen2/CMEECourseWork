@@ -60,9 +60,9 @@ else :
 print ("============Start Demultiplexing Using dada2============")
 
 Command = "qiime dada2 denoise-paired \
-    --i-demultiplexed-seqs " + outputDirectory + "/demux.qza \
-    --p-trunc-len-f 240 \
-    --p-trunc-len-r 240 \
+    --i-demultiplexed-seqs " + outputDirectory + "/Primer_trimmed-seqs.qza \
+    --p-trunc-len-f 225 \
+    --p-trunc-len-r 225 \
     --p-trim-left-f 0 \
     --p-trim-left-r 0 \
     --p-n-threads 4 \

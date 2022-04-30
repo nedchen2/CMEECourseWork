@@ -63,7 +63,7 @@ Command = "qiime tools import --type EMPPairedEndSequences \
 # emp-paired-end-sequences.qza: barcodes and sequence fasta
 
 #Command = Command + " && " + R + " ./Process.MetaData.R" #get the sample-metadata.csv
-subprocess.run(Command,shell=True,check=True)
+#subprocess.run(Command,shell=True,check=True)
 
 
 print ("============Start Demultiplexing============")
@@ -83,19 +83,26 @@ Command1 = Command1  + " && " + "qiime demux summarize \
 # demux.qza : a lot of demutiplexed fastq file in qza
 # qiime tools view ../results/1.Quality_Control/Demultiplexing/demuz.qzv
 
-subprocess.run(Command1,shell=True,check=True)
+#subprocess.run(Command1,shell=True,check=True)
 # demux.qza : a lot of demutiplexed fastq file in qza 
 # demux-details.qza: about the matching process detail of whole read record and barcode
 # We donot care
 
 ## Trim the Primer // demux including detect the adapter/ However,not complete,therefore, we still need this
 print ("============Start Trimming Adapter============")
-Command2 = "qiime cutadapt trim-single \
+Command2 = "qiime cutadapt trim-paired \
+    --p-cores 4 \
     --i-demultiplexed-sequences " + outputDirectory + "/demux.qza \
-    --p-adapter ^AGAGTTTGATCCTGGCTCAG...ACTCCTACGGGAGGCAGC$ " + "--p-error-rate 0.1 \
+    --p-anywhere-f AGAGTTTGATCCTGGCTCAG \
+    --p-anywhere-r GCTGCCTCCCGTAGGAGT " + "--p-error-rate 0.1 \
     --o-trimmed-sequences " + outputDirectory + "/Primer_trimmed-seqs.qza"
 
-#subprocess.run(Command2,shell=True,check=True)
+Command2 = Command2  + " && " + "qiime demux summarize \
+    --i-data " + outputDirectory + "/Primer_trimmed-seqs.qza \
+    --o-visualization " + outputDirectory + "/Primer_trimmed-seqs.qzv" #summarize
+subprocess.run(Command2,shell=True,check=True)
+
+
 
 
 # finish - check - finish
