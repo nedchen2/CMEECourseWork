@@ -122,22 +122,120 @@ write.table(unassigned_noblank,file="../results/3.Taxonomy_ana/Unassigned_blastn
 
 # ============ Combine the consensus blast result with the unassigned table ==============
 
-uninomial_to_bionomial <- function(){
-  test <- 
+test_taxa <-  "k__Bacteria; p__Firmicutes; c__Bacilli; o__Lactobacillales; f__Lactobacillaceae; g__Lactobacillus; s__bombicola"
+
+uninomial_to_bionomial <- function(test_taxa){
+  species <- str_extract(test_taxa,"(?<=s__)(.*)")
+  
+  print("Species assigned")
+  
+  genus <- str_extract(test_taxa,"(?<=g__)(.*)(?=; s__?)")
+  
+  bionomial_nomen <- paste0(genus,"_",species)
+  
+  taxonomy_before <- str_extract(test_taxa,"(.*)(?=; s__?)")
+  
+  new_taxonomy <- paste0(taxonomy_before,"; s__",bionomial_nomen)
+  
+  return(new_taxonomy)
+}
+  
+
+Deal_with_GreenGene <- function(test_taxa){
+  species <- str_extract(test_taxa,"(?<=s__)(.*)")
+  genus   <- str_extract(test_taxa,"(?<=g__)(.*)(?=; s__?)")
+  family  <- str_extract(test_taxa,"(?<=f__)(.*)(?=; g__?)")
+  order   <- str_extract(test_taxa,"(?<=o__)(.*)(?=; f__?)")
+  class   <- str_extract(test_taxa,"(?<=c__)(.*)(?=; o__?)") 
+  phylum  <- str_extract(test_taxa,"(?<=p__)(.*)(?=; c__?)") 
+  kindom  <- str_extract(test_taxa,"(?<=k__)(.*)(?=; p__?)")
   
   
+ if (test_taxa == "Unassigned"){
+   return(test_taxa)
+  }else if (kindom == "" | is.na(kindom)){
+    
+    print("Kindom unassigned")
+    
+    taxonomy_before <- str_extract(test_taxa,"k__.*")
+    return(taxonomy_before)
+     
+  }else if (phylum == "" | is.na(phylum)){
+    
+    print("phylum unassigned")
+    
+    taxonomy_before <- str_extract(test_taxa,"(.*)(?=; p__?)")
+    return(taxonomy_before)
+    
+  }else if (class  == ""  | is.na(class)){
+    
+    print("class unassigned")
+    
+    taxonomy_before <- str_extract(test_taxa,"(.*)(?=; c__?)")
+    return(taxonomy_before)
+    
+  }else if (order  == ""  | is.na(order)){
+    
+    print("order unassigned")
+    
+    taxonomy_before <- str_extract(test_taxa,"(.*)(?=; o__?)")
+    return(taxonomy_before)
+    
+  }else if (family == ""  | is.na(family)){
+    
+    print("family unassigned")
   
+    taxonomy_before <- str_extract(test_taxa,"(.*)(?=; f__?)")
+    return(taxonomy_before)
+    
+  }else if (genus == "" | is.na(genus)) {
+    
+    print("genus unassigned")
+    
+    taxonomy_before <- str_extract(test_taxa,"(.*)(?=; g__?)")
+    return(taxonomy_before)
+    
+  }else if (species == ""  | is.na(species)){
+    
+    print("Species unassigned")
+    
+    taxonomy_before <- str_extract(test_taxa,"(.*)(?=; s__?)")
+    return(taxonomy_before)
+  
+  }else{
+    print("Species assigned")
+    
+    genus <- str_extract(test_taxa,"(?<=g__)(.*)(?=; s__?)")
+    
+    bionomial_nomen <- paste0(genus,"_",species)
+    
+    taxonomy_before <- str_extract(test_taxa,"(.*)(?=; s__?)")
+    
+    new_taxonomy <- paste0(taxonomy_before,"; s__",bionomial_nomen)
+    
+    return(new_taxonomy)
+  }
 }
 
+GreenGene_2_SILVA <- function(df_taxa){
+  new_taxonomy <- c()
+  for (i in seq(nrow(df_taxa))){
+  new_taxonomy  <- c(new_taxonomy,Deal_with_GreenGene(df_taxa[i,"Taxon"]))
+  }
+  return(new_taxonomy)
+}
 
 
 Combine_unassigned_0.99 <- function(){
   taxonomy_blast <- read.delim ("../results/blast/0.99-1hit/taxonomy.tsv")
   colnames(taxonomy_blast) <- c("Row.names","Taxon_blast","Consensus")
+  idx_need_binomial <- str_detect(taxonomy_blast$Taxon_blast,"s__")
+  taxonomy_blast[idx_need_binomial,"Taxon_blast"] = uninomial_to_bionomial(taxonomy_blast$Taxon_blast[idx_need_binomial])
+  
   
   df_test2 <- left_join(unassigned_noblank,taxonomy_blast,by="Row.names") 
   
-  df_final2 <- df_test2 %>% mutate(Taxon_blast_revised =str_replace(str_replace(Taxon_blast,"k__","d__"),"c__Betaproteobacteria; o__Burkholderiales","c__Gammaproteobacteria; o__Burkholderiales")) %>% 
+  df_final2 <- df_test2 %>% mutate(Taxon_blast_revised =str_replace(str_replace(str_replace(Taxon_blast,"k__","d__"),"c__Betaproteobacteria; o__Burkholderiales","c__Gammaproteobacteria; o__Burkholderiales"),"g__Escherichia","g__Escherichia-Shigella")) %>% 
     select("Row.names","Taxon","Confidence","Taxon_blast_revised","Consensus","Frequency")
   
   # index of possibly improved
@@ -162,18 +260,21 @@ Combine_unassigned_0.99 <- function(){
   df_final2[idx_residue,"Improve"] = "No improve"
   
   write.table(df_final2,file="../results/3.Taxonomy_ana/Unassigned_blastn-result-noblank-corrected_blast_99.tsv",row.names = F)
+  return(df_final2)
 }
 
-Combine_unassigned_0.99()
+
 
 
 Combine_unassigned_0.97 <- function(){
   taxonomy_blast <- read.delim ("../results/blast/0.97-5hit/taxonomy.tsv")
   colnames(taxonomy_blast) <- c("Row.names","Taxon_blast","Consensus")
+  idx_need_binomial <- str_detect(taxonomy_blast$Taxon_blast,"s__")
+  taxonomy_blast[idx_need_binomial,"Taxon_blast"] = uninomial_to_bionomial(taxonomy_blast$Taxon_blast[idx_need_binomial])
   
   df_test2 <- left_join(unassigned_noblank,taxonomy_blast,by="Row.names") 
   
-  df_final2 <- df_test2 %>% mutate(Taxon_blast_revised =str_replace(str_replace(Taxon_blast,"k__","d__"),"c__Betaproteobacteria; o__Burkholderiales","c__Gammaproteobacteria; o__Burkholderiales")) %>% 
+  df_final2 <- df_test2 %>% mutate(Taxon_blast_revised =str_replace(str_replace(str_replace(Taxon_blast,"k__","d__"),"c__Betaproteobacteria; o__Burkholderiales","c__Gammaproteobacteria; o__Burkholderiales"),"g__Escherichia","g__Escherichia-Shigella")) %>% 
     select("Row.names","Taxon","Confidence","Taxon_blast_revised","Consensus","Frequency")
   
   # index of possibly improved
@@ -198,26 +299,51 @@ Combine_unassigned_0.97 <- function(){
   df_final2[idx_residue,"Improve"] = "No improve"
   
   write.table(df_final2,file="../results/3.Taxonomy_ana/Unassigned_blastn-result-noblank-corrected_blast_97.tsv",row.names = F)
+  return(df_final2)
 }
 
 
-Combine_unassigned_0.97()
+unassigned_0.97 <- Combine_unassigned_0.97()
+unassigned_0.99 <- Combine_unassigned_0.99()
 
+
+
+idx_need_correct <- !str_detect(unassigned_0.97$Taxon_blast_revised,"g__") # 0.97 unassigned
+idx_need_correct2 <- str_detect(unassigned_0.99$Taxon_blast_revised,"g__") # 0.99 assigned
+
+idx_need_correct_final <- idx_need_correct & idx_need_correct2 
+
+
+unassigned_0.97[idx_need_correct_final,"Taxon_blast_revised"] = unassigned_0.99[idx_need_correct_final,"Taxon_blast_revised"]
+
+unassigned_0.97[idx_need_correct_final,"Improve"] = unassigned_0.99[idx_need_correct_final,"Improve"]
+
+unassigned_final_correct <- unassigned_0.97
 
 # =============================================
 
+
+Ratio_of_unassigned<- function(data){
+  idx_new = !grepl("g__",data$Taxon,ignore.case = T)
+  idx_new_species = !grepl("s__",data$Taxon,ignore.case = T)
+  
+  print (paste0("Ratio of unassigned genus:",sum(idx_new)/nrow(data)*100,"%"))
+  print (paste0("Ratio of unassigned species:",sum(idx_new_species)/nrow(data)*100,"%"))
+  return("==============")
+}
+
 # fix some of the content by manual blast
 
-final_fix <- function(){
-  TOP20 = read.delim("../results/3.Taxonomy_ana/Final_____Unassigned_blastn-result-noblank-corrected_blast.tsv")[1:20,] %>% 
+final_fix <- function(taxa_blast_final){
+  TOP20 = taxa_blast_final[1:20,] %>% 
     select(c("Row.names","Taxon_blast_revised","Consensus","Improve"))
-  
-  TOP20[TOP20$Improve == "Improve","Improve"] = "Improve(0.97–5hit)"
   
   # We decide to only correct the top20 unassigned feature
   
-  df_correct = TOP20[TOP20$Improve == "Improve(0.97–5hit)"|TOP20$Improve == "Improve(0.99–1hit)",]
+  df_correct = TOP20[TOP20$Improve == "Improve(0.97-5hit)"|TOP20$Improve == "Improve(0.99-1hit)",]
   
+  print(paste0("the final corrected number of top20 unassigned ",nrow(df_correct)))
+  print(df_correct[,"Taxon_blast_revised"])
   
   idx_replace = df_final$Row.names%in%df_correct$Row.names
   
@@ -228,16 +354,132 @@ final_fix <- function(){
   
   df_final <- df_final %>% select(!"Taxon_blast_revised") %>% arrange(desc(Frequency)) %>% replace_na(list("Improve"="No change"))
   
+  a = Ratio_of_unassigned(df_final[1:500,])
   
   write.table(df_final,file="../results/3.Taxonomy_ana/Corrected_Abundance_taxa_table.csv",row.names = F,sep=",")
 }
 
+final_fix(unassigned_final_correct)
+
+
+# ==============Deal with different database NCBI,Greengene,SILVA
+
+# taxonomy_greengene   # the dataframe of GreeenGene
+taxonomy_greengene =  read.delim ("../results/greengene/Taxonomy_export/taxonomy.tsv")%>%
+  mutate(Taxon_GreenGene = str_replace(GreenGene_2_SILVA(.),"k__","d__")) %>% 
+  select("Feature.ID", "Taxon_GreenGene", "Confidence") %>% rename(Taxon=`Taxon_GreenGene`)
+
+
+taxonomy_NCBI = read.delim ("../results/blast/0.97-5hit/taxonomy.tsv") %>%
+  mutate(Taxon_NCBI = str_replace(GreenGene_2_SILVA(.),"k__","d__")) %>% 
+  select("Feature.ID", "Taxon_NCBI", "Consensus") %>% rename(Taxon=`Taxon_NCBI`,
+                                                             Confidence=`Consensus`)
+
+
+# ============= In last par, we have combine the NCBI result with SILVA and GreenGene
+
+# if the lowest taxa of SILVA is identical with those in the NCBI and GreenGene
+
+# slice()
+# pull()
+
+xtab_set <- function(A,B){
+  both    <-  union(A,B)
+  inA     <-  both %in% A
+  inB     <-  both %in% B
+  return(table(inA,inB))
+}
+
+score_the_SILVA <- function(df_taxa,df_taxa2){
+  #df_taxa  : silva
+  #df_taxa2 : NCBI or GreenGene
+  df_taxa_final <- df_taxa
+  stopifnot(sum(row.names(df_taxa) == row.names(df_taxa2)) == nrow(df_taxa))#check if the index is the same
+  
+  df_taxa <- df_taxa %>% rownames_to_column("Order") %>%
+    separate(col = Taxon,into = c("kindom","phylum","class","order","family","genus","species"),sep = "; ",fill = "right" ) %>% 
+    select(-Confidence,-Order) %>% arrange("Feature.ID") %>% column_to_rownames("Feature.ID")
+  
+  print (df_taxa %>% slice(1:10) %>% rownames_to_column("Feature.ID") %>% pull("Feature.ID"))
+  
+  df_taxa2 <- df_taxa2 %>% rownames_to_column("Order") %>%
+    separate(col = Taxon,into = c("kindom","phylum","class","order","family","genus","species"),sep = "; ",fill = "right" ) %>% 
+    select(-Confidence,-Order)  %>% arrange("Feature.ID") %>% column_to_rownames("Feature.ID")
+  
+  print (df_taxa2 %>% slice(1:10) %>% rownames_to_column("Feature.ID") %>% pull("Feature.ID"))
+  
+  score = c()
+  rank_depth = c()
+  Evaluation <- c()
+  for (i in seq(nrow(df_taxa2))){
+    A = unlist(df_taxa[i,])
+    B = unlist(df_taxa2[i,])
+    score = c(score,sum(diag(xtab_set(A,B))))
+    rank_depth = c(rank_depth,length(A))
+    
+    deepest_of_A = length(na.omit(A))
+    deepest_of_B = length(na.omit(B))
+    
+    # compare the depth first
+    if (length(na.omit(A)) >= length(na.omit(B))){
+      #print ("depth of the SILVA is better than NCBI or GreenGene" )
+      check_depth =  deepest_of_B
+      evaluation =  unlist(df_taxa[i,])[check_depth] == unlist(df_taxa2[i,])[check_depth]
+      
+    } else {
+      #print ("depth of NCBI or GreenGene is better than the SILVA" )
+      check_depth =  deepest_of_A
+      evaluation = unlist(df_taxa[i,])[check_depth] == unlist(df_taxa2[i,])[check_depth]
+    }
+    
+    if(evaluation){Evaluation <- c(Evaluation,"Consistent")}else{Evaluation <- c(Evaluation,"Inconsistent")}
+  }
+  
+  df_taxa_final[,"score"]=score
+  df_taxa_final[,"rank_depth"]=rank_depth
+  df_taxa_final[,"Evaluation"]=Evaluation
+  
+  df_taxa_final <- df_taxa_final %>% select(!c("Taxon","Confidence"))
+  
+  return (df_taxa_final)
+}
+
+
+#score the dissimilarity of greengene and SILVA
+
+df_evaluation <- score_the_SILVA(taxonomy,taxonomy_greengene)
+table(df_evaluation$Evaluation)
+#Consistent Inconsistent 
+#2189         1395 
+mean(df_evaluation$score)
+#4.054408
+
+df_evaluation2 <- score_the_SILVA(taxonomy,taxonomy_NCBI)
+table(df_evaluation2$Evaluation)
+#Consistent Inconsistent 
+#107         3477 
+mean(df_evaluation2$score) 
+#1.09375
 
 
 
 
 
+#Rename
+colnames(taxonomy_greengene) <- c("Feature.ID", "Taxon_GreenGene", "Confidence_GreenGene") 
 
+# taxonomy        # the dataframe of SILVA
+
+colnames(taxonomy) <- c("Feature.ID", "Taxon_SILVA", "Confidence_SILVA") 
+
+
+# taxonomy_blast  # the dataframe of blast
+
+colnames(taxonomy_NCBI) <- c("Feature.ID", "Taxon_NCBI", "Consensus_NCBI") 
+
+
+
+combine_taxo = left_join(taxonomy_greengene,left_join(taxonomy,taxonomy_NCBI,by="Feature.ID"),by="Feature.ID")
 
 
 
