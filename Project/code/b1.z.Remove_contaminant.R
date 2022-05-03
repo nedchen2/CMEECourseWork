@@ -352,7 +352,9 @@ final_fix <- function(taxa_blast_final){
   df_final[idx_replace,"Taxon"] <- df_final[idx_replace,"Taxon_blast_revised"]
   
   
-  df_final <- df_final %>% select(!"Taxon_blast_revised") %>% arrange(desc(Frequency)) %>% replace_na(list("Improve"="No change"))
+  df_final <- df_final %>% select(!"Taxon_blast_revised") %>% arrange(desc(Frequency)) %>% 
+    replace_na(list("Improve"="No change")) %>%
+    select(-Blank)
   
   a = Ratio_of_unassigned(df_final[1:500,])
   
