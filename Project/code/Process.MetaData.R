@@ -44,9 +44,17 @@ write.table(df_top120Barcode,file = "./Top120Barcode.tsv",row.names = F,sep="\t"
 
 #updated metadata
 df_new = read.table("micro_map.txt",sep="\t",header = T)
-df.new.revised <-  df_new %>% mutate(BarcodeSequence=paste0(substr(df_new$Index1i7Sequence,1,7),substr(df_new$Index2i5Sequence,1,7)),
+
+df_new$Index2.modified = str_replace(df_new$Index2i5Sequence,pattern = "TAGATCGC",replacement = "GCGTAAGN")
+
+df.new.revised <-  df_new %>% mutate(BarcodeSequence=paste0(substr(df_new$Index1i7Sequence,1,7),substr(df_new$Index2.modified,1,7)),
                                 LinkerPrimerSequence=Linker1PrimerSequence,
-                                sample_name=as.character(Bee_ID)) %>% dplyr::select("sample_name","BarcodeSequence","LinkerPrimerSequence")
+                                sample_name=as.character(Bee_ID)) %>% dplyr::select( "sample_name" , "BarcodeSequence",  "LinkerPrimerSequence"  ,"radseq_ID_list", "sibling_sets", "Site", "conopid_larvae","Apicystis_binomial",    
+                                                                                     "mean_Apicystis_sp_ul" , "Crithidia_binomial" ,"mean_Crithidia_cell_ul", "Nosema_binomial" , "mean_Nosema_sp_ul"  ,  
+                                                                                     "para_richness")
+
+write.table(df.new.revised,file = "./sample-metadata-NewMappingFile.tsv",row.names = F,sep="\t")
+
 
 
 df.merged = df.new.revised %>%  left_join(df.old.revised,by = "sample_name")
