@@ -64,7 +64,7 @@ write.table(unassigned,file="../results/3.Taxonomy_ana/Unassigned_blastn-result.
 
 
 # =============== test for remove the contaminate
-df_test <- feature_table_with_seq %>% select(!c("Sequence","Frequency")) %>% column_to_rownames(var = "Feature.ID")
+df_test <- feature_table_with_seq %>% dplyr::select(!c("Sequence","Frequency")) %>% column_to_rownames(var = "Feature.ID")
 
 # Here, we assume sample 2 as the blank sample
 # subtract the feature from blank sample
@@ -74,7 +74,7 @@ df_subtraction = df_test - df_test$Blank
 df_subtraction[df_subtraction < 0 ] = 0 
 
 # read the taxonomy information
-df_taxonomy <- Join_Three_table %>%select("Feature.ID","Sequence","Taxon","Confidence") %>% column_to_rownames(var = "Feature.ID")
+df_taxonomy <- Join_Three_table %>% dplyr::select("Feature.ID","Sequence","Taxon","Confidence") %>% column_to_rownames(var = "Feature.ID")
 
 df_join <- merge(df_subtraction,df_taxonomy,by="row.names")
 
@@ -235,8 +235,11 @@ Combine_unassigned_0.99 <- function(){
   
   df_test2 <- left_join(unassigned_noblank,taxonomy_blast,by="Row.names") 
   
-  df_final2 <- df_test2 %>% mutate(Taxon_blast_revised =str_replace(str_replace(str_replace(Taxon_blast,"k__","d__"),"c__Betaproteobacteria; o__Burkholderiales","c__Gammaproteobacteria; o__Burkholderiales"),"g__Escherichia","g__Escherichia-Shigella")) %>% 
-    select("Row.names","Taxon","Confidence","Taxon_blast_revised","Consensus","Frequency")
+  df_final2 <- df_test2 %>% mutate(Taxon_blast_revised =str_replace(str_replace(str_replace(str_replace(Taxon_blast,"k__","d__"),"c__Betaproteobacteria; o__Burkholderiales","c__Gammaproteobacteria; o__Burkholderiales"),"g__Escherichia","g__Escherichia-Shigella"),"g__Shigella","g__Escherichia-Shigella")) %>% 
+    mutate(Taxon_blast_revised=str_replace(Taxon_blast_revised,"s__Snodgrassella_alvi wkB2","s__Snodgrassella_alvi"))%>%
+    mutate(Taxon_blast_revised=str_replace(Taxon_blast_revised,"s__Phytobacter_massiliensis JC163","s__Phytobacter_massiliensis")) %>%
+    mutate(Taxon_blast_revised=str_replace(Taxon_blast_revised,"s__Rhizorhapis_suberifaciens NBRC 15211","s__Rhizorhapis_suberifaciens"))%>%
+    dplyr::select("Row.names","Taxon","Confidence","Taxon_blast_revised","Consensus","Frequency")
   
   # index of possibly improved
   idx5 = !grepl("g__",df_test2$Taxon_blast,ignore.case = T)
@@ -274,8 +277,11 @@ Combine_unassigned_0.97 <- function(){
   
   df_test2 <- left_join(unassigned_noblank,taxonomy_blast,by="Row.names") 
   
-  df_final2 <- df_test2 %>% mutate(Taxon_blast_revised =str_replace(str_replace(str_replace(Taxon_blast,"k__","d__"),"c__Betaproteobacteria; o__Burkholderiales","c__Gammaproteobacteria; o__Burkholderiales"),"g__Escherichia","g__Escherichia-Shigella")) %>% 
-    select("Row.names","Taxon","Confidence","Taxon_blast_revised","Consensus","Frequency")
+  df_final2 <- df_test2 %>% mutate(Taxon_blast_revised =str_replace(str_replace(str_replace(str_replace(Taxon_blast,"k__","d__"),"c__Betaproteobacteria; o__Burkholderiales","c__Gammaproteobacteria; o__Burkholderiales"),"g__Escherichia","g__Escherichia-Shigella"),"g__Shigella","g__Escherichia-Shigella")) %>% 
+    mutate(Taxon_blast_revised=str_replace(Taxon_blast_revised,"s__Snodgrassella_alvi wkB2","s__Snodgrassella_alvi"))%>%
+    mutate(Taxon_blast_revised=str_replace(Taxon_blast_revised,"s__Phytobacter_massiliensis JC163","s__Phytobacter_massiliensis")) %>%
+    mutate(Taxon_blast_revised=str_replace(Taxon_blast_revised,"s__Rhizorhapis_suberifaciens NBRC 15211","s__Rhizorhapis_suberifaciens"))%>%
+    dplyr::select("Row.names","Taxon","Confidence","Taxon_blast_revised","Consensus","Frequency")
   
   # index of possibly improved
   idx5 = !grepl("g__",df_test2$Taxon_blast,ignore.case = T)
@@ -335,8 +341,8 @@ Ratio_of_unassigned<- function(data){
 # fix some of the content by manual blast
 
 final_fix <- function(taxa_blast_final){
-  TOP20 = taxa_blast_final[1:20,] %>% 
-    select(c("Row.names","Taxon_blast_revised","Consensus","Improve"))
+  TOP20 = taxa_blast_final %>% 
+    dplyr::select(c("Row.names","Taxon_blast_revised","Consensus","Improve"))
   
   # We decide to only correct the top20 unassigned feature
   
@@ -352,9 +358,9 @@ final_fix <- function(taxa_blast_final){
   df_final[idx_replace,"Taxon"] <- df_final[idx_replace,"Taxon_blast_revised"]
   
   
-  df_final <- df_final %>% select(!"Taxon_blast_revised") %>% arrange(desc(Frequency)) %>% 
+  df_final <- df_final %>% dplyr::select(!"Taxon_blast_revised") %>% arrange(desc(Frequency)) %>% 
     replace_na(list("Improve"="No change")) %>%
-    select(-Blank)
+    dplyr::select(-Blank)
   
   a = Ratio_of_unassigned(df_final[1:500,])
   
@@ -369,12 +375,12 @@ final_fix(unassigned_final_correct)
 # taxonomy_greengene   # the dataframe of GreeenGene
 taxonomy_greengene =  read.delim ("../results/greengene/Taxonomy_export/taxonomy.tsv")%>%
   mutate(Taxon_GreenGene = str_replace(GreenGene_2_SILVA(.),"k__","d__")) %>% 
-  select("Feature.ID", "Taxon_GreenGene", "Confidence") %>% rename(Taxon=`Taxon_GreenGene`)
+  dplyr::select("Feature.ID", "Taxon_GreenGene", "Confidence") %>% rename(Taxon=`Taxon_GreenGene`)
 
 
 taxonomy_NCBI = read.delim ("../results/blast/0.97-5hit/taxonomy.tsv") %>%
   mutate(Taxon_NCBI = str_replace(GreenGene_2_SILVA(.),"k__","d__")) %>% 
-  select("Feature.ID", "Taxon_NCBI", "Consensus") %>% rename(Taxon=`Taxon_NCBI`,
+  dplyr::select("Feature.ID", "Taxon_NCBI", "Consensus") %>% rename(Taxon=`Taxon_NCBI`,
                                                              Confidence=`Consensus`)
 
 
@@ -400,13 +406,13 @@ score_the_SILVA <- function(df_taxa,df_taxa2){
   
   df_taxa <- df_taxa %>% rownames_to_column("Order") %>%
     separate(col = Taxon,into = c("kindom","phylum","class","order","family","genus","species"),sep = "; ",fill = "right" ) %>% 
-    select(-Confidence,-Order) %>% arrange("Feature.ID") %>% column_to_rownames("Feature.ID")
+    dplyr::select(-Confidence,-Order) %>% arrange("Feature.ID") %>% column_to_rownames("Feature.ID")
   
   print (df_taxa %>% slice(1:10) %>% rownames_to_column("Feature.ID") %>% pull("Feature.ID"))
   
   df_taxa2 <- df_taxa2 %>% rownames_to_column("Order") %>%
     separate(col = Taxon,into = c("kindom","phylum","class","order","family","genus","species"),sep = "; ",fill = "right" ) %>% 
-    select(-Confidence,-Order)  %>% arrange("Feature.ID") %>% column_to_rownames("Feature.ID")
+    dplyr::select(-Confidence,-Order)  %>% arrange("Feature.ID") %>% column_to_rownames("Feature.ID")
   
   print (df_taxa2 %>% slice(1:10) %>% rownames_to_column("Feature.ID") %>% pull("Feature.ID"))
   
@@ -441,7 +447,7 @@ score_the_SILVA <- function(df_taxa,df_taxa2){
   df_taxa_final[,"rank_depth"]=rank_depth
   df_taxa_final[,"Evaluation"]=Evaluation
   
-  df_taxa_final <- df_taxa_final %>% select(!c("Taxon","Confidence"))
+  df_taxa_final <- df_taxa_final %>% dplyr::select(!c("Taxon","Confidence"))
   
   return (df_taxa_final)
 }

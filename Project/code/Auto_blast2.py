@@ -3,8 +3,12 @@ import pandas as pd
 from Bio.Blast import NCBIXML
 
 df = pd.read_csv("../results/4.Diversity_ana/table_contaminant.csv")
-n=1
-Topn = df.iloc[[42,56,58,71,97,106,114,173,169,145,146]].reset_index()
+#n=132141
+#n=142153
+#n=154165
+#n=166177
+n=123
+Topn = df.iloc[[30,29]].reset_index()
 
 fasta_string = Topn["Sequence"]
 

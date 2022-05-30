@@ -10,7 +10,7 @@ require(RColorBrewer)
 library(qiime2R)
 
 metadata<- read.table("./sample-metadata.tsv",header = T) %>% rename(SampleID = `sample_name`)
-feature_table<-read_qza("../results/4.Diversity_ana/feature-table-correct.qza")$data
+feature_table<-read_qza("../results/4.Diversity_ana/core-metrics-results/rarefied_table.qza")$data
 taxonomy<-read_qza("../results/4.Diversity_ana/taxonomy-corrected.qza")$data
 relative.feature.table <- apply(feature_table, 2, function(x) x/sum(x)*100) #convert to percent
 
@@ -153,5 +153,856 @@ plot_stack_barplot(SVs= relative.feature.table)
 
 plot_stack_barplot(SVs= relative.feature.table, subgroup = T)
 
+# =========== phyloseq and enterotypes =============
+library("phyloseq")
+
+metadata<- read.table("./sample-metadata.tsv",header = T) %>% dplyr::rename(SampleID = `sample_name`)
+
+
+#filtered  - rarefied    --- literature
+physeq<-qza_to_phyloseq(
+  features="../results/4.Diversity_ana/core-metrics-results/rarefied_table.qza",
+  tree="../results/4.Diversity_ana/rooted-tree.qza",
+  "../results/4.Diversity_ana/taxonomy-corrected.qza"
+)
+
+sample_data <- sample_data(metadata %>% column_to_rownames("SampleID") )
+
+physeq1 = merge_phyloseq(physeq, sample_data)
+physeq1
+
+test <- as.data.frame(otu_table(physeq1))
+sum(rowSums(test) == 1)
+
+# plot_richness
+plot_richness(physeq1, x="Species", color="CollectionSite")
+
+# plot network
+ig <- make_network(physeq1, "samples",max.dist = 0.8)
+plot_network(ig, physeq1, color="Species", shape="CollectionSite", line_weight=0.3)
+
+
+
+
+
+# ================================Enterotypes ==================
+
+test_phyloseq = tax_glom(physeq1, "Genus")
+test_phyloseq
+
+
+
+otu_table_export <- as.data.frame(otu_table(test_phyloseq))
+taxa_table_export <- as.data.frame(tax_table(test_phyloseq))
+
+merged_table <- merge(otu_table_export,taxa_table_export,by.x="row.names",by.y = "row.names") %>% 
+  dplyr::select(!c("Row.names", "Kingdom", "Phylum"  ,"Class" ,"Order", "Family","Species")) %>% column_to_rownames("Genus")
+
+
+relative_genus_abundances <- apply(merged_table, 2, function(x) x/sum(x)) 
+colSums(relative_genus_abundances)
+ncol(relative_genus_abundances)
+
+
+
+# ==== denoise
+noise.removal <- function(dataframe, percent=0.01, top=NULL){
+  dataframe->Matrix
+  bigones <- rowSums(Matrix)*100/(sum(rowSums(Matrix))) > percent 
+  Matrix_1 <- Matrix[bigones,]
+  print(percent)
+  return(Matrix_1)
+}
+
+data.denoized=noise.removal(relative_genus_abundances, percent=0.01)
+
+
+
+#========= dist matrix
+
+dist.JSD <- function(inMatrix, pseudocount=0.000001, ...) {
+  KLD <- function(x,y) sum(x *log(x/y))
+  JSD<- function(x,y) sqrt(0.5 * KLD(x, (x+y)/2) + 0.5 * KLD(y, (x+y)/2))
+  matrixColSize <- length(colnames(inMatrix))
+  matrixRowSize <- length(rownames(inMatrix))
+  colnames <- colnames(inMatrix)
+  resultsMatrix <- matrix(0, matrixColSize, matrixColSize)
+  
+  inMatrix = apply(inMatrix,1:2,function(x) ifelse (x==0,pseudocount,x))
+  
+  for(i in 1:matrixColSize) {
+    for(j in 1:matrixColSize) { 
+      resultsMatrix[i,j]=JSD(as.vector(inMatrix[,i]),
+                             as.vector(inMatrix[,j]))
+    }
+  }
+  colnames -> colnames(resultsMatrix) -> rownames(resultsMatrix)
+  as.dist(resultsMatrix)->resultsMatrix
+  attr(resultsMatrix, "method") <- "dist"
+  return(resultsMatrix) 
+}
+
+data.dist=dist.JSD(data.denoized)
+
+pam.clustering=function(x,k) { # x is a distance matrix and k the number of clusters
+  require(cluster)
+  cluster = as.vector(pam(as.dist(x), k, diss=TRUE)$clustering)
+  return(cluster)
+}
+
+hierarchical.clustering <- function(dist_object = data.dist, k = 3){
+  upgma <- hclust(dist_object)
+  cluster =   cutree(tree = upgma,k = k)
+  return(cluster)
+}
+
+
+
+
+# === evaluate the enterotypes number
+require(clusterSim)
+#nclusters = index.G1(t(data.denoized), data.cluster, d = data.dist, centrotypes = "centroids")
+nclusters=NULL
+
+for (k in 1:20) { 
+  if (k==1) {
+    nclusters[k]=NA 
+  } else {
+    data.cluster_temp=pam.clustering(data.dist, k)
+    nclusters[k]=index.G1(t(data.denoized),data.cluster_temp,  d = data.dist,
+                          centrotypes = "medoids")
+  }
+}
+plot(nclusters, type="h", xlab="k clusters", ylab="CH index")
+
+
+
+# ==== use silhouette method to see the clusters performance
+nclusters=NULL
+for (k in 1:20) { 
+  if (k==1) {
+    nclusters[k]=NA 
+  } else {
+    data.cluster_temp=pam.clustering(data.dist, k)
+    nclusters[k]= mean(silhouette(data.cluster_temp, data.dist)[,3])
+  }
+}
+plot(nclusters, type="h", xlab="k clusters", ylab="silhouette")
+
+obs.silhouette=mean(silhouette(data.cluster, data.dist)[,3])
+
+obs.silhouette
+
+
+# ==== cluster
+
+
+  data.cluster=pam.clustering(data.dist, k=3)
+  
+  #data.cluster = hierarchical.clustering(k = 4)
+  
+  table(data.cluster)
+  
+  metadata<- read.table("./sample-metadata.tsv",header = T) %>% dplyr::rename(SampleID = `sample_name`)
+  
+  Enterotypes <- as.data.frame(t(rbind(colnames(data.denoized),data.cluster)))
+  
+  colnames(Enterotypes) <- c("SampleID","Enterotype")
+  
+  Enterotypes <- Enterotypes %>% mutate(Enterotype = paste0("Enterotype_",Enterotype))
+  
+  metadata <- merge(metadata,Enterotypes,by.x = "SampleID",by.y = "SampleID")
+  
+  metadata[metadata$Enterotype == "Enterotype_1","SampleID"]
+  
+
+
+# ================ have a look based on the enterotypes
+
+# cluster the sample
+
+
+
+# ===seeThename 
+
+
+require(ade4)
+
+obs.pca=dudi.pca(data.frame(t(data.denoized)), scannf=F, nf=10)
+obs.bet=bca(obs.pca, fac=as.factor(data.cluster), scannf=F, nf=10) 
+s.class(obs.bet$ls, fac=as.factor(data.cluster), grid=F)
+s.class(obs.bet$ls, fac=as.factor(data.cluster), grid=F, cell=0, cstar=0, col=c(4,2,3))
+
+obs.pcoa=dudi.pco(data.dist, scannf=F, nf=5)
+s.class(obs.pcoa$li, fac=as.factor(data.cluster), grid=F,label = c(1,2,3,4,5))
+
+
+
+
+#sample_data <- sample_data(metadata %>% column_to_rownames("SampleID"))
+#physeq2 = merge_phyloseq(test_phyloseq, sample_data)
+#GPr<-transform_sample_counts(physeq2 , function(x) x / sum(x) )
+#gpsfb = subset_taxa(GPr, Genus=="Snodgrassella")
+#plot_bar(gpsfb, "Enterotype", "Abundance", title="Snodgrassella")
+#gpsfb = subset_taxa(physeq2, Genus=="Lactobacillus")
+#plot_bar(gpsfb, "Enterotype", "Abundance", title="Lactobacillus")
+#gpsfb = subset_taxa(physeq2, Genus=="Serratia")
+#plot_bar(gpsfb, "Enterotype", "Abundance", title="Serratia")
+#gpsfb = subset_taxa(physeq2, Genus=="Hafnia-Obesumbacterium")
+#plot_bar(gpsfb, "Enterotype", "Abundance", title="Hafnia-Obesumbacterium")
+
+
+# =============== box plot for single genus
+
+build_data_frame <- function( genus.name){
+  
+  return(as.data.frame(t(relative_genus_abundances)) %>% 
+           rownames_to_column("SampleID") %>% 
+           pivot_longer(cols = rownames(relative_genus_abundances), names_to = "Genus",values_to = "Relative.abundance") %>%
+           left_join(metadata) %>% subset(Genus == genus.name))
+  
+}
+
+list_of_genrea = c("Snodgrassella","Lactobacillus", "Hafnia-Obesumbacterium","Serratia","Gilliamella")
+
+Enterotype_box <- function(genus_name,group = "Enterotype") {
+  
+  df=build_data_frame(genus.name = genus_name )
+  
+  df<-df %>% dplyr::select("Relative.abundance",all_of(group)) 
+  
+  colnames(df) <- c("Relative.abundance","Group")
+  
+  p = ggplot(df, aes(x=Group, y=Relative.abundance, color=Group)) +
+    geom_boxplot(alpha=1, outlier.shape = NA, outlier.size=0, size=0.7, width=0.5, fill="transparent") +
+    labs(x="Groups", y="relative abundance",title = genus_name, color = group) + theme_classic() + scale_fill_gdocs()+
+    geom_jitter(position=position_jitter(0.17), size=1, alpha=0.7)+
+    theme(text=element_text(family="sans", size=14))
+  p
+  return(p)
+}
+
+Enterotype_box(genus_name = "Gilliamella")
+Enterotype_box(genus_name = "Snodgrassella")
+Enterotype_box(genus_name = "Lactobacillus")
+Enterotype_box(genus_name = "Apibacter")
+Enterotype_box(genus_name = "Hafnia-Obesumbacterium")
+Enterotype_box(genus_name = "Arsenophonus") # siginificant while clustering through B.R and B.H
+Enterotype_box(genus_name = "Fructobacillus")
+Enterotype_box(genus_name = "Escherichia-Shigella")
+Enterotype_box(genus_name = "Pseudomonas")
+
+
+as.data.frame(rowSums(merged_table)) %>% top_n(30) %>% arrange(desc(`rowSums(merged_table)`))
+
+Enterotype_box(genus_name = "Gilliamella",group = "Species" )
+Enterotype_box(genus_name = "Snodgrassella",group = "Species" )
+Enterotype_box(genus_name = "Lactobacillus",group = "Species" )
+Enterotype_box(genus_name = "Apibacter",group = "Species" )
+
+
+# "Hafnia-Obesumbacterium","Serratia" Not significant
+
+Enterotype_box(genus_name = "Fructobacillus",group = "Species" ) # No difference
+Enterotype_box(genus_name = "Arsenophonus",group = "Species" )  # No difference
+Enterotype_box(genus_name = "Pseudomonas",group = "Species" ) #No
+Enterotype_box(genus_name = "Pantoea",group = "Species" )#No
+Enterotype_box(genus_name = "Bifidobacterium",group = "Species" )#No
+Enterotype_box(genus_name = "Dubosiella",group = "Species" )#No
+Enterotype_box(genus_name = "Neokomagataea",group = "Species" )#No
+Enterotype_box(genus_name = "Ralstonia",group = "Species" ) # No difference
+
+
+Enterotype_heatmap_taxon <- function(SVs = relative_genus_abundances,topn = 10){
+  
+  SVs = SVs * 100
+  
+  SVsToPlot <- data.frame(MeanAbundance=rowMeans(SVs)) %>% #find the average abundance of a SV
+    rownames_to_column("Feature.ID") %>%
+    arrange(desc(MeanAbundance)) %>%
+    top_n(topn, MeanAbundance) %>%
+    pull(Feature.ID) #extract only the names from the table
+  
+  data <- SVs %>% as.data.frame() %>%
+    rownames_to_column("Feature.ID") %>%
+    gather(-Feature.ID, key="SampleID", value="Abundance") %>%
+    mutate(Genus=if_else(Feature.ID %in% SVsToPlot,  Feature.ID, "Others")) %>%  #flag features to be collapsed
+    group_by(SampleID,Genus) %>%
+    summarize(Abundance=sum(Abundance))%>% 
+    left_join(metadata) %>%
+    mutate(NormAbundance=log10(Abundance+0.01)) %>% # do a log10 transformation after adding a 0.01% pseudocount. Could also add 1 read before transformation to percent
+    replace_na(.,list(Genus = "others")) # trim out leading text from taxonomy string
+  
+
+  p <- ggplot(data = data, aes(x=SampleID, y=Genus, fill=NormAbundance)) +
+    geom_tile() +
+    facet_grid(~`Enterotype`, scales="free_x") +
+    theme_q2r() +
+    theme(axis.text.x=element_text(angle=90, hjust=1,size = 4,face = "bold")) + 
+    labs(title = paste0("Top ", topn," Abundance Heatmap"), y = "Genus") +
+    scale_fill_viridis_c(name="log10(% Abundance)") 
+  p
+  ggsave(plot = p,filename = paste0("../results/5.Enterotype/top",topn,"_Enterotype_heatmap.pdf"), height=4, width=11, device="pdf") # save a PDF 3 inches by 4 inches
+}
+
+
+
+
+# ===========SIMPER Analysis
+
+library("vegan")
+
+
+test_simper = as.data.frame(t(merged_table)) 
+
+metadata2 <- metadata[colnames(merged_table)%in%metadata$SampleID,] %>% column_to_rownames("SampleID")
+
+metadata2 <- metadata2[row.names(test_simper),] %>% rownames_to_column("SampleID")
+
+test_simper <- test_simper %>% rownames_to_column("SampleID") %>% dplyr::select(!"SampleID")
+
+simper(test_simper,metadata2$Enterotype)
+
+# ======== list of biomarker from simper
+
+list_of_biomarker_simper = c("Lactobacillus", "Snodgrassella", "Arsenophonus", "Apibacter", "Pseudomonas", "Fructobacillus", "Gilliamella")
+#list_of_biomarker = c("Lactobacillus", "Snodgrassella", "Arsenophonus", "Apibacter", "Fructobacillus", "Gilliamella")
+
+#Pantoea 
+
+# =========== Random Forest
+require(randomForest)
+library(caret)
+require(tidyverse)
+
+data.denoized=noise.removal(relative_genus_abundances, percent=0.01)
+
+rownames(data.denoized) <- str_remove(rownames(data.denoized),pattern = "\\[")
+rownames(data.denoized) <- str_remove(rownames(data.denoized),pattern = "\\]")
+rownames(data.denoized) <- str_replace(rownames(data.denoized),pattern = "-",replacement = "_")
+rownames(data.denoized) <- str_replace(rownames(data.denoized),pattern = "-",replacement = "_")
+rownames(data.denoized) <- str_replace(rownames(data.denoized),pattern = "-",replacement = "_")
+
+data <- as.data.frame(t(data.denoized)) %>% 
+  rownames_to_column("SampleID") %>% 
+  left_join(Enterotypes) %>% 
+  dplyr::rename(Group = `Enterotype`) %>% column_to_rownames("SampleID") %>% mutate(Group = as.factor(Group))
+
+
+set.seed(222)
+ind <- sample(2, nrow(data), replace = TRUE, prob = c(0.8, 0.2))
+train <- data[ind==1,]
+test <- data[ind==2,]
+
+rf <- randomForest(Group~., data=train, proximity=TRUE) 
+print(rf)
+
+
+# PREDICT AND CONFUSION MATRIX 
+p2 <- predict(rf, test)
+confusionMatrix(p2, test$ Group)
+
+#importance(rf)
+
+varImpPlot(rf,
+           sort = T,
+           n.var = 10,
+           main = "Top 10 - Variable Importance")
+
+list_of_biomarker_rf <- varImp(rf) %>% arrange(desc(Overall)) %>% top_n(10) %>% rownames_to_column("Genus") %>% pull(Genus)
+
+list_of_biomarker <- intersect(list_of_biomarker_simper,list_of_biomarker_rf)
+
+substr_table <- merged_table[list_of_biomarker,]
+
+substr_relative_genus_abundances <- apply(substr_table, 2, function(x) x/sum(x)) 
+
+Enterotype_heatmap_taxon(SVs = substr_relative_genus_abundances, topn = length(list_of_biomarker))
+
+
+# ===== calculate the mean of the enterotype
+
+substr_relative_genus_abundances_heatmap <- as.data.frame(substr_relative_genus_abundances) %>% rownames_to_column("Genus") %>%
+  pivot_longer(cols = colnames(substr_relative_genus_abundances),names_to = "SampleID",values_to = "relative_abundance") %>% 
+  left_join(Enterotypes) %>% group_by(Genus,Enterotype) %>% summarise(mean_abundance = mean(relative_abundance)) %>%
+  pivot_wider(names_from = Enterotype,values_from = mean_abundance) %>% column_to_rownames("Genus")
+  
+
+Enterotype_heatmap_taxon(substr_relative_genus_abundances_heatmap, topn = 6)
+
+# ===== Top Abundant
+
+Enterotype_heatmap_taxon(topn = 7)
+
+
+Enterotype_heatmap_taxon(topn = 10)
+
+
+
+# ======== Upset plot of Enterptype and Species and Collection Sites
+#,"gut_parasite_richness"
+list_of_Species = subset(metadata,select = c("SampleID" ,"Species"))
+colnames(list_of_Species) <- c("SampleID","Set")
+
+list_of_CollectionSite = subset(metadata,select = c("SampleID" ,"CollectionSite"))
+colnames(list_of_CollectionSite) <- c("SampleID","Set")
+
+list_of_Enterotype =  subset(metadata,select = c("SampleID" ,"Enterotype"))      
+colnames(list_of_Enterotype ) <- c("SampleID","Set")
+
+list_of_Nosema = subset(metadata,select = c("SampleID" ,"Nosema_binomial" )) %>% mutate(Nosema_binomial = paste0("Nosema_richness(",Nosema_binomial,")"))  
+colnames(list_of_Nosema ) <- c("SampleID","Set")
+
+list_of_Crithidia = subset(metadata,select = c("SampleID" , "Crithidia_binomial")) %>% mutate(Crithidia_binomial = paste0("Crithidia_richness(",Crithidia_binomial,")"))  
+colnames(list_of_Crithidia) <- c("SampleID","Set")
+
+list_of_Apicystis = subset(metadata,select = c("SampleID" ,"Apicystis_binomial")) %>% mutate(Apicystis_binomial = paste0("Apicystis_richness(",Apicystis_binomial,")"))  
+colnames(list_of_Apicystis ) <- c("SampleID","Set")
+
+list_of_parasite = subset(metadata,select = c("SampleID" ,"gut_parasite_richness")) %>% mutate(gut_parasite_richness = paste0("Parasite_richness(",gut_parasite_richness,")"))  
+colnames(list_of_parasite ) <- c("SampleID","Set")
+
+
+
+list_of_Crithidia = subset(metadata,select = c("SampleID" , "Crithidia_binomial")) 
+list_of_Apicystis = subset(metadata,select = c("SampleID" ,"Apicystis_binomial")) 
+list_of_Nosema = subset(metadata,select = c("SampleID" ,"Nosema_binomial" ))
+
+
+UpSET_compare <- function(lista = list_of_Enterotype , listb= list_of_Species ,listc = NULL,listd=NULL,list_binomial1 = NULL,list_binomial2=NULL,list_binomial3=NULL){
+
+  test_for_upset <- rbind.data.frame(lista,listb,listc,listd)
+  
+  data_for_upset <- as.data.frame.matrix(table(test_for_upset)) 
+  
+  data_for_upset[data_for_upset>0]=1
+  
+  data_for_upset <- data_for_upset %>% rownames_to_column("SampleID")
+  
+  if (is.null(list_binomial1) ){
+    data <- data_for_upset%>% column_to_rownames("SampleID")
+    
+  }else{
+    data <- left_join(left_join(left_join(data_for_upset,list_binomial1),list_binomial2),list_binomial3) %>% column_to_rownames("SampleID")
+  }
+
+  library("UpSetR")
+  datnum <- length(colnames(data))
+  pdf("../results/5.Enterotype/VennGraph.pdf", width=8, height=6, onefile=F)
+  p = upset(data, nsets=datnum, nintersects=NA, number.angles=0,point.size=1, line.size=0.5, mainbar.y.label="Intersection sample number", sets.x.label="Total sample number", text.scale=c(1.3,1.3,1,1,1.3,1), mb.ratio=c(0.55,0.45), order.by="freq", show.numbers="yes", sets.bar.color=c("black"),main.bar.color = "navy")
+  print (p)
+  dev.off()
+}
+
+UpSET_compare(listc =list_of_CollectionSite )
+UpSET_compare(lista = list_of_Enterotype , listb= list_of_Species )
+UpSET_compare(listb = list_of_CollectionSite)
+UpSET_compare(listb = list_of_parasite)
+
+UpSET_compare(lista =  list_of_Enterotype, listb = NULL,list_binomial1 = list_of_Apicystis,list_binomial2=list_of_Crithidia,list_binomial3=list_of_Nosema)
+
+
+
+# =========== Enterotype Percentage
+
+list_of_Enterotype =  subset(metadata,select = c("SampleID" ,"Enterotype"))      
+
+list_of_Crithidia = subset(metadata,select = c("SampleID" , "Crithidia_binomial"))
+list_of_Apicystis = subset(metadata,select = c("SampleID" ,"Apicystis_binomial")) 
+list_of_Nosema = subset(metadata,select = c("SampleID" ,"Nosema_binomial" ))
+
+
+Enterotype_Percentage <- function(){
+  Crithidia_stack_plot <-left_join(list_of_Enterotype, list_of_Crithidia) %>% 
+    group_by(Enterotype) %>% 
+    summarise(Parasite.present = sum(Crithidia_binomial),frequency = n()) %>% 
+    mutate(Percent =Parasite.present/frequency,
+           no.Parasite.present = frequency - Parasite.present, 
+           parasite = "Crithidia") %>% 
+    pivot_longer(cols = c("Parasite.present", "no.Parasite.present"), names_to = "Parasite.Status", values_to = "Parasite.count")
+  
+  Apicystis_stack_plot <- left_join(list_of_Enterotype, list_of_Apicystis) %>% 
+    group_by(Enterotype) %>% 
+    summarise(Parasite.present = sum(Apicystis_binomial),frequency = n()) %>% 
+    mutate(Percent =Parasite.present/frequency,
+           no.Parasite.present = frequency - Parasite.present, 
+           parasite = "Apicystis") %>% 
+    pivot_longer(cols = c("Parasite.present", "no.Parasite.present"), names_to = "Parasite.Status", values_to = "Parasite.count")
+  
+  Nosema_stack_plot  <- left_join(list_of_Enterotype, list_of_Nosema) %>% 
+    group_by(Enterotype) %>% 
+    summarise(Parasite.present = sum(Nosema_binomial),frequency = n()) %>% 
+    mutate(Percent =Parasite.present/frequency,
+           no.Parasite.present = frequency - Parasite.present, 
+           parasite = "Nosema") %>% 
+    pivot_longer(cols = c("Parasite.present", "no.Parasite.present"), names_to = "Parasite.Status", values_to = "Parasite.count")
+  
+  data = rbind(Nosema_stack_plot,Apicystis_stack_plot,Crithidia_stack_plot)
+  
+  p = ggplot(data, aes(x = Enterotype, y = Parasite.count , fill = Parasite.Status)) +
+    geom_bar(stat = "identity",
+             position = "fill",
+             width = 0.7)+
+    scale_y_continuous(labels = scales::percent) +
+    facet_grid(~ parasite, scales = "free_x", switch = "x") +
+    theme(strip.background = element_blank()) +
+    theme(axis.ticks.x = element_blank(), axis.text.x = element_blank()) +
+    xlab("") + ylab("Percentage (%)") + labs(fill = "Status") +
+    theme_classic() + 
+    theme(text = element_text(family = "sans", size = 10)) +
+    scale_fill_ordinal()
+  
+  ggsave(plot = p,filename = "../results/5.Enterotype/Parasite_Enterotype_stack_plot.pdf", height=4, width=11, device="pdf") # save a PDF 3 inches by 4 inches
+
+}
+
+Enterotype_Percentage()
+
+# =========== 
+
+
+# =========== Venn Graph
+
+data <- metadata %>% dplyr::select(Nosema_binomial,Crithidia_binomial,Apicystis_binomial,Conopid_larvae)
+data <- metadata %>% dplyr::select(Nosema_binomial,Crithidia_binomial,Apicystis_binomial)
+library("venn")
+library("ggplot2")
+pdf("./VennGraph.pdf", width=10, height=10, onefile=F)
+venn(data,zcolor="red,yellow,blue,green,orange,purple")
+dev.off()
+
+png("./VennGraph.png", width=3000, height=3000, res=300)
+venn(data,zcolor="red,yellow,blue,green,orange,purple",box = T,plotsize = 10,ggplot = T,sncs = 6)
+dev.off()
+
+
+
+# ============== Deeper in parasite
+
+faith_pd_vector<- read_qza("../results/4.Diversity_ana/core-metrics-results/faith_pd_vector.qza")$data %>% rownames_to_column("SampleID") 
+shannon_vector <- read_qza("../results/4.Diversity_ana/core-metrics-results/shannon_vector.qza")$data %>% rownames_to_column("SampleID") 
+
+lm_genus <- metadata %>% dplyr::select("SampleID","Nosema_total_per_bee" ,"Crithidia_total_per_bee","Apicystis_total_per_bee","Enterotype")
+
+Genus <- log10(as.data.frame(t(substr_table))) %>% rownames_to_column("SampleID") 
+
+lm_genus <- left_join(lm_genus,Genus) %>% left_join(.,shannon_vector) %>% left_join(.,faith_pd_vector) %>% column_to_rownames("SampleID")
+
+
+# ===== low - parasite - load sample and particular taxa
+suppressPackageStartupMessages(library(ggrepel))
+sample <- data[data$log.Parasite.Load < 4.5,] %>% dplyr::select("SampleID","Enterotype")
+colnames(sample) <- c("SampleID","Enterotype_label")
+
+sample <- data %>% dplyr::select("SampleID","Enterotype") %>% subset(Enterotype == "Enterotype_2")
+
+Genus_2 <- as.data.frame(t(substr_table)) %>% rownames_to_column("SampleID") %>% left_join(sample) %>% dplyr::select("Gilliamella","Apibacter","Snodgrassella","Enterotype_label")
+
+# ====== 2d plot
+p1 = ggplot(Genus_2,aes(x=log10(Gilliamella),y=log10(Apibacter))) + 
+  geom_point(size = 3) + 
+  geom_label_repel(aes(label = Enterotype_label), size = 2,, force = 1,color = "black") + 
+  theme_clean() 
+
+p2 = ggplot(Genus_2,aes(x=log10(Gilliamella),y=log10(Snodgrassella))) + 
+  geom_point(size = 3) + 
+  geom_label_repel(aes(label = Enterotype_label), size = 2,, force = 1,color = "black") + 
+  theme_clean() 
+
+p3 = ggplot(Genus_2,aes(x=log10(Apibacter),y=log10(Snodgrassella))) + 
+  geom_point(size = 3) + 
+  geom_label_repel(aes(label = Enterotype_label), size = 2,, force = 1,color = "black") + 
+  theme_clean() 
+
+# ====== 3d plot
+library("plotly")
+
+Genus_2 <- Genus_2 %>% replace_na(replace = list(Enterotype_label="Others(Low Parasite Loads)"))
+
+plot_ly(Genus_2,x=~Apibacter,y=~Snodgrassella,z=~Gilliamella,color = ~Enterotype_label,colors = c('#BF382A', '#0C4B8E',"green")) %>% add_markers(size=1)
+
+# =========== Parasite_loads_Enterotype_boxplot
+
+Parasite_loads_Enterotype_boxplot <- function( group =  "Crithidia_total_per_bee" ){
+  
+  data <- lm_genus %>% 
+    dplyr::select("Nosema_total_per_bee" ,"Crithidia_total_per_bee","Apicystis_total_per_bee","Enterotype") %>% 
+    rownames_to_column("SampleID") %>%
+    pivot_longer(cols = c("Nosema_total_per_bee" ,"Crithidia_total_per_bee","Apicystis_total_per_bee"), names_to = "Parasite.Status",values_to = "Parasite.Loads") %>% 
+    mutate(log.Parasite.Load = log10(Parasite.Loads)) %>% 
+    mutate_if(is.numeric, list(~na_if(.,-Inf))) %>% 
+    mutate_if(is.numeric, list(~na_if(.,Inf))) %>% 
+    replace_na(., replace = list( log.Parasite.Load = 0)) %>%
+    subset(Parasite.Status == group) %>% subset( log.Parasite.Load != 0 )
+  
+  Infected_size = data %>%  count(Enterotype)
+  
+  data <- data %>% left_join(Infected_size) %>% mutate(Enterotype_n = paste0(Enterotype,"(n=",n,")")) 
+  
+  model = aov(log.Parasite.Load ~ Enterotype, data=data)
+  # Tukey-significance test
+  Tukey_HSD = TukeyHSD(model, ordered = TRUE, conf.level = 0.95)
+  
+  Tukey_HSD_table = as.data.frame(Tukey_HSD$Enterotype)
+  
+  print (Tukey_HSD)
+  
+  All_group_test = kruskal.test(log.Parasite.Load ~ Enterotype, data=data)
+  
+  #pairwise.wilcox.test(data$log.Parasite.Load,data$Enterotype,p.adjust.method = "BH",paired = F,)
+  
+  p = ggplot(data, aes( x = Enterotype_n, y = log.Parasite.Load, color = Enterotype)) +
+    geom_boxplot(alpha=1, outlier.shape = NA, outlier.size=0, size=0.7, width=0.5, fill="transparent") +
+    labs(x= group, y= bquote(paste("Parasite Loads",(log[10]))), color =  "Enterotype",subtitle = paste("kruskal.test: ",All_group_test$p.value)) + theme_classic() + scale_fill_gdocs()+
+    geom_jitter(position=position_jitter(0.17), size=1, alpha=0.7)+
+    theme(text=element_text(family="sans", size=14)) + scale_color_manual(values = c("#00AFBB", "#E7B800", "#FC4E07","yellow"))
+  
+  ggsave(plot = p,filename = paste("../results/5.Enterotype/Parasite_loads_Enterotype_", group,"_boxplot.pdf"), height=4, width=11, device="pdf") # save a PDF 3 inches by 4 inches
+}
+
+
+Parasite_loads_Enterotype_boxplot()
+
+Parasite_loads_Enterotype_boxplot(group = "Nosema_total_per_bee")
+
+Parasite_loads_Enterotype_boxplot(group = "Apicystis_total_per_bee")
+
+# =========== Parasite load heatmap
+
+Enterotype_heatmap_parasite <- function(){
+  
+  data <- lm_genus %>% 
+    dplyr::select("Nosema_total_per_bee" ,"Crithidia_total_per_bee" ,"Apicystis_total_per_bee" ,"Enterotype" ) %>% 
+    rownames_to_column("SampleID") %>%
+    pivot_longer(cols = c("Nosema_total_per_bee" ,"Crithidia_total_per_bee","Apicystis_total_per_bee"), names_to = "Parasite.Status",values_to = "Parasite.Loads") %>% 
+    mutate(log.Parasite.Load = log10(Parasite.Loads)) %>% 
+    mutate_if(is.numeric, list(~na_if(.,-Inf))) %>% 
+    mutate_if(is.numeric, list(~na_if(.,Inf))) %>% 
+    replace_na(., replace = list( log.Parasite.Load = 0)) 
+  
+  
+  p1 <- ggplot(data = data, aes(x = SampleID , y = Parasite.Status, fill =  log.Parasite.Load)) +
+    geom_tile() +
+    facet_grid(~`Enterotype`, scales="free_x") +
+    theme_q2r() +
+    theme(axis.text.x=element_text(angle=90, hjust=1,size = 4,face = "bold")) + 
+    scale_fill_viridis_c() 
+  
+  p1
+  
+  data <- data %>% subset( log.Parasite.Load != 0 ) %>% group_by(Enterotype,Parasite.Status) %>% 
+    summarise(Sum.Parasite.Load = sum(Parasite.Loads),
+              SampleSize = n()) %>% 
+    mutate(log.Mean.load = log10(Sum.Parasite.Load/SampleSize)) 
+  
+  
+  p2 <- ggplot(data = data, aes(x = Enterotype , y = Parasite.Status, fill = log.Mean.load)) +
+    geom_tile() +
+    facet_grid(~`Enterotype`, scales="free_x") +
+    theme_q2r() +
+    theme(axis.text.x=element_text(angle=90, hjust=1,size = 4,face = "bold")) + 
+    scale_fill_viridis_c() 
+  p2
+  
+}
+
+
+
+
+
+
+# =========== linear regression
+
+plot_lm_scatter <- function(data = lm_genus, response = "Crithidia_total_per_bee",explantory = "shannon_entropy",Group = "Enterotype", confidence_interval = T,group = F) {
+  library(ggpubr)
+  library(ggplot2)
+  library(ggthemes)
+  
+  df_subset <- subset(data, select=c(response,explantory,Group))
+  
+  
+  #log10 transform to response variable
+  df_subset[,response] <- log10(df_subset[,response]) 
+  colnames(df_subset) <- c("response","explantory","group")
+  
+  #replace the "-/Inf"
+  if( "Inf" %in% df_subset[,"response"] | "-Inf" %in% df_subset[,"response"]){
+    tmp <- df_subset[which(df_subset[,"response"] != "Inf" & df_subset[,"response"] != "-Inf"),]
+    max = max(tmp[,"response"])
+    min = min(tmp[,"response"])
+    df_subset[,"response"] <-  as.numeric(sub("-Inf", 0, df_subset[,"response"]))
+    df_subset[,"response"] <- as.numeric(sub("Inf", max, df_subset[,"response"]))
+  }
+  
+
+  if( "Inf" %in% df_subset[,"explantory"] | "-Inf" %in% df_subset[,"explantory"]){
+    tmp <- df_subset[which(df_subset[,"explantory"] != "Inf" & df_subset[,"explantory"] != "-Inf"),]
+    max = max(tmp[,"explantory"])
+    min = min(tmp[,"explantory"])
+    df_subset[,"explantory"] <- as.numeric(sub("-Inf", min,  df_subset[,"explantory"]))
+    df_subset[,"explantory"] <- as.numeric(sub("Inf", max, df_subset[,"explantory"]))
+  }
+  # remove uninfected samples
+  df_subset <- subset(df_subset, response !=0)
+  
+  fit_model <- try(lm(data = df_subset,response ~  explantory),silent = T)
+  if (as.vector(summary(fit_model))[2] != "try-error"){
+  
+    report_tmp <- as.data.frame(coef(summary(fit_model)))
+    report_tmp["Parameter"] <- rownames(report_tmp) #add parameter to one col
+    # convert to longer sheet
+    report_tmp2 <- report_tmp 
+    report_tmp2["Explantory"] <- explantory
+    report_tmp2["Response"]   <- response
+    report_tmp2["SampleSize"] <- nrow(df_subset)
+    report_tmp2["Adjusted_R"] <- summary(fit_model)$adj.r.squared
+    report_tmp2["p_value"]    <- pf(summary(fit_model)$fstatistic[1],summary(fit_model)$fstatistic[2],summary(fit_model)$fstatistic[3],lower.tail = F)
+  }else{
+    cat("========================")
+    stop("please check the table")
+  }
+  
+  if (group){
+   p = ggplot(df_subset,aes(x=explantory,y=response,color=group)) + 
+      geom_point(aes(color=group ),size = 3) + 
+      geom_smooth(method = "lm",formula = y~x, se = confidence_interval) +
+      stat_cor(data = df_subset, method = "pearson",label.sep = " ",label.x.npc = 0.8) + 
+      theme_clean() + 
+      labs(y = bquote(paste(.(response),(Log[10]))),x = explantory, title = "linear regression")
+    
+
+  }else{
+    p = ggplot(df_subset,aes(x=explantory,y=response)) + 
+      geom_point(size = 3) + 
+      geom_smooth(method = "lm",formula = y~x, se = confidence_interval) +
+      stat_cor(data = df_subset, method = "pearson",label.sep = " ",label.x.npc = 0.8) + 
+      theme_clean() + 
+      labs(y =  bquote(paste(.(response),(Log[10]))),x = explantory, title = "linear regression")
+  }
+  
+  return(list(picture = p, report = report_tmp2))
+}
+
+
+plot_lm_scatter(explantory = "faith_pd",group = T)
+plot_lm_scatter(explantory = "faith_pd",group = F)
+
+plot_lm_scatter(group = T)
+plot_lm_scatter(group = F)
+
+
+
+
+
+
+
+
+
+
+# ============ Correlation
+require(PerformanceAnalytics)
+chart.Correlation(lm_genus,method = "spearman")
+
+
+
+# ================ differential abundance analysis of genus
+
+library("DESeq2")
+
+# revise the metadata
+
+sample_data <- sample_data(metadata %>% column_to_rownames("SampleID") )
+
+# add pseudo number
+otu_table <- otu_table(transform_sample_counts(test_phyloseq, function(x) x + 0.01 ))
+
+test_phyloseq = merge_phyloseq(test_phyloseq, sample_data)
+
+test_phyloseq = merge_phyloseq(test_phyloseq, otu_table)
+
+# DEseq
+#diagdds = phyloseq_to_deseq2(test_phyloseq, ~ Species) # this might be error-prone . We may have a much more precise base-control group
+
+diagdds = phyloseq_to_deseq2(test_phyloseq, ~ Enterotype) 
+
+diagdds = DESeq(diagdds, test="Wald", fitType="parametric")
+
+res = results(diagdds, cooksCutoff = FALSE)
+
+sigtab = cbind(as(res, "data.frame"), as(tax_table(test_phyloseq)[rownames(res), ], "matrix"))
+head(sigtab)
+
+# ===== function of 
+
+library("ggplot2")
+
+# point plot
+phylum_and_genus <-function() {
+  theme_set(theme_bw())
+  scale_fill_discrete <- function(palname = "Set1", ...) {
+    scale_fill_brewer(palette = palname, ...)
+  }
+  sigtab <- sigtab[sigtab$pvalue < 0.01,]
+  # Phylum order
+  x = tapply(sigtab$log2FoldChange, sigtab$Phylum, function(x) max(x))
+  x = sort(x, TRUE)
+  sigtab$Phylum = factor(as.character(sigtab$Phylum), levels=names(x))
+  # Genus order
+  x = tapply(sigtab$log2FoldChange, sigtab$Genus, function(x) max(x))
+  x = sort(x, TRUE)
+  sigtab$Genus = factor(as.character(sigtab$Genus), levels=names(x))
+  ggplot(sigtab, aes(x=Genus, y=log2FoldChange, color=Phylum)) + geom_point(size=6) + 
+    theme(axis.text.x = element_text(angle = -90, hjust = 0, vjust=0.5))
+}
+
+
+
+# volcano
+
+
+plot_volcano <- function(){
+  logFC_cutoff = log(2, 2)
+  pval_cutoff <- 0.05
+  
+  sigtab$change = as.factor(ifelse(sigtab$pvalue < 0.05 & abs(sigtab$log2FoldChange) > logFC_cutoff, ifelse(sigtab$log2FoldChange > logFC_cutoff ,'Up','Down'),'Filtered'))
+  
+  
+  l <- list(a = "p-value")
+  print (l)
+  eq <- substitute(-log[10]~a, l)
+  
+  #找到范围
+  x=ifelse(max(c(floor(max(sigtab$log2FoldChange)),abs(floor(min(sigtab[,"log2FoldChange"])))))>15,15,max(c(floor(max(sigtab$log2FoldChange)),abs(floor(min(sigtab[,"log2FoldChange"]))))))
+  print (xlim)
+  if ( is.na(x) ){stop("请检查表格")}
+  
+  
+  labels = c("Snodgrassella","Lactobacillus","Gilliamella")
+  
+  sigtab$label <-''
+  
+  sigtab[sigtab$Genus %in% labels, "label"] = as.character(sigtab[sigtab$Genus %in% labels,]$Genus)
+  
+  suppressPackageStartupMessages(library(ggrepel))
+  
+  g = ggplot(data=sigtab, aes(x=sigtab$log2FoldChange, y=-log10(sigtab$pvalue), color=change)) + 
+    geom_point( size=2,alpha=0.5) + 
+    theme_set(theme_set(theme_bw(base_size=15))) + 
+    theme(legend.title=element_blank()) +   
+    xlab(expression(paste(log[2], " Fold change"))) + 
+    ylab(as.expression(eq)) + 
+    theme(plot.title = element_text(hjust = 0.5)) + 
+    guides(shape=guide_legend(override.aes=list(size=4))) +
+    scale_colour_manual(values = c("Up"=c("#8B0000"), "Down"=c("darkblue"),"Filtered"=c("grey")),na.translate=FALSE) + 
+    geom_text_repel(aes(label = label), size = 4, force = 1,color = "black") + 
+    theme(text=element_text(size=14,family="ArialMT"))+
+    scale_x_continuous(limits = c(-x,x))+
+    theme(panel.grid = element_blank()) + 
+    geom_hline(yintercept = -log(pval_cutoff, 10), linetype = "solid", color = c("grey"), size = 0.5) + 
+    geom_vline(xintercept = c(-logFC_cutoff, logFC_cutoff), linetype = "solid", color = c("grey"), size = 0.5)
+  
+  g
+  return(g)
+}
 
 

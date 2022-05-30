@@ -65,3 +65,14 @@ str(df.merged)
 #write.table(df.merged,file = "../results/1.Quality_Control/Demultiplexing/sample-metadata.tsv",row.names = F,sep="\t")
 
 #write.table(df.merged,file = "./sample-metadata.tsv",row.names = F,sep="\t")
+
+
+df_final = read.table("combined_mapping_file.csv",sep=",",header = T) %>% 
+  mutate(Subgenus  = ifelse(test = finalised_species == "B.terrestris", yes = "Bombus.sensu.stricto", no= "Bombus.Megabombus"))%>% 
+  rename(sample_name =`Bee_ID` ,
+         Species = `finalised_species`,
+         CollectionSite = `Site`) 
+
+write.table(df_final,file = "./sample-metadata.tsv",row.names = F,sep="\t")
+
+

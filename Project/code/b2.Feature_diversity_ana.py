@@ -68,18 +68,39 @@ Command0 = Command0 + " && biom convert -i ../results/4.Diversity_ana/corrected_
 Command0 = Command0 + " && qiime tools import \
     --input-path ../results/4.Diversity_ana/table-correct.biom  --type 'FeatureTable[Frequency]' \
     --input-format BIOMV210Format  \
-    --output-path ../results/4.Diversity_ana/feature-table-correct.qza"
+    --output-path ../results/4.Diversity_ana/feature-table.qza"
 
 Command0 = Command0 + " && qiime tools import \
   --input-path ../results/4.Diversity_ana/taxonomy-corrected.tsv \
   --type 'FeatureData[Taxonomy]' \
   --output-path ../results/4.Diversity_ana/taxonomy-corrected.qza"
 
+# filter feature table , remove the sequence error
+
+Command0 = Command0 + " && qiime feature-table filter-features \
+  --i-table ../results/4.Diversity_ana/feature-table.qza \
+  --p-min-frequency 3 \
+  --o-filtered-table ../results/4.Diversity_ana/feature-frequency-filtered-table.qza"
+
+Command0 = Command0 + " && qiime feature-table filter-features \
+  --i-table ../results/4.Diversity_ana/feature-frequency-filtered-table.qza \
+  --p-min-samples 2 \
+  --o-filtered-table ../results/4.Diversity_ana/feature-table-correct.qza"
+
+"""
+qiime feature-table filter-samples \
+  --i-table ../results/4.Diversity_ana/feature-table.qza \
+  --p-min-frequency 1000 \
+  --o-filtered-table ../results/4.Diversity_ana/sample-frequency-filtered-table.qza
+"""
+
+
 # filter sequence
 Command0 =  Command0 + " && qiime feature-table filter-seqs \
   --i-data  ../results/2.Feature_table/rep-seqs.qza \
   --i-table ../results/4.Diversity_ana/feature-table-correct.qza\
   --o-filtered-data ../results/4.Diversity_ana/rep-seqs-correct.qza"
+
 
 Command0 = Command0 + " && qiime  feature-table summarize \
   --i-table  ../results/4.Diversity_ana/feature-table-correct.qza \
@@ -88,13 +109,12 @@ Command0 = Command0 + " && qiime  feature-table summarize \
 
 Command0 = Command0 + " && qiime diversity alpha-rarefaction \
   --i-table ../results/4.Diversity_ana/feature-table-correct.qza \
-  --p-max-depth 50000 \
+  --p-max-depth 10000 \
   --p-min-depth 10 \
   --m-metadata-file ./sample-metadata.tsv \
   --o-visualization ../results/4.Diversity_ana/alpha-rarefaction.qzv"
 
-#os.system(Command0)
-
+#subprocess.run(Command0,shell=True,check=True)
 
 Command = "qiime phylogeny align-to-tree-mafft-fasttree \
   --i-sequences ../results/4.Diversity_ana/rep-seqs-correct.qza \
@@ -110,7 +130,7 @@ Command = Command + " && " + "\
 qiime diversity core-metrics-phylogenetic \
   --i-phylogeny " + outputDirectory + "/rooted-tree.qza \
   --i-table " +  outputDirectory + "/feature-table-correct.qza \
-  --p-sampling-depth 5000 \
+  --p-sampling-depth 3355 \
   --m-metadata-file " + metadata + "/sample-metadata.tsv \
   --output-dir " + outputDirectory + "/core-metrics-results"
 # this core matrix give out certain outpt
@@ -182,7 +202,7 @@ for j in matrix_name:
     --o-visualization core-metrics-results/" + j + "-" + i + "-significance.qzv \
     --p-pairwise "
 
-os.system(Command2)
+subprocess.run(Command2,shell=True,check=True)
 
 """
   qiime diversity beta-group-significance \
