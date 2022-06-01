@@ -71,8 +71,18 @@ df_final = read.table("combined_mapping_file.csv",sep=",",header = T) %>%
   mutate(Subgenus  = ifelse(test = finalised_species == "B.terrestris", yes = "Bombus.sensu.stricto", no= "Bombus.Megabombus"))%>% 
   rename(sample_name =`Bee_ID` ,
          Species = `finalised_species`,
-         CollectionSite = `Site`) 
+         CollectionSite = `Site`)   %>% 
+  mutate(Interaction = paste0(Species,".",CollectionSite))
 
 write.table(df_final,file = "./sample-metadata.tsv",row.names = F,sep="\t")
+
+
+# =========== test if the final one is consistent with the previous one
+
+df_test <- df.old.revised %>% dplyr::select(sample_name,BarcodeSequence) %>% rename(BarcodeSequence_old=BarcodeSequence)
+
+df_final %>% left_join(df_test) %>% mutate(test= BarcodeSequence == BarcodeSequence_old) %>% pull(test) %>% sum()
+#91
+
 
 

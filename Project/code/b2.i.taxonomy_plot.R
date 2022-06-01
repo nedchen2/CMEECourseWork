@@ -513,21 +513,39 @@ list_of_biomarker_rf <- varImp(rf) %>% arrange(desc(Overall)) %>% top_n(10) %>% 
 
 list_of_biomarker <- intersect(list_of_biomarker_simper,list_of_biomarker_rf)
 
-substr_table <- merged_table[list_of_biomarker,]
 
-substr_relative_genus_abundances <- apply(substr_table, 2, function(x) x/sum(x)) 
+# =====  SELECT THE DRIVING MICROBIOME
 
-Enterotype_heatmap_taxon(SVs = substr_relative_genus_abundances, topn = length(list_of_biomarker))
+
+substr_relative_genus_abundances <- apply(merged_table, 2, function(x) x/sum(x)) 
+
+substr_table <- substr_relative_genus_abundances[list_of_biomarker,]
+hist(colSums(substr_table))
+Unexpected_samples <- colnames(substr_table)[colSums(substr_table) < 0.9]
+
+infected_sample <- metadata[metadata$gut_parasite_richness != 0,"SampleID"]
+length(infected_sample)
+length(Unexpected_samples)
+
+sum(Unexpected_samples %in% infected_sample)/length(Unexpected_samples)
+# 0.7142857
+
+Enterotype_heatmap_taxon(SVs =substr_table, topn = length(list_of_biomarker))
+
+# ===== 
+
+
+
+
 
 
 # ===== calculate the mean of the enterotype
 
-substr_relative_genus_abundances_heatmap <- as.data.frame(substr_relative_genus_abundances) %>% rownames_to_column("Genus") %>%
-  pivot_longer(cols = colnames(substr_relative_genus_abundances),names_to = "SampleID",values_to = "relative_abundance") %>% 
+substr_relative_genus_abundances_heatmap <- as.data.frame(substr_table) %>% rownames_to_column("Genus") %>%
+  pivot_longer(cols = colnames(substr_table),names_to = "SampleID",values_to = "relative_abundance") %>% 
   left_join(Enterotypes) %>% group_by(Genus,Enterotype) %>% summarise(mean_abundance = mean(relative_abundance)) %>%
   pivot_wider(names_from = Enterotype,values_from = mean_abundance) %>% column_to_rownames("Genus")
   
-
 Enterotype_heatmap_taxon(substr_relative_genus_abundances_heatmap, topn = 6)
 
 # ===== Top Abundant
@@ -538,74 +556,11 @@ Enterotype_heatmap_taxon(topn = 7)
 Enterotype_heatmap_taxon(topn = 10)
 
 
-
-# ======== Upset plot of Enterptype and Species and Collection Sites
-#,"gut_parasite_richness"
-list_of_Species = subset(metadata,select = c("SampleID" ,"Species"))
-colnames(list_of_Species) <- c("SampleID","Set")
-
-list_of_CollectionSite = subset(metadata,select = c("SampleID" ,"CollectionSite"))
-colnames(list_of_CollectionSite) <- c("SampleID","Set")
-
-list_of_Enterotype =  subset(metadata,select = c("SampleID" ,"Enterotype"))      
-colnames(list_of_Enterotype ) <- c("SampleID","Set")
-
-list_of_Nosema = subset(metadata,select = c("SampleID" ,"Nosema_binomial" )) %>% mutate(Nosema_binomial = paste0("Nosema_richness(",Nosema_binomial,")"))  
-colnames(list_of_Nosema ) <- c("SampleID","Set")
-
-list_of_Crithidia = subset(metadata,select = c("SampleID" , "Crithidia_binomial")) %>% mutate(Crithidia_binomial = paste0("Crithidia_richness(",Crithidia_binomial,")"))  
-colnames(list_of_Crithidia) <- c("SampleID","Set")
-
-list_of_Apicystis = subset(metadata,select = c("SampleID" ,"Apicystis_binomial")) %>% mutate(Apicystis_binomial = paste0("Apicystis_richness(",Apicystis_binomial,")"))  
-colnames(list_of_Apicystis ) <- c("SampleID","Set")
-
-list_of_parasite = subset(metadata,select = c("SampleID" ,"gut_parasite_richness")) %>% mutate(gut_parasite_richness = paste0("Parasite_richness(",gut_parasite_richness,")"))  
-colnames(list_of_parasite ) <- c("SampleID","Set")
-
-
-
-list_of_Crithidia = subset(metadata,select = c("SampleID" , "Crithidia_binomial")) 
-list_of_Apicystis = subset(metadata,select = c("SampleID" ,"Apicystis_binomial")) 
-list_of_Nosema = subset(metadata,select = c("SampleID" ,"Nosema_binomial" ))
-
-
-UpSET_compare <- function(lista = list_of_Enterotype , listb= list_of_Species ,listc = NULL,listd=NULL,list_binomial1 = NULL,list_binomial2=NULL,list_binomial3=NULL){
-
-  test_for_upset <- rbind.data.frame(lista,listb,listc,listd)
-  
-  data_for_upset <- as.data.frame.matrix(table(test_for_upset)) 
-  
-  data_for_upset[data_for_upset>0]=1
-  
-  data_for_upset <- data_for_upset %>% rownames_to_column("SampleID")
-  
-  if (is.null(list_binomial1) ){
-    data <- data_for_upset%>% column_to_rownames("SampleID")
-    
-  }else{
-    data <- left_join(left_join(left_join(data_for_upset,list_binomial1),list_binomial2),list_binomial3) %>% column_to_rownames("SampleID")
-  }
-
-  library("UpSetR")
-  datnum <- length(colnames(data))
-  pdf("../results/5.Enterotype/VennGraph.pdf", width=8, height=6, onefile=F)
-  p = upset(data, nsets=datnum, nintersects=NA, number.angles=0,point.size=1, line.size=0.5, mainbar.y.label="Intersection sample number", sets.x.label="Total sample number", text.scale=c(1.3,1.3,1,1,1.3,1), mb.ratio=c(0.55,0.45), order.by="freq", show.numbers="yes", sets.bar.color=c("black"),main.bar.color = "navy")
-  print (p)
-  dev.off()
-}
-
-UpSET_compare(listc =list_of_CollectionSite )
-UpSET_compare(lista = list_of_Enterotype , listb= list_of_Species )
-UpSET_compare(listb = list_of_CollectionSite)
-UpSET_compare(listb = list_of_parasite)
-
-UpSET_compare(lista =  list_of_Enterotype, listb = NULL,list_binomial1 = list_of_Apicystis,list_binomial2=list_of_Crithidia,list_binomial3=list_of_Nosema)
-
-
-
 # =========== Enterotype Percentage
 
-list_of_Enterotype =  subset(metadata,select = c("SampleID" ,"Enterotype"))      
+list_of_Enterotype =  subset(metadata,select = c("SampleID" ,"Enterotype"))   
+list_of_Enterotype = subset(metadata,select =  c("SampleID" ,"Species")) # the name is enterotype but actuallt it is Species
+colnames(list_of_Enterotype) = c("SampleID" ,"group")
 
 list_of_Crithidia = subset(metadata,select = c("SampleID" , "Crithidia_binomial"))
 list_of_Apicystis = subset(metadata,select = c("SampleID" ,"Apicystis_binomial")) 
@@ -613,8 +568,9 @@ list_of_Nosema = subset(metadata,select = c("SampleID" ,"Nosema_binomial" ))
 
 
 Enterotype_Percentage <- function(){
+  
   Crithidia_stack_plot <-left_join(list_of_Enterotype, list_of_Crithidia) %>% 
-    group_by(Enterotype) %>% 
+    group_by(group) %>% 
     summarise(Parasite.present = sum(Crithidia_binomial),frequency = n()) %>% 
     mutate(Percent =Parasite.present/frequency,
            no.Parasite.present = frequency - Parasite.present, 
@@ -622,7 +578,7 @@ Enterotype_Percentage <- function(){
     pivot_longer(cols = c("Parasite.present", "no.Parasite.present"), names_to = "Parasite.Status", values_to = "Parasite.count")
   
   Apicystis_stack_plot <- left_join(list_of_Enterotype, list_of_Apicystis) %>% 
-    group_by(Enterotype) %>% 
+    group_by(group) %>% 
     summarise(Parasite.present = sum(Apicystis_binomial),frequency = n()) %>% 
     mutate(Percent =Parasite.present/frequency,
            no.Parasite.present = frequency - Parasite.present, 
@@ -630,7 +586,7 @@ Enterotype_Percentage <- function(){
     pivot_longer(cols = c("Parasite.present", "no.Parasite.present"), names_to = "Parasite.Status", values_to = "Parasite.count")
   
   Nosema_stack_plot  <- left_join(list_of_Enterotype, list_of_Nosema) %>% 
-    group_by(Enterotype) %>% 
+    group_by(group) %>% 
     summarise(Parasite.present = sum(Nosema_binomial),frequency = n()) %>% 
     mutate(Percent =Parasite.present/frequency,
            no.Parasite.present = frequency - Parasite.present, 
@@ -639,7 +595,7 @@ Enterotype_Percentage <- function(){
   
   data = rbind(Nosema_stack_plot,Apicystis_stack_plot,Crithidia_stack_plot)
   
-  p = ggplot(data, aes(x = Enterotype, y = Parasite.count , fill = Parasite.Status)) +
+  p = ggplot(data, aes(x = group, y = Parasite.count , fill = Parasite.Status)) +
     geom_bar(stat = "identity",
              position = "fill",
              width = 0.7)+
@@ -653,7 +609,6 @@ Enterotype_Percentage <- function(){
     scale_fill_ordinal()
   
   ggsave(plot = p,filename = "../results/5.Enterotype/Parasite_Enterotype_stack_plot.pdf", height=4, width=11, device="pdf") # save a PDF 3 inches by 4 inches
-
 }
 
 Enterotype_Percentage()
@@ -806,9 +761,67 @@ Enterotype_heatmap_parasite <- function(){
   
 }
 
+# ======== Upset plot of Enterptype and Species and Collection Sites
+#,"gut_parasite_richness"
+list_of_Species = subset(metadata,select = c("SampleID" ,"Species"))
+colnames(list_of_Species) <- c("SampleID","Set")
+
+list_of_CollectionSite = subset(metadata,select = c("SampleID" ,"CollectionSite"))
+colnames(list_of_CollectionSite) <- c("SampleID","Set")
+
+list_of_Enterotype =  subset(metadata,select = c("SampleID" ,"Enterotype"))      
+colnames(list_of_Enterotype ) <- c("SampleID","Set")
+
+list_of_Nosema = subset(metadata,select = c("SampleID" ,"Nosema_binomial" )) %>% mutate(Nosema_binomial = paste0("Nosema_richness(",Nosema_binomial,")"))  
+colnames(list_of_Nosema ) <- c("SampleID","Set")
+
+list_of_Crithidia = subset(metadata,select = c("SampleID" , "Crithidia_binomial")) %>% mutate(Crithidia_binomial = paste0("Crithidia_richness(",Crithidia_binomial,")"))  
+colnames(list_of_Crithidia) <- c("SampleID","Set")
+
+list_of_Apicystis = subset(metadata,select = c("SampleID" ,"Apicystis_binomial")) %>% mutate(Apicystis_binomial = paste0("Apicystis_richness(",Apicystis_binomial,")"))  
+colnames(list_of_Apicystis ) <- c("SampleID","Set")
+
+list_of_parasite = subset(metadata,select = c("SampleID" ,"gut_parasite_richness")) %>% mutate(gut_parasite_richness = paste0("Parasite_richness(",gut_parasite_richness,")"))  
+colnames(list_of_parasite ) <- c("SampleID","Set")
 
 
 
+list_of_Crithidia = subset(metadata,select = c("SampleID" , "Crithidia_binomial")) 
+list_of_Apicystis = subset(metadata,select = c("SampleID" ,"Apicystis_binomial")) 
+list_of_Nosema = subset(metadata,select = c("SampleID" ,"Nosema_binomial" ))
+
+
+UpSET_compare <- function(lista = list_of_Enterotype , listb= list_of_Species ,listc = NULL,listd=NULL,list_binomial1 = NULL,list_binomial2=NULL,list_binomial3=NULL){
+  
+  test_for_upset <- rbind.data.frame(lista,listb,listc,listd)
+  
+  data_for_upset <- as.data.frame.matrix(table(test_for_upset)) 
+  
+  data_for_upset[data_for_upset>0]=1
+  
+  data_for_upset <- data_for_upset %>% rownames_to_column("SampleID")
+  
+  if (is.null(list_binomial1) ){
+    data <- data_for_upset%>% column_to_rownames("SampleID")
+    
+  }else{
+    data <- left_join(left_join(left_join(data_for_upset,list_binomial1),list_binomial2),list_binomial3) %>% column_to_rownames("SampleID")
+  }
+  
+  library("UpSetR")
+  datnum <- length(colnames(data))
+  pdf("../results/5.Enterotype/VennGraph.pdf", width=8, height=6, onefile=F)
+  p = upset(data, nsets=datnum, nintersects=NA, number.angles=0,point.size=1, line.size=0.5, mainbar.y.label="Intersection sample number", sets.x.label="Total sample number", text.scale=c(1.3,1.3,1,1,1.3,1), mb.ratio=c(0.55,0.45), order.by="freq", show.numbers="yes", sets.bar.color=c("black"),main.bar.color = "navy")
+  print (p)
+  dev.off()
+}
+
+UpSET_compare(listc =list_of_CollectionSite )
+UpSET_compare(lista = list_of_Enterotype , listb= list_of_Species )
+UpSET_compare(listb = list_of_CollectionSite)
+UpSET_compare(listb = list_of_parasite)
+
+UpSET_compare(lista =  list_of_Enterotype, listb = NULL,list_binomial1 = list_of_Apicystis,list_binomial2=list_of_Crithidia,list_binomial3=list_of_Nosema)
 
 
 # =========== linear regression
@@ -890,7 +903,7 @@ plot_lm_scatter(explantory = "faith_pd",group = F)
 plot_lm_scatter(group = T)
 plot_lm_scatter(group = F)
 
-
+plot_lm_scatter(response = "Nosema_total_per_bee" ,group = T)
 
 
 

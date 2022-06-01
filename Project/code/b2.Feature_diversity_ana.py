@@ -82,6 +82,8 @@ Command0 = Command0 + " && qiime feature-table filter-features \
   --p-min-frequency 3 \
   --o-filtered-table ../results/4.Diversity_ana/feature-frequency-filtered-table.qza"
 
+# 10% prevalence
+
 Command0 = Command0 + " && qiime feature-table filter-features \
   --i-table ../results/4.Diversity_ana/feature-frequency-filtered-table.qza \
   --p-min-samples 2 \
@@ -136,61 +138,71 @@ qiime diversity core-metrics-phylogenetic \
 # this core matrix give out certain outpt
 # No difference in alpha diversity
 
+
+#subprocess.run(Command,shell=True,check=True)
 #
-# stat and visualize
-Command = Command + " && " + "qiime diversity alpha-group-significance \
-  --i-alpha-diversity " + outputDirectory + "/core-metrics-results/faith_pd_vector.qza \
-  --m-metadata-file sample-metadata.tsv \
-  --o-visualization " + outputDirectory + "/core-metrics-results/faith-pd-group-significance.qzv"
 
-Command = Command + " && " + "qiime diversity alpha-group-significance \
-  --i-alpha-diversity " + outputDirectory + "/core-metrics-results/shannon_vector.qza \
-  --m-metadata-file sample-metadata.tsv \
-  --o-visualization " + outputDirectory + "/core-metrics-results/shannon-group-significance.qzv"
-
-Command = Command + " && " + "qiime diversity alpha-group-significance \
-  --i-alpha-diversity " + outputDirectory + "/core-metrics-results/evenness_vector.qza \
-  --m-metadata-file " + metadata + "/sample-metadata.tsv \
-  --o-visualization " + outputDirectory + "/core-metrics-results/evenness-group-significance.qzv"
-
-Command = Command + " && " + "qiime diversity alpha-group-significance \
-  --i-alpha-diversity " + outputDirectory + "/core-metrics-results/observed_features_vector.qza \
-  --m-metadata-file sample-metadata.tsv \
-  --o-visualization " + outputDirectory + "/core-metrics-results/observed_features_vector-group-significance.qzv"
 
 #core-metrics-results/unweighted_unifrac_emperor.qzv
 #core-metrics-results/jaccard_emperor.qzv
 #core-metrics-results/bray_curtis_emperor.qzv
 #core-metrics-results/weighted_unifrac_emperor.qzv
 
-subprocess.run(Command,shell=True,check=True)
+
 
 
 #=====================Alternative==========================
 
 #Alpha_index_list = ["observed_features","ace","simpson","shannon"]
 
-#Command1 = " echo '=============Start Alpha Diversity Analysis=============' "
+#Command = " echo '=============Start Alpha Diversity Analysis=============' "
 
 #for i in Alpha_index_list:
-#  Command1 = Command1 + " && qiime diversity alpha \
+#  Command = Command + " && qiime diversity alpha \
 #  --i-table  "  + inputDirectory + "/table.qza \
 #  --p-metric " + i + " \
 #  --o-alpha-diversity " + outputDirectory + "/" + i + "_vector.qza"
-#  Command1 = Command1 + "&& qiime tools export \
+#  Command = Command + "&& qiime tools export \
 #      --input-path  " + outputDirectory + "/" + i + "_vector.qza \
 #      --output-path  " + outputDirectory + "/alpha_diversity_vector/" + i  
 
-#subprocess.run(Command1,shell=True,check=True)
+#subprocess.run(Command,shell=True,check=True)
 
 #=================================================
 
 
 # ================== Beta Diversity ===========
 
+# stat and visualize
+Command1 =  "qiime diversity alpha-group-significance \
+  --i-alpha-diversity " + outputDirectory + "/core-metrics-results/faith_pd_vector.qza \
+  --m-metadata-file sample-metadata.tsv \
+  --o-visualization " + outputDirectory + "/core-metrics-results/faith-pd-group-significance.qzv"
+
+Command1 = Command1 + " && " + "qiime diversity alpha-group-significance \
+  --i-alpha-diversity " + outputDirectory + "/core-metrics-results/shannon_vector.qza \
+  --m-metadata-file sample-metadata.tsv \
+  --o-visualization " + outputDirectory + "/core-metrics-results/shannon-group-significance.qzv"
+
+Command1 = Command1 + " && " + "qiime diversity alpha-group-significance \
+  --i-alpha-diversity " + outputDirectory + "/core-metrics-results/evenness_vector.qza \
+  --m-metadata-file " + metadata + "/sample-metadata.tsv \
+  --o-visualization " + outputDirectory + "/core-metrics-results/evenness-group-significance.qzv"
+
+Command1 = Command1 + " && " + "qiime diversity alpha-group-significance \
+  --i-alpha-diversity " + outputDirectory + "/core-metrics-results/observed_features_vector.qza \
+  --m-metadata-file sample-metadata.tsv \
+  --o-visualization " + outputDirectory + "/core-metrics-results/observed_features_vector-group-significance.qzv"
+
+subprocess.run(Command1,shell=True,check=True)
+
+
+
+
+
 Command2 = "cd ../results/4.Diversity_ana" 
 
-list_of_metadata = ["CollectionSite","Species"]
+list_of_metadata = ["CollectionSite","Species","Interaction"]
 matrix_name = ["weighted_unifrac_distance_matrix","unweighted_unifrac_distance_matrix","bray_curtis_distance_matrix"]
 
 for j in matrix_name:

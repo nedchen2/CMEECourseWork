@@ -23,3 +23,4 @@ echo "Mission complete"
 
 
 # ssh -l cc421 login.cx1.hpc.ic.ac.uk
+# scp "a.run_basic.sh" cc421@login.hpc.ic.ac.uk:"/rds/general/user/cc421/home/UKBB_RADseq/code"

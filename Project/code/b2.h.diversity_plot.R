@@ -260,6 +260,7 @@ plot_alpha_boxplot <- function (alpha_div = alpha_matrix ,index="shannon_entropy
   
 }
 
+
 plot_alpha_boxplot(index = "shannon_entropy", groupID = "Species")
 plot_alpha_boxplot(index = "faith_pd" ,  groupID = "Species")
 
@@ -417,6 +418,33 @@ plot_dendrogram <- function(dist_object = unwunifra$data){
 plot_dendrogram(dist_object = unwunifra$data)
 plot_dendrogram(dist_object = wunifra$data)
 #plot_dendrogram(dist_object = b_c_dissimilar$data)
+
+
+# ================== Statistical analysis
+
+# ======== alpha diversity (kruskal-wallis-pairwise-CollectionSite.csv)
+
+# ==== Species and CollectionSites could be found in qiime 
+
+# Hoever, the interaction between them could not be found
+
+metadata <- read.table("./sample-metadata.tsv",header = T) %>% 
+  mutate(Interaction = paste0(Species,CollectionSite)) %>% rename(SampleID = sample_name)
+table(metadata$Interaction)
+
+joined_table <- left_join(shannon_vector,metadata) %>% left_join(faith_pd_vector)
+table(joined_table$Interaction)
+
+kruskal.test(shannon_entropy~Interaction,data = joined_table)
+
+# ======== beta diversity (permanova-pairwise.csv)
+library("vegan")
+
+a = as.dist(wunifra$data)
+dispersion<-betadisper(a,group = joined_table$Interaction)
+permutest(dispersion)
+
+
 
 
 
