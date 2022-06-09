@@ -24,7 +24,10 @@ process_radtags -p ../data/FASTQ_Sequence_Files -o ../results/a.process_radtags/
 # -i = input file type
 # & = push the process to background
 # > = save the output of the process here
+head -214 ../results/a.process_radtags/process_radtags.FASTQ_Sequence_Files.log | tail -207 > ../results/a.process_radtags/reads_stat_table.tsv
+
 echo -e "Finish date: `date`" >> ../results/a.process_radtags/stopwatch.txt #Finish time
+
 
 # create the HPC environment 
 # module load anaconda3/personal

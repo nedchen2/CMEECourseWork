@@ -6,7 +6,10 @@
 *_tmp.*
 __pycache__
 MscProject
-Project/16sRaw/*
-Project/results/*
-Project/code/*.qza
-Project/code/Phylogenetics-master/*
+UKBB_Microbiomes/16sRaw/*
+UKBB_Microbiomes/results/*
+UKBB_Microbiomes/code/*.qza
+UKBB_Microbiomes/code/Phylogenetics-master/*
+UKBB_RADseq/data
+UKBB_RADseq/genome
+UKBB_RADseq/results

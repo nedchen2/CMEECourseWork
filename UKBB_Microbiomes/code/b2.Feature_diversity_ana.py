@@ -79,14 +79,14 @@ Command0 = Command0 + " && qiime tools import \
 
 Command0 = Command0 + " && qiime feature-table filter-features \
   --i-table ../results/4.Diversity_ana/feature-table.qza \
-  --p-min-frequency 3 \
+  --p-min-frequency 10 \
   --o-filtered-table ../results/4.Diversity_ana/feature-frequency-filtered-table.qza"
 
-# 10% prevalence
+# 50% prevalence
 
 Command0 = Command0 + " && qiime feature-table filter-features \
   --i-table ../results/4.Diversity_ana/feature-frequency-filtered-table.qza \
-  --p-min-samples 2 \
+  --p-min-samples 45 \
   --o-filtered-table ../results/4.Diversity_ana/feature-table-correct.qza"
 
 """
@@ -116,7 +116,6 @@ Command0 = Command0 + " && qiime diversity alpha-rarefaction \
   --m-metadata-file ./sample-metadata.tsv \
   --o-visualization ../results/4.Diversity_ana/alpha-rarefaction.qzv"
 
-#subprocess.run(Command0,shell=True,check=True)
 
 Command = "qiime phylogeny align-to-tree-mafft-fasttree \
   --i-sequences ../results/4.Diversity_ana/rep-seqs-correct.qza \
@@ -132,14 +131,14 @@ Command = Command + " && " + "\
 qiime diversity core-metrics-phylogenetic \
   --i-phylogeny " + outputDirectory + "/rooted-tree.qza \
   --i-table " +  outputDirectory + "/feature-table-correct.qza \
-  --p-sampling-depth 3355 \
+  --p-sampling-depth 1010\
   --m-metadata-file " + metadata + "/sample-metadata.tsv \
   --output-dir " + outputDirectory + "/core-metrics-results"
 # this core matrix give out certain outpt
 # No difference in alpha diversity
 
+#3355 
 
-#subprocess.run(Command,shell=True,check=True)
 #
 
 
@@ -194,7 +193,7 @@ Command1 = Command1 + " && " + "qiime diversity alpha-group-significance \
   --m-metadata-file sample-metadata.tsv \
   --o-visualization " + outputDirectory + "/core-metrics-results/observed_features_vector-group-significance.qzv"
 
-subprocess.run(Command1,shell=True,check=True)
+
 
 
 
@@ -214,7 +213,7 @@ for j in matrix_name:
     --o-visualization core-metrics-results/" + j + "-" + i + "-significance.qzv \
     --p-pairwise "
 
-subprocess.run(Command2,shell=True,check=True)
+
 
 """
   qiime diversity beta-group-significance \
@@ -234,3 +233,8 @@ qiime diversity beta-group-significance \
 """
 
 
+
+#subprocess.run(Command0,shell=True,check=True)
+subprocess.run(Command,shell=True,check=True)
+subprocess.run(Command1,shell=True,check=True)
+subprocess.run(Command2,shell=True,check=True)

@@ -315,7 +315,7 @@ obs.silhouette
   
   metadata[metadata$Enterotype == "Enterotype_1","SampleID"]
   
-
+  
 
 # ================ have a look based on the enterotypes
 
@@ -612,6 +612,16 @@ Enterotype_Percentage <- function(){
 }
 
 Enterotype_Percentage()
+
+# chi-square 
+Chi.square = left_join(list_of_Enterotype, list_of_Crithidia) %>% 
+  mutate(
+         Parasite.status =  ifelse( Crithidia_binomial == 1, "Parasite present", "No parasite") )
+
+chisq.test(Chi.square$Parasite.status,Chi.sqaure$group,correct = T)
+
+
+
 
 # =========== 
 
