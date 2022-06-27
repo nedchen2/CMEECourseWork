@@ -12,6 +12,7 @@ process_radtags_log <- read.table("../results/a.process_radtags/reads_stat_table
 
 metadata <- read.csv("../code/sample-metadata.tsv", stringsAsFactors = FALSE, sep = "\t")
 
+sampleINmicrobiome = metadata %>% pull(sample_name)
 
 # ======= deal with the log file 
 
@@ -73,3 +74,11 @@ write.table(process_radtags_log, file = "../results/204n_radtags_table.csv", quo
 metadata2 <- metadata %>% left_join(process_radtags_log)
 
 write.table(metadata2, file = "../results/sample-microbial-stat.tsv", quote = FALSE, sep = "\t", col.names = T, row.names = F)
+
+metadata_RADseq = read.csv(file = "../genome/metadata_individuals_2.csv") %>% 
+  mutate(genome = ifelse( (field_ID_list == "Bh" | field_ID_list == "Br" ), "GCA_905332935.1_iyBomHort1.1_genomic.fna",  "GCF_910591885.1_BomTerr_genomic.fna"),
+         relative_dir = paste0("../results/a.process_radtags/", name_list , ".fq.gz"),
+         Microbiome = ifelse(index_list %in% sampleINmicrobiome, "Yes",  "No"))
+
+write.csv(metadata_RADseq, file = "../code/metadata_RADseq.csv", quote = FALSE, row.names = F)
+

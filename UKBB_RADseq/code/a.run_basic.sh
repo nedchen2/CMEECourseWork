@@ -39,5 +39,6 @@ echo -e "Finish date: `date`" >> ../results/a.process_radtags/stopwatch.txt #Fin
 # install tools
 # conda install -c bioconda bwa
 # conda install -c bioconda samtools
+# conda install -c bioconda seqkit
 
 

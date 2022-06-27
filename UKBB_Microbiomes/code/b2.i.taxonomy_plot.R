@@ -187,6 +187,8 @@ plot_network(ig, physeq1, color="Species", shape="CollectionSite", line_weight=0
 
 # ================================Enterotypes ==================
 
+
+# Phyloseq to get the genus level table
 test_phyloseq = tax_glom(physeq1, "Genus")
 test_phyloseq
 
@@ -198,10 +200,19 @@ taxa_table_export <- as.data.frame(tax_table(test_phyloseq))
 merged_table <- merge(otu_table_export,taxa_table_export,by.x="row.names",by.y = "row.names") %>% 
   dplyr::select(!c("Row.names", "Kingdom", "Phylum"  ,"Class" ,"Order", "Family","Species")) %>% column_to_rownames("Genus")
 
+write.csv(merged_table,"../results/5.Enterotype/genus_abundance_data.csv",row.names = T,col.names = T)
 
 relative_genus_abundances <- apply(merged_table, 2, function(x) x/sum(x)) 
 colSums(relative_genus_abundances)
 ncol(relative_genus_abundances)
+
+# ============
+
+
+df_taxa_test <-read_qza("../results/6.Network_analysis/table-l6.qza")$data
+
+
+relative_genus_abundances <- apply(df_taxa_test , 2, function(x) x/sum(x)) 
 
 
 
@@ -314,8 +325,19 @@ obs.silhouette
   metadata <- merge(metadata,Enterotypes,by.x = "SampleID",by.y = "SampleID")
   
   metadata[metadata$Enterotype == "Enterotype_1","SampleID"]
-  
-  
+
+
+Arsenophonus_abundance = as.data.frame(t(merged_table)) %>% rownames_to_column("sample_name") %>% 
+  dplyr::select("sample_name","Arsenophonus","Gilliamella","Snodgrassella") %>% rename( SampleID = sample_name)
+
+
+metadata <- metadata %>% left_join(Arsenophonus_abundance)
+
+    
+write.csv(metadata, file = "../results/5.Enterotype/metadata_Microbiome.csv")
+write.csv(metadata, file = "./metadata_Microbiome.csv",row.names = F)
+
+
 
 # ================ have a look based on the enterotypes
 
@@ -448,10 +470,97 @@ Enterotype_heatmap_taxon <- function(SVs = relative_genus_abundances,topn = 10){
 
 
 
+# ===== calculate the mean of the enterotype
+
+substr_relative_genus_abundances_heatmap <- as.data.frame(substr_table) %>% rownames_to_column("Genus") %>%
+  pivot_longer(cols = colnames(substr_table),names_to = "SampleID",values_to = "relative_abundance") %>% 
+  left_join(Enterotypes) %>% group_by(Genus,Enterotype) %>% summarise(mean_abundance = mean(relative_abundance)) %>%
+  pivot_wider(names_from = Enterotype,values_from = mean_abundance) %>% column_to_rownames("Genus")
+
+Enterotype_heatmap_taxon(substr_relative_genus_abundances_heatmap, topn = 6)
+
+# ===== Top Abundant
+
+Enterotype_heatmap_taxon(topn = 7)
+
+
+Enterotype_heatmap_taxon(topn = 10)
+
+
+# =========== Enterotype Percentage
+
+list_of_Enterotype =  subset(metadata,select = c("SampleID" ,"Enterotype"))   
+list_of_Enterotype = subset(metadata,select =  c("SampleID" ,"Species")) # the name is enterotype but actuallt it is Species
+colnames(list_of_Enterotype) = c("SampleID" ,"group")
+
+list_of_Crithidia = subset(metadata,select = c("SampleID" , "Crithidia_binomial"))
+list_of_Apicystis = subset(metadata,select = c("SampleID" ,"Apicystis_binomial")) 
+list_of_Nosema = subset(metadata,select = c("SampleID" ,"Nosema_binomial" ))
+
+
+Enterotype_Percentage <- function(){
+  
+  Crithidia_stack_plot <-left_join(list_of_Enterotype, list_of_Crithidia) %>% 
+    group_by(group) %>% 
+    summarise(Parasite.present = sum(Crithidia_binomial),frequency = n()) %>% 
+    mutate(Percent =Parasite.present/frequency,
+           no.Parasite.present = frequency - Parasite.present, 
+           parasite = "Crithidia") %>% 
+    pivot_longer(cols = c("Parasite.present", "no.Parasite.present"), names_to = "Parasite.Status", values_to = "Parasite.count")
+  
+  Apicystis_stack_plot <- left_join(list_of_Enterotype, list_of_Apicystis) %>% 
+    group_by(group) %>% 
+    summarise(Parasite.present = sum(Apicystis_binomial),frequency = n()) %>% 
+    mutate(Percent =Parasite.present/frequency,
+           no.Parasite.present = frequency - Parasite.present, 
+           parasite = "Apicystis") %>% 
+    pivot_longer(cols = c("Parasite.present", "no.Parasite.present"), names_to = "Parasite.Status", values_to = "Parasite.count")
+  
+  Nosema_stack_plot  <- left_join(list_of_Enterotype, list_of_Nosema) %>% 
+    group_by(group) %>% 
+    summarise(Parasite.present = sum(Nosema_binomial),frequency = n()) %>% 
+    mutate(Percent =Parasite.present/frequency,
+           no.Parasite.present = frequency - Parasite.present, 
+           parasite = "Nosema") %>% 
+    pivot_longer(cols = c("Parasite.present", "no.Parasite.present"), names_to = "Parasite.Status", values_to = "Parasite.count")
+  
+  data = rbind(Nosema_stack_plot,Apicystis_stack_plot,Crithidia_stack_plot)
+  
+  p = ggplot(data, aes(x = group, y = Parasite.count , fill = Parasite.Status)) +
+    geom_bar(stat = "identity",
+             position = "fill",
+             width = 0.7)+
+    scale_y_continuous(labels = scales::percent) +
+    facet_grid(~ parasite, scales = "free_x", switch = "x") +
+    theme(strip.background = element_blank()) +
+    theme(axis.ticks.x = element_blank(), axis.text.x = element_blank()) +
+    xlab("") + ylab("Percentage (%)") + labs(fill = "Status") +
+    theme_classic() + 
+    theme(text = element_text(family = "sans", size = 10)) +
+    scale_fill_ordinal()
+  
+  ggsave(plot = p,filename = "../results/5.Enterotype/Parasite_Enterotype_stack_plot.pdf", height=4, width=11, device="pdf") # save a PDF 3 inches by 4 inches
+}
+
+Enterotype_Percentage()
+
+# chi-square 
+Chi.square = left_join(list_of_Enterotype, list_of_Crithidia) %>% 
+  mutate(
+    Parasite.status =  ifelse( Crithidia_binomial == 1, "Parasite present", "No parasite") )
+
+chisq.test(Chi.square$Parasite.status,Chi.sqaure$group,correct = T)
+
+
+
+
+# =========== 
+
 # ===========SIMPER Analysis
 
 library("vegan")
 
+merged_table = df_taxa_test
 
 test_simper = as.data.frame(t(merged_table)) 
 
@@ -538,92 +647,6 @@ Enterotype_heatmap_taxon(SVs =substr_table, topn = length(list_of_biomarker))
 
 
 
-
-# ===== calculate the mean of the enterotype
-
-substr_relative_genus_abundances_heatmap <- as.data.frame(substr_table) %>% rownames_to_column("Genus") %>%
-  pivot_longer(cols = colnames(substr_table),names_to = "SampleID",values_to = "relative_abundance") %>% 
-  left_join(Enterotypes) %>% group_by(Genus,Enterotype) %>% summarise(mean_abundance = mean(relative_abundance)) %>%
-  pivot_wider(names_from = Enterotype,values_from = mean_abundance) %>% column_to_rownames("Genus")
-  
-Enterotype_heatmap_taxon(substr_relative_genus_abundances_heatmap, topn = 6)
-
-# ===== Top Abundant
-
-Enterotype_heatmap_taxon(topn = 7)
-
-
-Enterotype_heatmap_taxon(topn = 10)
-
-
-# =========== Enterotype Percentage
-
-list_of_Enterotype =  subset(metadata,select = c("SampleID" ,"Enterotype"))   
-list_of_Enterotype = subset(metadata,select =  c("SampleID" ,"Species")) # the name is enterotype but actuallt it is Species
-colnames(list_of_Enterotype) = c("SampleID" ,"group")
-
-list_of_Crithidia = subset(metadata,select = c("SampleID" , "Crithidia_binomial"))
-list_of_Apicystis = subset(metadata,select = c("SampleID" ,"Apicystis_binomial")) 
-list_of_Nosema = subset(metadata,select = c("SampleID" ,"Nosema_binomial" ))
-
-
-Enterotype_Percentage <- function(){
-  
-  Crithidia_stack_plot <-left_join(list_of_Enterotype, list_of_Crithidia) %>% 
-    group_by(group) %>% 
-    summarise(Parasite.present = sum(Crithidia_binomial),frequency = n()) %>% 
-    mutate(Percent =Parasite.present/frequency,
-           no.Parasite.present = frequency - Parasite.present, 
-           parasite = "Crithidia") %>% 
-    pivot_longer(cols = c("Parasite.present", "no.Parasite.present"), names_to = "Parasite.Status", values_to = "Parasite.count")
-  
-  Apicystis_stack_plot <- left_join(list_of_Enterotype, list_of_Apicystis) %>% 
-    group_by(group) %>% 
-    summarise(Parasite.present = sum(Apicystis_binomial),frequency = n()) %>% 
-    mutate(Percent =Parasite.present/frequency,
-           no.Parasite.present = frequency - Parasite.present, 
-           parasite = "Apicystis") %>% 
-    pivot_longer(cols = c("Parasite.present", "no.Parasite.present"), names_to = "Parasite.Status", values_to = "Parasite.count")
-  
-  Nosema_stack_plot  <- left_join(list_of_Enterotype, list_of_Nosema) %>% 
-    group_by(group) %>% 
-    summarise(Parasite.present = sum(Nosema_binomial),frequency = n()) %>% 
-    mutate(Percent =Parasite.present/frequency,
-           no.Parasite.present = frequency - Parasite.present, 
-           parasite = "Nosema") %>% 
-    pivot_longer(cols = c("Parasite.present", "no.Parasite.present"), names_to = "Parasite.Status", values_to = "Parasite.count")
-  
-  data = rbind(Nosema_stack_plot,Apicystis_stack_plot,Crithidia_stack_plot)
-  
-  p = ggplot(data, aes(x = group, y = Parasite.count , fill = Parasite.Status)) +
-    geom_bar(stat = "identity",
-             position = "fill",
-             width = 0.7)+
-    scale_y_continuous(labels = scales::percent) +
-    facet_grid(~ parasite, scales = "free_x", switch = "x") +
-    theme(strip.background = element_blank()) +
-    theme(axis.ticks.x = element_blank(), axis.text.x = element_blank()) +
-    xlab("") + ylab("Percentage (%)") + labs(fill = "Status") +
-    theme_classic() + 
-    theme(text = element_text(family = "sans", size = 10)) +
-    scale_fill_ordinal()
-  
-  ggsave(plot = p,filename = "../results/5.Enterotype/Parasite_Enterotype_stack_plot.pdf", height=4, width=11, device="pdf") # save a PDF 3 inches by 4 inches
-}
-
-Enterotype_Percentage()
-
-# chi-square 
-Chi.square = left_join(list_of_Enterotype, list_of_Crithidia) %>% 
-  mutate(
-         Parasite.status =  ifelse( Crithidia_binomial == 1, "Parasite present", "No parasite") )
-
-chisq.test(Chi.square$Parasite.status,Chi.sqaure$group,correct = T)
-
-
-
-
-# =========== 
 
 
 # =========== Venn Graph

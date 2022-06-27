@@ -76,8 +76,21 @@ Command0 = Command0 + "qiime feature-table filter-seqs --i-data " + inputDirecto
 
 # ==========================================================
 
-## rename 
+# ========= test - chimera 
+print ("=============Start Test Chimera=============")
 
+Command2 = "qiime vsearch uchime-denovo \
+  --i-table " + inputDirectory + "/table.qza \
+  --i-sequences " + inputDirectory + "/rep-seqs.qza\
+  --output-dir " + inputDirectory + "/uchime-dn-out2\
+  --p-minh 0.20"
+
+subprocess.run(Command2,shell=True,check=True)
+
+
+
+
+## rename 
 
 Command = "qiime  feature-table summarize \
   --i-table  " + inputDirectory + "/table.qza \
@@ -108,10 +121,10 @@ Command = Command + " && " + "qiime tools export \
 
 #os.system("cat ../results/2.Feature_table/Feature-table-result/feature-table.tsv | sed 's/#OTU ID/Feature.ID/g' > ../results/2.Feature_table/Feature-table-result/feature-table2.tsv ")
 
-subprocess.run(Command,shell=True,check=True)
+#subprocess.run(Command,shell=True,check=True)
 
 #==================== combine the fasta with ASVs
 
 Command1 = "python3 b0.z.fasta2tsv.py"
 
-subprocess.run(Command1,shell=True,check=True)
+#subprocess.run(Command1,shell=True,check=True)

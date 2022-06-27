@@ -12,7 +12,7 @@ mkdir ../results/b.alignment
 # RAD-seq env include - seqkit samtools bwa
 source activate RAD-seq
 
-python3 $HOME/UKBB_RADseq/code/b1.BWA_alignment.py -s 4
-python3 $HOME/UKBB_RADseq/code/b1.BWA_alignment.py -s 5
+python3 $HOME/UKBB_RADseq/code/b1.BWA_alignment.py -s 3 -g ../genome/parasite
+python3 $HOME/UKBB_RADseq/code/b1.BWA_alignment.py -s 6 -g ../genome/parasite
 
 echo "Mission complete" 
