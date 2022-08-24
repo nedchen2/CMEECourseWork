@@ -15,7 +15,15 @@
 
 1. Unix and shell scripting for bioinformatics analysis. Python as a tool to control the pipeline and R for a statistical tool and visualization.
 2. LaTex to do some of the scientific writing.
-3. You can find the data in ./UKBB_Microbiomes/data/
+3. You can find the data used in this study in ./Data_Available
+4. You can find the code used in this study for Microbiome analysis in ./UKBB_Microbiome, and RAD-seq analysis in 
+
+| Rep Name |Description | 
+| ------ | ------ | 
+|Data_Available   | Data used in this study| 
+| UKBB_Microbiomes | Code of Microbiome analysis| 
+| UKBB_RADseq  | Code of RAD-seq | 
+
 
 ## **Languages**
 ```
