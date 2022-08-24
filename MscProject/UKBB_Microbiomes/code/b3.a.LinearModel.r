@@ -101,7 +101,6 @@ Nosema_stack_plot <- metadata2 %>%
          total = sum(frequency),
          parasite = "Nosema") %>% left_join(genetic_df)
 
-
 Apicystis_stack_plot <- metadata2 %>% 
   group_by(interaction,Species) %>% 
   summarise(Parasite.present = sum(Apicystis_binomial),frequency = n()) %>%
@@ -130,11 +129,21 @@ cor.test(dataForPairs$NosemaIncidence,dataForPairs$Fis,method = "spearman")
 
 dataForPairs
 
+model_Crithidia = lmer(formula = CrithidiaIncidence ~ Fis + (1|CollectionSite)  + (1|Species)  , data = dataForPairs)
 summary(lmer(formula = ApicystisIncidence ~ Fis + (1|CollectionSite) + (1|Species) , data = dataForPairs))
 
+model_Nosema = lmer(formula = NosemaIncidence ~ Fis + (1|CollectionSite) + (1|Species)  , data = dataForPairs)
 summary(lmer(formula = CrithidiaIncidence ~ Fis + (1|CollectionSite) + (1|Species) , data = dataForPairs))
 
+model_Apcystis = lmer(formula = ApicystisIncidence ~ Fis + (1|CollectionSite) , data = dataForPairs)
 summary(lmer(formula = NosemaIncidence ~ Fis + (1|CollectionSite) + (1|Species) , data = dataForPairs))
+
+
+summary(lmer(formula = FaithAlphaDiversity  ~ Fis + (1|CollectionSite) + (1|Species) , data = dataForPairs))
+
+require(sjPlot)
+
+tab_model(model_Crithidia,model_Nosema,model_Apcystis,collapse.ci = T,show.reflvl = F,show.stat = T,prefix.labels = "varname",show.icc = F,file = "../../UKBB_Microbiomes//results/7.Final_graph/Linearmixed_table_2.html")
 
 
 cor(dataForPairs$ApicystisIncidence,dataForPairs$Fis)
