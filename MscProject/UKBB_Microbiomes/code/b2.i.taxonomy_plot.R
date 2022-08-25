@@ -237,6 +237,14 @@ sample_data <- sample_data(metadata %>% column_to_rownames("SampleID") )
 physeq1 = merge_phyloseq(physeq, sample_data)
 physeq1
 
+
+otu_table_export0 <- as.data.frame(otu_table(physeq1))
+taxa_table_export0 <- as.data.frame(tax_table(physeq1))
+merged_table0 <- merge(otu_table_export0,taxa_table_export0,by.x="row.names",by.y = "row.names") 
+
+write.csv(merged_table0,"../../Data_Available//Original_ASV_abundance_data.csv",row.names = T)
+
+
 test <- as.data.frame(otu_table(physeq1))
 sum(rowSums(test) == 1)
 
