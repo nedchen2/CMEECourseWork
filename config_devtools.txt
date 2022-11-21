@@ -1,0 +1,21 @@
+ 
+dependcies of system font and textshaping 
+ 
+ 100  apt-get -y build-dep libcurl4-gnutls-dev
+  101  apt-get -y install libcurl4-gnutls-dev
+  102  sudo apt-get -y install libcurl4-gnutls-dev
+  103  sudo apt-get -y build-dep libcurl4-gnutls-dev
+  104  sudo apt-get install libcurl4-openssl-dev libssl-dev
+  105  sudo apt install build-essential libcurl4-gnutls-dev libxml2-dev libssl-dev
+  106  sudo apt-get install libharfbuzz0b
+  107  sudo apt-get install freetype2-demos libgit2-dev dirmngr libgmp3-dev libmpfr-dev libssl-dev libxml2-dev libcurl4-openssl-dev
+  108  sudo apt-get install libssl-dev libxml2-dev libcurl4-openssl-dev
+  109  sudo apt install build-essential libcurl4-gnutls-dev libxml2-dev libssl-dev
+  110  sudo apt install libfreetype6-dev
+  111  sudo apt-get install libjpeg-dev libportmidi-dev libsdl-image1.2-dev libsdl-mixer1.2-dev libsdl-ttf2.0-dev libsdl1.2-dev libsmpeg-dev libx11-dev libavformat-dev libswscale-dev
+  112  sudo apt -y install libfontconfig1-dev
+  113  sudo apt-get install libharfbuzz-dev \ 
+  114  libfribidi-dev libfreetype6-dev libpng-dev libtiff5-dev libjpeg-dev \
+  115  sudo apt-get install libfribidi-dev libfreetype6-dev libpng-dev libtiff5-dev libjpeg-dev 
+  116  sudo apt-get install libharfbuzz-dev libfribidi-dev libfontconfig1-dev
+
